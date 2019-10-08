@@ -9,6 +9,17 @@ namespace GameServer.Models
         public long PosX { get; set; }
         public long PosY { get; set; }
 
+        public int numberOfBombs { get; set; }
+        public int bombPower { get; set; }
+        public int health { get; set; }
+        public int movementSpeed { get; set; }
+        public bool canKick { get; set; }
+        public bool canThrow { get; set; }
+        public int imuneTime { get; set; }
+        public int placedBombCount { get; set; }
+
+        //Strategy classes: kick, throw, place, imune
+
         public Player()
         {
         }
