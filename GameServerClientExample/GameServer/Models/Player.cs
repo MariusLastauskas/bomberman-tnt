@@ -8,6 +8,9 @@ namespace GameServer.Models
         public long Score { get; set; }
         public long PosX { get; set; }
         public long PosY { get; set; }
+        public string Mac { get; set; }
+        public int placedBombCount { get; set; }
+        public int numberOfBombs { get; set; }
 
         public int numberOfBombs { get; set; }
         public int bombPower { get; set; }
