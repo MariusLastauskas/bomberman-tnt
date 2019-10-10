@@ -9,13 +9,13 @@ namespace GameServer.Models
     {
         private Player player1;
         private Player player2;
-        private MapManager mm;
+        public MapManager mm;
 
         public GameManager()
         {
             player1 = null;
             player2 = null;
-            mm = new MapManager();
+            mm = null;
         }
 
         public GameManager(Player p1, Player p2)
@@ -25,31 +25,66 @@ namespace GameServer.Models
             mm = new MapManager();
         }
 
-        public void ConnectPlayer(Player player)
+        public Player ConnectPlayer(string mac)
         {
-            if (player1 == null)
+            Player p = new Player();
+            if (player1 == null || player1.Mac == mac)
             {
-                player1 = player;
+                p.Name = "player1";
+                p.Mac = mac;
+                player1 = p;
             }
-            else if (player2 == null)
+            else if (player2 == null || player2.Mac == mac)
             {
-                player2 = player;
+                p.Name = "player2";
+                p.Mac = mac;
+                player2 = p;
             }
 
             if (player1 != null && player2 != null)
             {
                 StartGame();
             }
+            return p;
+        }
+
+        public bool DisconnectPlayer(string mac)
+        {
+            if (player1 != null && player1.Mac == mac)
+            {
+                player1 = null;
+                mm = null;
+                return true;
+            }
+            if (player2 != null && player2.Mac == mac)
+            {
+                player2 = null;
+                mm = null;
+                return true;
+            }
+            return false;
+        }
+
+        public void DisconnectPlayers()
+        {
+            player1 = null;
+            player2 = null;
         }
 
         public void StartGame()
         {
+            mm = new MapManager();
             mm.BuildMap(new Coordinates(player1.PosX, player1.PosY), new Coordinates(player2.PosX, player2.PosY));
         }
 
         public void UpdateGame()
         {
             mm.UpdatePlayerPos(new Coordinates(player1.PosX, player1.PosY), new Coordinates(player2.PosX, player2.PosY));
+        }
+
+        public void StopGame()
+        {
+            
         }
     }
 }
