@@ -6,6 +6,9 @@ using GameServer.Models;
 
 namespace GameServer.Controllers
 {
+    /// <summary>
+    /// Global variables
+    /// </summary>
     public class GlobalVar
     {
         public static GameManager gm = new GameManager();

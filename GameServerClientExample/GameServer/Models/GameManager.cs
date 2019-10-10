@@ -27,11 +27,21 @@ namespace GameServer.Models
             mm = new MapManager();
         }
 
+
+        /// <summary>
+        /// Resets player last ping time to current date
+        /// </summary>
+        /// <param name="ping">Player last ping time</param>
         public void pingPlayer(ref DateTime ping)
         {
             ping = DateTime.Now;
         }
 
+        /// <summary>
+        /// Checks if player has not been offline for more than 10s
+        /// </summary>
+        /// <param name="ping">Player last ping time</param>
+        /// <returns>true if player is still active</returns>
         public bool checkPing(DateTime ping)
         {
             if ((DateTime.Now - ping).TotalSeconds > 10)
@@ -41,6 +51,10 @@ namespace GameServer.Models
             return true;
         }
 
+        /// <summary>
+        /// Checks if players in game are still active and stops the game if they are not
+        /// </summary>
+        /// <returns>are both players still active</returns>
         public bool CheckGameState()
         {
             if (!checkPing(p1ping) || !checkPing(p2ping))
@@ -51,6 +65,11 @@ namespace GameServer.Models
             return mm != null;
         }
 
+        /// <summary>
+        /// Connects player to game by its mac address
+        /// </summary>
+        /// <param name="mac">mac address</param>
+        /// <returns>player connected</returns>
         public Player ConnectPlayer(string mac)
         {
             Player p = new Player();
@@ -86,6 +105,11 @@ namespace GameServer.Models
             return p;
         }
 
+        /// <summary>
+        /// Disconnects player by its mac address
+        /// </summary>
+        /// <param name="mac">mac address</param>
+        /// <returns>true if player disconnected</returns>
         public bool DisconnectPlayer(string mac)
         {
             if (player1 != null && player1.Mac == mac)
@@ -103,18 +127,30 @@ namespace GameServer.Models
             return false;
         }
 
+        /// <summary>
+        /// Disconnects all players
+        /// </summary>
         public void DisconnectPlayers()
         {
             player1 = null;
             player2 = null;
         }
 
+        /// <summary>
+        /// Starts game, creates MapManager
+        /// </summary>
         public void StartGame()
         {
             mm = new MapManager();
             mm.BuildMap();
         }
 
+        /// <summary>
+        /// Moves player to direction
+        /// </summary>
+        /// <param name="mac">mac address</param>
+        /// <param name="direction">direction</param>
+        /// <returns>true if player can move the dirrection</returns>
         public bool MovePlayer(string mac, string direction)
         {
             if (player1 != null && player1.Mac == mac)
@@ -130,6 +166,11 @@ namespace GameServer.Models
             return false;
         }
 
+        /// <summary>
+        /// Plants a bomb by player with mac address provided
+        /// </summary>
+        /// <param name="mac">mac address</param>
+        /// <returns>true if player can plant bomb</returns>
         public bool PlantBomb(string mac)
         {
             if (player1 != null && player1.Mac == mac && player1.placedBombCount < player1.numberOfBombs)
@@ -145,6 +186,9 @@ namespace GameServer.Models
             return false;
         }
 
+        /// <summary>
+        /// Stops the game, disconnects all players
+        /// </summary>
         private void stopGame()
         {
             mm = null;
