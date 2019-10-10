@@ -12,12 +12,17 @@ namespace GameServer.Models
 
         }
 
-        public void BuildMap(Coordinates p1pos, Coordinates p2pos)  // Dar reikia implementuoti
+        public void BuildMap()  // Dar reikia implementuoti
         {
 
         }
 
-        public void UpdatePlayerPos(Coordinates p1pos, Coordinates p2pos)  // Dar reikia implementuoti
+        public bool UpdatePlayerPos(Player p, string direction)  // Dar reikia implementuoti
+        {
+            return true;
+        }
+
+        public void PlaceBomb(Player p)
         {
 
         }

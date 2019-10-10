@@ -74,17 +74,37 @@ namespace GameServer.Models
         public void StartGame()
         {
             mm = new MapManager();
-            mm.BuildMap(new Coordinates(player1.PosX, player1.PosY), new Coordinates(player2.PosX, player2.PosY));
+            mm.BuildMap();
         }
 
-        public void UpdateGame()
+        public bool MovePlayer(string mac, string direction)
         {
-            mm.UpdatePlayerPos(new Coordinates(player1.PosX, player1.PosY), new Coordinates(player2.PosX, player2.PosY));
+            if (player1 != null && player1.Mac == mac)
+            {
+                return mm.UpdatePlayerPos(player1, direction);
+            }
+
+            if (player2 != null && player2.Mac == mac)
+            {
+                return mm.UpdatePlayerPos(player2, direction);
+            }
+
+            return false;
         }
 
-        public void StopGame()
+        public bool PlantBomb(string mac)
         {
-            
+            if (player1 != null && player1.Mac == mac && player1.placedBombCount < player1.numberOfBombs)
+            {
+                mm.PlaceBomb(player1);
+                return true;
+            }
+            if (player2 != null && player2.Mac == mac && player2.placedBombCount < player2.numberOfBombs)
+            {
+                mm.PlaceBomb(player2);
+                return true;
+            }
+            return false;
         }
     }
 }

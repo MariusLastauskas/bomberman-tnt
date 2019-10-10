@@ -8,11 +8,6 @@ using GameServer.Models;
 
 namespace GameServer.Controllers
 {
-    public static class GlobalVar
-    {
-        public static GameManager gm = new GameManager();
-    }
-
     [Route("api/connection")]
     [ApiController]
     public class ConnectionController : ControllerBase
