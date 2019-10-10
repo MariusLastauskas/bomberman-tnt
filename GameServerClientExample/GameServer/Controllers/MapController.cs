@@ -20,13 +20,13 @@ namespace GameServer.Controllers
         /// </summary>
         /// <returns>NoContent if game is not created, Map object if map is created</returns>
         [HttpGet]
-        public ActionResult<Map> GetGameMap()
+        public ActionResult<MapStub> GetGameMap()
         {
             if (GlobalVar.gm == null || GlobalVar.gm.mm == null)
             {
                 return NoContent();
             }
-            return new Map();
+            return new MapStub();
         }
 
         /// <summary>

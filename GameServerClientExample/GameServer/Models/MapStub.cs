@@ -2,9 +2,9 @@
 
 namespace GameServer.Models
 {
-    public class Map
+    public class MapStub
     {
-        public Map()
+        public MapStub()
         {
 
         }

@@ -11,7 +11,7 @@ namespace GameServer.Models
         private DateTime p1ping;
         private Player player2;
         private DateTime p2ping;
-        public MapManager mm;
+        public MapManagerStub mm;
 
         public GameManager()
         {
@@ -24,7 +24,7 @@ namespace GameServer.Models
         {
             player1 = p1;
             player2 = p2;
-            mm = new MapManager();
+            mm = new MapManagerStub();
         }
 
 
@@ -141,7 +141,7 @@ namespace GameServer.Models
         /// </summary>
         public void StartGame()
         {
-            mm = new MapManager();
+            mm = new MapManagerStub();
             mm.BuildMap();
         }
 

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models
 {
-    public class MapManager
+    public class MapManagerStub
     {
-        public MapManager()     // Dar reikia implementuoti
+        public MapManagerStub()     // Dar reikia implementuoti
         {
 
         }
