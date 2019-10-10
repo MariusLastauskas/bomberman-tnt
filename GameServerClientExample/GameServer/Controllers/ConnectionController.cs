@@ -15,11 +15,11 @@ namespace GameServer.Controllers
         [HttpGet("{mac}")]
         public IActionResult GetGameConnectionStatus(string mac)
         {
-            if (GlobalVar.gm == null || GlobalVar.gm.mm == null)
+            if (GlobalVar.gm.CheckGameState())
             {
-                return NoContent();
+                return Ok();
             }
-            return Ok();
+            return NoContent();
         }
 
         [HttpPost]

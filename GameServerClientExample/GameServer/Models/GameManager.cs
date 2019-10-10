@@ -8,7 +8,9 @@ namespace GameServer.Models
     public class GameManager
     {
         private Player player1;
+        private DateTime p1ping;
         private Player player2;
+        private DateTime p2ping;
         public MapManager mm;
 
         public GameManager()
@@ -25,6 +27,30 @@ namespace GameServer.Models
             mm = new MapManager();
         }
 
+        public void pingPlayer(ref DateTime ping)
+        {
+            ping = DateTime.Now;
+        }
+
+        public bool checkPing(DateTime ping)
+        {
+            if ((DateTime.Now - ping).TotalSeconds > 10)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool CheckGameState()
+        {
+            if (!checkPing(p1ping) || !checkPing(p2ping))
+            {
+                stopGame();
+            }
+
+            return mm != null;
+        }
+
         public Player ConnectPlayer(string mac)
         {
             Player p = new Player();
@@ -33,12 +59,24 @@ namespace GameServer.Models
                 p.Name = "player1";
                 p.Mac = mac;
                 player1 = p;
+                pingPlayer(ref p1ping);
             }
             else if (player2 == null || player2.Mac == mac)
             {
                 p.Name = "player2";
                 p.Mac = mac;
                 player2 = p;
+                pingPlayer(ref p2ping);
+            }
+
+            if (!checkPing(p1ping))
+            {
+                player1 = null;
+            }
+
+            if (!checkPing(p2ping))
+            {
+                player2 = null;
             }
 
             if (player1 != null && player2 != null)
@@ -105,6 +143,12 @@ namespace GameServer.Models
                 return true;
             }
             return false;
+        }
+
+        private void stopGame()
+        {
+            mm = null;
+            DisconnectPlayers();
         }
     }
 }
