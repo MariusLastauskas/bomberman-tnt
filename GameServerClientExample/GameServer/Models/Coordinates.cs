@@ -10,5 +10,11 @@ namespace GameServer.Models
         public Coordinates()
         {
         }
+
+        public Coordinates(long x, long y)
+        {
+            PosX = x;
+            PosY = y;
+        }
     }
 }
