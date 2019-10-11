@@ -11,16 +11,16 @@ namespace GameServer.Models
 
         //Map map;
 
-        private Coordinates coordinates { get; set; }
+        private Coordinates Coordinates { get; set; }
 
         public Coordinates GetCoordinates(  )
 		{
-            return coordinates;
+            return Coordinates;
 		}
 		
 		public void SetCoordinates( Coordinates a)
 		{
-            coordinates = a;
+            Coordinates = a;
             CoordinatesUpdated();
 
         }

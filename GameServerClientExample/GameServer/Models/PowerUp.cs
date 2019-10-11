@@ -6,8 +6,18 @@ namespace GameServer.Models
 {
 	public class PowerUp : MapObject
 	{
-		int Type;
-		
-	}
+        private int Type { get; set; }
+
+        public PowerUp(int type)
+        {
+            Type = type;
+        }
+
+        public int getType()
+        {
+            return Type;
+        }
+
+    }
 	
 }

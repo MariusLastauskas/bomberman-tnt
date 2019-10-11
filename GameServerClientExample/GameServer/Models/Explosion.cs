@@ -1,16 +1,22 @@
+
+using System.Threading;
 /**
- * @(#) Explosion.cs
- */
+* @(#) Explosion.cs
+*/
 namespace GameServer.Models
 {
 	public class Explosion : MapObject
 	{
-		int timeCreated;
-		
-		public void asyncTime(  )
+        public Explosion()
+        {
+            Timer();
+        }
+
+		public void Timer()
 		{
-			
-		}
+            Thread.Sleep(1000);
+            //make it dissapear affter 1 sec
+        }
 		
 	}
 	

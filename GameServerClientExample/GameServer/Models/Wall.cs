@@ -6,10 +6,19 @@ namespace GameServer.Models
 {
 	public class Wall : MapObject
 	{
-        readonly bool isWalkable = false;
-		int Destroyable;
+		private bool Destroyable;
+        public Wall()
+        {
+            isWalkable = false;
+            Destroyable = false;
+        }
         
-
+        public void Hit()
+        {
+            if(Destroyable == true)
+            {
+                //destoy the wall
+            }
+        }
     }
-	
 }
