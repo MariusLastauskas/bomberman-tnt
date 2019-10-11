@@ -1,7 +1,7 @@
 ﻿using System;
 namespace GameServer.Models
 {
-    public class Player
+    public class Player : MapObject
     {
         //public long Id { get; set; }
         //public string Name { get; set; }
