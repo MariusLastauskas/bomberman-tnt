@@ -6,7 +6,6 @@ namespace GameServer.Models
 {
 	public abstract class MapObject
 	{
-        public int ID { get; set; }
         public bool isWalkable = true;
 
         //Map map;
