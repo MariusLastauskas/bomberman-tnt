@@ -20,6 +20,7 @@ namespace GameServer.Models
 
         //Strategy classes: kick, throw, place, imune
 
+
         public Player()
         {
         }
