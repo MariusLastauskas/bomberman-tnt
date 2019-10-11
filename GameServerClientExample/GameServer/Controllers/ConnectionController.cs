@@ -19,7 +19,7 @@ namespace GameServer.Controllers
         /// Gets if enough players are connected to start a game
         /// </summary>
         /// <returns>Ok if game is starting, NoContent if some players are missing</returns>
-        [HttpGet("{mac}")]
+        [HttpGet]
         public IActionResult GetGameConnectionStatus()
         {
             if (GlobalVar.gm.CheckGameState())
@@ -30,25 +30,25 @@ namespace GameServer.Controllers
         }
 
         /// <summary>
-        /// connects player with mac address provided if there is empty slot to play
+        /// connects player with authToken address provided if there is empty slot to play
         /// </summary>
-        /// <param name="mac">mac address</param>
+        /// <param name="authToken">authToken address</param>
         /// <returns>player object</returns>
         [HttpPost]
-        public ActionResult<Player> ConnectPlayer([FromBody] string mac)
+        public ActionResult<Player> ConnectPlayer([FromHeader] string authToken)
         {
-            return GlobalVar.gm.ConnectPlayer(mac);
+            return GlobalVar.gm.ConnectPlayer(authToken);
         }
 
         /// <summary>
-        /// disconnects player with provided mac address if there is one
+        /// disconnects player with provided authToken address if there is one
         /// </summary>
-        /// <param name="mac">mac address</param>
-        /// <returns>NoContent if player is disconnected and NotFound if player with mac address does not exist</returns>
-        [HttpDelete("{mac}")]
-        public IActionResult DisconnectPlayer(string mac)
+        /// <param name="authToken">authToken address</param>
+        /// <returns>NoContent if player is disconnected and NotFound if player with authToken address does not exist</returns>
+        [HttpDelete]
+        public IActionResult DisconnectPlayer([FromHeader] string authToken)
         {
-            if (GlobalVar.gm.DisconnectPlayer(mac))
+            if (GlobalVar.gm.DisconnectPlayer(authToken))
             {
                 return NoContent();
             }
