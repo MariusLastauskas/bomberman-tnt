@@ -1,4 +1,5 @@
 ﻿using System;
+using GameServer.Models.GameObserver;
 namespace GameServer.Models
 {
     public class Player
@@ -20,6 +21,7 @@ namespace GameServer.Models
 
         //Strategy classes: kick, throw, place, imune
 
+        public MapObserver mapObserver { get; set; }
 
         public Player()
         {
