@@ -1,4 +1,5 @@
 ﻿using System;
+using GameServer.Models.GameObserver;
 namespace GameServer.Models
 {
     public class Player
@@ -11,6 +12,7 @@ namespace GameServer.Models
         public string Mac { get; set; }
         public int placedBombCount { get; set; }
         public int numberOfBombs { get; set; }
+        public MapObserver mapObserver { get; set; }
 
         public Player()
         {
