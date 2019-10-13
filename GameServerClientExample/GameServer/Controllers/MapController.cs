@@ -22,7 +22,7 @@ namespace GameServer.Controllers
         [HttpGet]
         public ActionResult<MapStub> GetGameMap()
         {
-            if (GlobalVar.gm == null || GlobalVar.gm.mm == null)
+            if (GlobalVar.gm == null || GlobalVar.gm.map == null)
             {
                 return NoContent();
             }

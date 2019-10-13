@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameServer.Models.GameObserver;
 
 namespace GameServer.Models
 {
@@ -11,20 +12,23 @@ namespace GameServer.Models
         private DateTime p1ping;
         private Player player2;
         private DateTime p2ping;
-        public MapManagerStub mm;
+        public MapStub map;
+        private MapManagerStub mapManager;
 
         public GameManager()
         {
             player1 = null;
             player2 = null;
-            mm = null;
+            map = null;
         }
 
         public GameManager(Player p1, Player p2)
         {
+            map = new MapStub();
             player1 = p1;
+            p1.mapObserver = new MapObserver(map);
             player2 = p2;
-            mm = new MapManagerStub();
+            p2.mapObserver = new MapObserver(map);
         }
 
 
@@ -62,7 +66,7 @@ namespace GameServer.Models
                 stopGame();
             }
 
-            return mm != null;
+            return mapManager != null;
         }
 
         /// <summary>
@@ -73,6 +77,7 @@ namespace GameServer.Models
         public Player ConnectPlayer(string mac)
         {
             Player p = new Player();
+            p.mapObserver = new MapObserver(map);
             if (player1 == null || player1.Mac == mac)
             {
                 p.Name = "player1";
@@ -115,13 +120,13 @@ namespace GameServer.Models
             if (player1 != null && player1.Mac == mac)
             {
                 player1 = null;
-                mm = null;
+                map = null;
                 return true;
             }
             if (player2 != null && player2.Mac == mac)
             {
                 player2 = null;
-                mm = null;
+                map = null;
                 return true;
             }
             return false;
@@ -141,8 +146,8 @@ namespace GameServer.Models
         /// </summary>
         public void StartGame()
         {
-            mm = new MapManagerStub();
-            mm.BuildMap();
+            mapManager = new MapManagerStub();
+            mapManager.BuildMap();
         }
 
         /// <summary>
@@ -155,12 +160,12 @@ namespace GameServer.Models
         {
             if (player1 != null && player1.Mac == mac)
             {
-                return mm.UpdatePlayerPos(player1, direction);
+                return mapManager.UpdatePlayerPos(player1, direction);
             }
 
             if (player2 != null && player2.Mac == mac)
             {
-                return mm.UpdatePlayerPos(player2, direction);
+                return mapManager.UpdatePlayerPos(player2, direction);
             }
 
             return false;
@@ -175,12 +180,12 @@ namespace GameServer.Models
         {
             if (player1 != null && player1.Mac == mac && player1.placedBombCount < player1.numberOfBombs)
             {
-                mm.PlaceBomb(player1);
+                mapManager.PlaceBomb(player1);
                 return true;
             }
             if (player2 != null && player2.Mac == mac && player2.placedBombCount < player2.numberOfBombs)
             {
-                mm.PlaceBomb(player2);
+                mapManager.PlaceBomb(player2);
                 return true;
             }
             return false;
@@ -191,7 +196,7 @@ namespace GameServer.Models
         /// </summary>
         private void stopGame()
         {
-            mm = null;
+            mapManager = null;
             DisconnectPlayers();
         }
     }
