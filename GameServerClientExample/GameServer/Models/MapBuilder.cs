@@ -19,7 +19,7 @@ namespace GameServer.Models
             return moList;
         }
 
-        public override Builder BuildDestructibleWalls()
+        public override Builder BuildIndestructibleWalls()
         {
             //sienu darymas 15x15
             //Pirmos eilutes sudarymas
@@ -86,9 +86,36 @@ namespace GameServer.Models
             return this;
         }
 
-        public override Builder BuildIndestructibleWalls()
+        public override Builder BuildDestructibleWalls()
         {
             //likucio generavimas
+
+            //Nuo 2 iki 14 eilutes sudarymas
+
+            for (int y = 1; y < Width - 1; y++)
+            {
+                for (int x = 1; x < Width-1; x++)
+                {
+                    if (y % 2 > 0)
+                    {
+                        MapObject wall = new Wall(true);
+                        Coordinates c = new Coordinates(x, y);
+                        wall.SetCoordinates(c);
+                        moList[x, y] = wall;
+                    }
+                    else
+                    {
+                        if (x % 2 > 0)
+                        {
+                            MapObject wall = new Wall(true);
+                            Coordinates c = new Coordinates(x, y);
+                            wall.SetCoordinates(c);
+                            moList[x, y] = wall;
+                        }
+                        
+                    }
+                }
+            }
 
             return this;
         }

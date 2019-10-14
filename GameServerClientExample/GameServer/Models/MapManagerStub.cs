@@ -16,7 +16,7 @@ namespace GameServer.Models
 
         }
 
-        public Map BuildMap()  // Dar reikia implementuoti
+        public Map BuildMap()  
         {
             builder.BuildIndestructibleWalls().BuildDestructibleWalls();
             return builder.build();
