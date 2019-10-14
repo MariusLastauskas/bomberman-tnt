@@ -16,10 +16,10 @@ namespace GameServer.Models
 
         }
 
-        public void BuildMap()  // Dar reikia implementuoti
+        public Map BuildMap()  // Dar reikia implementuoti
         {
             builder.BuildIndestructibleWalls().BuildDestructibleWalls();
-            builder.build();
+            return builder.build();
         }
 
         public bool UpdatePlayerPos(Player p, string direction)  // Dar reikia implementuoti

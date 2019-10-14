@@ -18,7 +18,13 @@ namespace GameServer.Models
 
         public Map(MapObject[,] mapObj)
         {
+            
             this.mapContainer = mapObj;
+        }
+
+        public MapObject[,] getMapContainer()
+        {
+            return mapContainer;
         }
     }
 }

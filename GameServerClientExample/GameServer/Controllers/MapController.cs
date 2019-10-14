@@ -20,13 +20,13 @@ namespace GameServer.Controllers
         /// </summary>
         /// <returns>NoContent if game is not created, Map object if map is created</returns>
         [HttpGet]
-        public ActionResult<Builder> GetGameMap()
+        public MapObject[,] GetGameMap()
         {
             //if (GlobalVar.gm == null || GlobalVar.gm.map == null)
             //{
                 //return NoContent();
             //}
-            return new MapBuilder().BuildDestructibleWalls();
+            return new MapManagerStub().BuildMap().getMapContainer();
 
         }
 
