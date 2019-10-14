@@ -7,5 +7,10 @@ namespace GameServer.Models
 {
     public class PlayerImune : PlayerAction
     {
+        public override void Action()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

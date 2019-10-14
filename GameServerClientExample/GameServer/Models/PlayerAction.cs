@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models
 {
-    public class PlayerAction
+    public abstract class PlayerAction
     {
+        public abstract void Action();
     }
 }

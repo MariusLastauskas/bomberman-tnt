@@ -7,5 +7,9 @@ namespace GameServer.Models
 {
     public class PlayerPlace : PlayerAction
     {
+        public override void Action()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

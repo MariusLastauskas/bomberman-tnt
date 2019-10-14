@@ -1,6 +1,8 @@
 ﻿using System;
 using GameServer.Models.GameObserver;
 using System.Collections.Generic;
+using System.Windows.Input;
+
 namespace GameServer.Models
 {
     public class Player : MapObject
@@ -22,6 +24,9 @@ namespace GameServer.Models
         public int ImuneTime { get; set; }
 
         public List<PlayerAction> ListOfActions { get; set; }
+        public PlayerAction Action { get; set; }
+
+        public List<PowerUp> ListOfPowerUps { get; set; }
         //Strategy classes: kick, throw, place, imune
 
         public MapObserver mapObserver { get; set; }
@@ -101,6 +106,20 @@ namespace GameServer.Models
             ImuneTime = time;
         }
 
+        public void SetPlayerAction()
+        {
+            if (true)
+            {
 
+            }
+        }
+
+        public void Move()
+        {
+            if (true)
+            {
+
+            }
+        }
     }
 }
