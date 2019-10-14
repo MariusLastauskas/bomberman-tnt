@@ -12,9 +12,9 @@ namespace GameServer.Models.AnstractFactory
             return new BlueBomb(player);
         }
 
-        public override MapObject getPlayer()
+        public override MapObject getPlayer(Coordinates coordinates)
         {
-            return new Player(1, 1, 3, 1);
+            return new Player(1, 1, 3, 1, coordinates);
         }
     }
 

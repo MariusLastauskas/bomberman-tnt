@@ -9,7 +9,7 @@ namespace GameServer.Models.AnstractFactory
 	{
 		public abstract MapObject getBomb(Player player);
 		
-		public abstract MapObject getPlayer(  );
+		public abstract MapObject getPlayer(Coordinates coordinates);
 		
 	}
 	
