@@ -2,7 +2,8 @@
  * @(#) AbstractFactory.cs
  */
 
-namespace GameServer.Models
+namespace GameServer.Models.AnstractFactory
+
 {
 	public abstract class AbstractFactory
 	{

@@ -5,21 +5,16 @@ using System.Drawing;
 /**
 * @(#) BlueBomb.cs
 */
-namespace GameServer.Models
+namespace GameServer.Models.AnstractFactory
 {
 	
 	public class BlueBomb : Bomb
 	{
         public Color Color { get; set; }
-        public BlueBomb(Player player)
+        public BlueBomb(Player player) : base(player)
         {
-            this.isWalkable = false;
-            this.SetBombToPlayer(player);
-            //this.SetCoordinates(player.) player coordinates
             Color = Color.FromKnownColor(KnownColor.Blue);
-            Timer();
         }
-
         
     }
 }

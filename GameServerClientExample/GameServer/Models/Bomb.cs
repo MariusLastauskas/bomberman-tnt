@@ -15,6 +15,13 @@ namespace GameServer.Models
 		private Player player;
         private MapManagerStub map;
 
+        public Bomb(Player player)
+        {
+            this.isWalkable = false;
+            this.SetBombToPlayer(player);
+            //this.SetCoordinates(player.) player coordinates
+            Timer();
+        }
         public void Explode( )
 		{
             if (exploded == false)
@@ -49,7 +56,7 @@ namespace GameServer.Models
 
         public async void KickTimer(string direction, int time)
         {
-            while ( map.getObjectIn(direction) == null)
+            while (map.getObjectIn(direction) == null)
             {
                 Coordinates newPos = this.GetCoordinates();
                 switch (direction)

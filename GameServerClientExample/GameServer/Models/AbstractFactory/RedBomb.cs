@@ -5,19 +5,15 @@ using System.Drawing;
 /**
 * @(#) RedBomb.cs
 */
-namespace GameServer.Models
+namespace GameServer.Models.AnstractFactory
 {
 	
 	public class RedBomb : Bomb
 	{
         public Color Color { get; set; }
-        public RedBomb(Player player)
+        public RedBomb(Player player) : base(player)
         {
-            this.isWalkable = false;
-            this.SetBombToPlayer(player);
-            //this.SetCoordinates(player.) player coordinates
             Color = Color.FromKnownColor(KnownColor.Red);
-            Timer();
         }
     }
 	
