@@ -15,6 +15,11 @@ namespace GameServer.Models
             return;
         }
 
+        public MapObject[,] getMoList()
+        {
+            return moList;
+        }
+
         public override Builder BuildDestructibleWalls()
         {
             //sienu darymas 15x15
