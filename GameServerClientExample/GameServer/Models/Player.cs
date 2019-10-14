@@ -8,6 +8,7 @@ namespace GameServer.Models
 {
     public class Player : MapObject
     {
+        public string Name { get; set; }
         public int PlacedBombCount { get; set; }
         public int NumberOfBombs { get; set; }
         public int BombPower { get; set; }
@@ -16,10 +17,11 @@ namespace GameServer.Models
         public bool TookDamage { get; set; }
         public MoveStrategy moveStrategy { get; set; }
         public PlantBombStrategy plantBombStrategy { get; set; }
+        public MapObserver mapObserver { get; set; }
+        public string authToken { get; set; }
 
         //Strategy classes: kick, throw, place, imune
 
-        // public MapObserver mapObserver { get; set; }
 
         public Player() { }
 
