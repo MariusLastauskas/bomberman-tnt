@@ -46,8 +46,9 @@ namespace GameServer.Models
         }
         public void HitMapObj(Coordinates coordinates)
         {
-            MapObject mapObject = mapContainer[coordinates.PosX, coordinates.PosY];
+            List<MapObject> Objects = mapContainer[coordinates.PosX, coordinates.PosY];
 
+            foreach (var mapObject in Objects)
             if(mapObject is Player)
             {
                 Player player = mapObject as Player;

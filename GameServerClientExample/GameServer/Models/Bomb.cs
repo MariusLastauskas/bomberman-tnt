@@ -13,7 +13,6 @@ namespace GameServer.Models
 	{
         private bool exploded = false;
 		private Player player;
-        private MapManagerStub map;
 
         public Bomb(Player player)
         {
