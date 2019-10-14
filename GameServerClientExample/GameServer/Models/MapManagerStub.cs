@@ -11,14 +11,17 @@ namespace GameServer.Models
     {
         AbstractFactory BlueFactory = new BlueFactory();
         AbstractFactory RedFactory = new BlueFactory();
+        MapBuilder builder = new MapBuilder();
+
         public MapManagerStub()     // Dar reikia implementuoti
         {
 
         }
 
-        public void BuildMap()  // Dar reikia implementuoti
+        public Map BuildMap()  // Dar reikia implementuoti
         {
-
+            builder.BuildIndestructibleWalls().BuildDestructibleWalls();
+            return builder.build();
         }
 
         public bool UpdatePlayerPos(Player p, string direction)  // Dar reikia implementuoti

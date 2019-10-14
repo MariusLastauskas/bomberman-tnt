@@ -10,7 +10,7 @@ namespace GameServer.Models
         public Wall()
         {
             isWalkable = false;
-            Destroyable = false;
+            Destroyable = false;    
         }
         
         public void Hit()
