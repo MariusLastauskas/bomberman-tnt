@@ -26,9 +26,9 @@ namespace GameServer.Models
         {
             map = new MapStub();
             player1 = p1;
-            p1.mapObserver = new MapObserver(map);
+            p1.MapObserver = new MapObserver(map);
             player2 = p2;
-            p2.mapObserver = new MapObserver(map);
+            p2.MapObserver = new MapObserver(map);
         }
 
 
@@ -77,18 +77,18 @@ namespace GameServer.Models
         public Player ConnectPlayer(string authToken)
         {
             Player p = new Player();
-            p.mapObserver = new MapObserver(map);
-            if (player1 == null || player1.authToken == authToken)
+            p.MapObserver = new MapObserver(map);
+            if (player1 == null || player1.AuthToken == authToken)
             {
                 p.Name = "player1";
-                p.authToken = authToken;
+                p.AuthToken = authToken;
                 player1 = p;
                 pingPlayer(ref p1ping);
             }
-            else if (player2 == null || player2.authToken == authToken)
+            else if (player2 == null || player2.AuthToken == authToken)
             {
                 p.Name = "player2";
-                p.authToken = authToken;
+                p.AuthToken = authToken;
                 player2 = p;
                 pingPlayer(ref p2ping);
             }
@@ -117,13 +117,13 @@ namespace GameServer.Models
         /// <returns>true if player disconnected</returns>
         public bool DisconnectPlayer(string authToken)
         {
-            if (player1 != null && player1.authToken == authToken)
+            if (player1 != null && player1.AuthToken == authToken)
             {
                 player1 = null;
                 map = null;
                 return true;
             }
-            if (player2 != null && player2.authToken == authToken)
+            if (player2 != null && player2.AuthToken == authToken)
             {
                 player2 = null;
                 map = null;
@@ -158,12 +158,12 @@ namespace GameServer.Models
         /// <returns>true if player can move the dirrection</returns>
         public bool MovePlayer(string authToken, string direction)
         {
-            if (player1 != null && player1.authToken == authToken)
+            if (player1 != null && player1.AuthToken == authToken)
             {
                 return mapManager.UpdatePlayerPos(player1, direction);
             }
 
-            if (player2 != null && player2.authToken == authToken)
+            if (player2 != null && player2.AuthToken == authToken)
             {
                 return mapManager.UpdatePlayerPos(player2, direction);
             }
@@ -178,12 +178,12 @@ namespace GameServer.Models
         /// <returns>true if player can plant bomb</returns>
         public bool PlantBomb(string authToken)
         {
-            if (player1 != null && player1.authToken == authToken && player1.PlacedBombCount < player1.NumberOfBombs)
+            if (player1 != null && player1.AuthToken == authToken && player1.PlacedBombCount < player1.NumberOfBombs)
             {
                 mapManager.PlaceBomb(player1);
                 return true;
             }
-            if (player2 != null && player2.authToken == authToken && player2.PlacedBombCount < player2.NumberOfBombs)
+            if (player2 != null && player2.AuthToken == authToken && player2.PlacedBombCount < player2.NumberOfBombs)
             {
                 mapManager.PlaceBomb(player2);
                 return true;
