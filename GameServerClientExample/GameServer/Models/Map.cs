@@ -3,10 +3,39 @@ using System.Collections.Generic;
 
 namespace GameServer.Models
 {
-    public class Map
+    /// <summary>
+    /// singletone Map
+    /// </summary>
+    public sealed class Map
     {
-        MapObject[,] mapContainer;
+        private static readonly object InstanceLock = new object();
+        private MapObject[,] mapContainer;
         
+        private Map()
+        {
+
+        }
+        private static Map instance = null;
+        public static Map GetInstance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (InstanceLock)
+                    {
+                        if (instance == null)
+                        {
+                            MapBuilder builder = new MapBuilder();
+                            builder.BuildIndestructibleWalls().BuildDestructibleWalls();
+                            instance = builder.build();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
         public void AddMapObj(MapObject mapObj)
         { 
             Coordinates c = mapObj.GetCoordinates();
@@ -15,10 +44,26 @@ namespace GameServer.Models
 
             mapContainer[cx, cy] = mapObj;
         }
+        public void HitMapObj(Coordinates coordinates)
+        {
+            MapObject mapObject = mapContainer[coordinates.PosX, coordinates.PosY];
+
+            if(mapObject is Player)
+            {
+                Player player = mapObject as Player;
+                player.DecreaseHealth(1);
+            } else if (mapObject is Wall)
+            {
+                Wall wall = mapObject as Wall;
+                if(wall.isDestroyable())
+                {
+                    mapContainer[coordinates.PosX, coordinates.PosY] = null;
+                }
+            }
+        }
 
         public Map(MapObject[,] mapObj)
         {
-            
             this.mapContainer = mapObj;
         }
 

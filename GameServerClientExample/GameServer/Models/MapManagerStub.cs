@@ -13,6 +13,7 @@ namespace GameServer.Models
         AbstractFactory RedFactory = new BlueFactory();
         MapBuilder builder = new MapBuilder();
 
+
         public MapManagerStub()     // Dar reikia implementuoti
         {
 
@@ -20,8 +21,7 @@ namespace GameServer.Models
 
         public Map BuildMap()  // Dar reikia implementuoti
         {
-            builder.BuildIndestructibleWalls().BuildDestructibleWalls();
-            return builder.build();
+            return Map.GetInstance;
         }
 
         public bool UpdatePlayerPos(Player p, string direction)  // Dar reikia implementuoti
@@ -39,11 +39,12 @@ namespace GameServer.Models
             {
                 k = RedFactory.getBomb(p);
             }
-            //padaryt bombos idejima i zemelapid
+            Map map = Map.GetInstance;
+            map.AddMapObj(k);
 
         }
 
-        public MapObject getObjectIn(string direction)
+        public MapObject getObjectIn(string direction) //kas cia blet? ka jis turi daryt?
         {
             return null;
         }

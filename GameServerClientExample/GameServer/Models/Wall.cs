@@ -12,13 +12,10 @@ namespace GameServer.Models
             isWalkable = false;
             Destroyable = false;    
         }
-        
-        public void Hit()
+        public bool isDestroyable()
         {
-            if(Destroyable == true)
-            {
-                //destoy the wall
-            }
+            return Destroyable;
         }
+        
     }
 }
