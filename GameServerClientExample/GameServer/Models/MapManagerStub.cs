@@ -37,5 +37,10 @@ namespace GameServer.Models
             //padaryt bombos idejima i zemelapid
 
         }
+
+        public MapObject getObjectIn(string direction)
+        {
+            return null;
+        }
     }
 }

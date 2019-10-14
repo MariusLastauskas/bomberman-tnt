@@ -1,42 +1,45 @@
 ﻿using System;
 using GameServer.Models.GameObserver;
+using System.Collections.Generic;
+using System.Windows.Input;
+using GameServer.Models.Strategy;
+
 namespace GameServer.Models
 {
     public class Player : MapObject
     {
-        public long Id { get; set; }
         public string Name { get; set; }
-        public long Score { get; set; }
-        public long PosX { get; set; }
-        public long PosY { get; set; }
-        public string Mac { get; set; }
+        public string AuthToken { get; set; }
 
         public int PlacedBombCount { get; set; }
         public int NumberOfBombs { get; set; }
         public int BombPower { get; set; }
         public int Health { get; set; }
         public int MovementSpeed { get; set; }
-        public bool CanKick { get; set; }
-        public bool CanThrow { get; set; }
-        public int ImuneTime { get; set; }
+
+        public bool PlayerIsDead { get; set; }
+
+        public MoveStrategy MoveStrategy { get; set; }
+        public PlantBombStrategy PlantBombStrategy { get; set; }
+        public MapObserver MapObserver { get; set; }
 
         //Strategy classes: kick, throw, place, imune
 
-        public MapObserver mapObserver { get; set; }
 
         public Player() { }
 
-        public Player(int numberOfBombs, int bombPower, int health, int movementSpeed)
+        public Player(int bombNumber, int power, int heart, int speed)
         {
-            NumberOfBombs = numberOfBombs;
-            BombPower = bombPower;
-            Health = health;
-            MovementSpeed = movementSpeed;
-
+            NumberOfBombs = bombNumber;
+            BombPower = power;
+            Health = heart;
+            MovementSpeed = speed;
             PlacedBombCount = 0;
-            ImuneTime = 0;
-            CanKick = false;
-            CanThrow = false;
+
+            MoveStrategy = new SimpleMove();
+            PlantBombStrategy = new SimplePlant();
+
+            PlayerIsDead = false;
         }
 
         //---------------------
@@ -72,7 +75,14 @@ namespace GameServer.Models
         //Health loss
         public void DecreaseHealth(int damage)
         {
-            Health -= damage;
+            if (Health > 0)
+            {
+                Health -= damage;
+            }
+            else if (Health <= 0)
+            {
+                PlayerIsDead = true;
+            }
         }
 
         //More caffeine (speed)
@@ -82,23 +92,31 @@ namespace GameServer.Models
         }
 
         //Can he kick the bomb?
-        public bool SetCanKick(bool decision)
+        public void SetCanKick()
         {
-            return CanKick = decision;
+            MoveStrategy = new KickMove();
         }
 
         //Can he throw the bomb?
-        public bool SetCanThrow(bool decision)
+        public void SetCanThrow()
         {
-            return CanThrow = decision;
+            MoveStrategy = new ThrowMove();
         }
 
         //Invinsible
-        public void SetImuneTime(int time)
+        public void SetImuneTime()
         {
-            ImuneTime = time;
+            PlantBombStrategy = new ImunePlant();
         }
 
+        public void SetCanPlantBomb()
+        {
+            PlantBombStrategy = new SimplePlant();
+        }
 
+        public void Move(string direction)
+        {
+            MoveStrategy.Move(this, direction);
+        }
     }
 }
