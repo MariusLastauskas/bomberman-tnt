@@ -44,7 +44,7 @@ namespace GameServer.Models
 
         }
 
-        public MapObject getObjectIn(string direction) //kas cia blet? ka jis turi daryt?
+        public MapObject getObjectIn(string direction)
         {
             return null;
         }
