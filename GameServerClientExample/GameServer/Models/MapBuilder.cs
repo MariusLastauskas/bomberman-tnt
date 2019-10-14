@@ -11,7 +11,7 @@ namespace GameServer.Models
 
         public MapBuilder()
         {
-            moList = new MapObject[15,15];
+            moList = new MapObject[Width,Width];
         }
 
         public MapObject[,] getMoList()
@@ -116,6 +116,22 @@ namespace GameServer.Models
                     }
                 }
             }
+            //pranaikinti langelius
+
+            moList[1, 1] = null;
+            moList[1, 2] = null;
+            moList[1, 3] = null;
+            moList[2, 1] = null;
+            moList[3, 1] = null;
+            moList[Width - 4, Width - 2] = null;
+            moList[Width - 3, Width - 2] = null;
+            moList[Width - 2, Width - 2] = null;
+            moList[Width - 2, Width - 3] = null;
+            moList[Width - 2, Width - 4] = null;
+
+            //spawnina zaidejus
+
+            
 
             return this;
         }
