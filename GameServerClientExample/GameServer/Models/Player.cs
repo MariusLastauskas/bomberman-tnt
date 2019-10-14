@@ -4,12 +4,12 @@ namespace GameServer.Models
 {
     public class Player : MapObject
     {
-        //public long Id { get; set; }
-        //public string Name { get; set; }
-        //public long Score { get; set; }
-        //public long PosX { get; set; }
-        //public long PosY { get; set; }
-        //public string Mac { get; set; }
+        public long Id { get; set; }
+        public string Name { get; set; }
+        public long Score { get; set; }
+        public long PosX { get; set; }
+        public long PosY { get; set; }
+        public string Mac { get; set; }
 
         public int PlacedBombCount { get; set; }
         public int NumberOfBombs { get; set; }
