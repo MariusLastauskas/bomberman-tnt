@@ -1,5 +1,6 @@
 ﻿using System;
 using GameServer.Models.GameObserver;
+using System.Collections.Generic;
 namespace GameServer.Models
 {
     public class Player : MapObject
@@ -20,6 +21,7 @@ namespace GameServer.Models
         public bool CanThrow { get; set; }
         public int ImuneTime { get; set; }
 
+        public List<PlayerAction> ListOfActions { get; set; }
         //Strategy classes: kick, throw, place, imune
 
         public MapObserver mapObserver { get; set; }
