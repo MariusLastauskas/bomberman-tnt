@@ -24,10 +24,6 @@ namespace GameServer.Models
         {
             return true;
         }
-
-        public void PlaceBomb(Player p)
-        {
-
-        }
+  
     }
 }
