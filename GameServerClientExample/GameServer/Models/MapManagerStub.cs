@@ -26,5 +26,10 @@ namespace GameServer.Models
         {
 
         }
+
+        public MapObject getObjectIn(string direction)
+        {
+            return null;
+        }
     }
 }

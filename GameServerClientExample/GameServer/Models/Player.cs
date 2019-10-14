@@ -22,8 +22,8 @@ namespace GameServer.Models
         public bool CanKick { get; set; }
         public bool CanThrow { get; set; }
         public int ImuneTime { get; set; }
+        public bool TookDamage { get; set; }
 
-        public List<PlayerAction> ListOfActions { get; set; }
         public PlayerAction Action { get; set; }
 
         public List<PowerUp> ListOfPowerUps { get; set; }
@@ -106,12 +106,22 @@ namespace GameServer.Models
             ImuneTime = time;
         }
 
-        public void SetPlayerAction()
+        public void AddPlayerAction()
         {
+            PlayerAction throwB = new PlayerThrow();
+            PlayerAction imune = new PlayerImune();
+            PlayerAction place = new PlayerPlace();
+
             if (true)
             {
+                PlayerAction kick = new PlayerKick();
 
             }
+        }
+
+        public void SetPlayerAction(string activate)
+        {
+                        
         }
 
         public void Move()

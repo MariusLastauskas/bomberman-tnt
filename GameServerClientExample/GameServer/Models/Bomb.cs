@@ -14,6 +14,7 @@ namespace GameServer.Models
         private bool exploded = false;
 		private Player player;
         private Color Color = Color.FromKnownColor(KnownColor.ForestGreen);
+        private MapManagerStub map;
 
         public void Explode( )
 		{
@@ -44,6 +45,38 @@ namespace GameServer.Models
         public void HitByExplosion()
         {
             Explode();
+        }
+
+        public void BeKicked(string direction)
+        {
+            KickTimer(direction, 100);
+        }
+
+        public async void KickTimer(string direction, int time)
+        {
+            while (map.getObjectIn(direction) == null)
+            {
+                Coordinates newPos = this.GetCoordinates();
+                switch (direction)
+                {
+                    case "up":
+                        newPos.PosY++;
+                        break;
+                    case "down":
+                        newPos.PosY--;
+                        break;
+                    case "left":
+                        newPos.PosX--;
+                        break;
+                    case "right":
+                        newPos.PosX++;
+                        break;
+                    default:
+                        break;
+                }
+                this.SetCoordinates(newPos);
+                await Task.Delay(time);
+            }
         }
 
     }

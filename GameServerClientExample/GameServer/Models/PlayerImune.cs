@@ -9,7 +9,7 @@ namespace GameServer.Models
     {
         public override void Action()
         {
-            throw new NotImplementedException();
+            
         }
 
     }
