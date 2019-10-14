@@ -178,12 +178,12 @@ namespace GameServer.Models
         /// <returns>true if player can plant bomb</returns>
         public bool PlantBomb(string mac)
         {
-            if (player1 != null && player1.Mac == mac && player1.placedBombCount < player1.numberOfBombs)
+            if (player1 != null && player1.Mac == mac && player1.PlacedBombCount < player1.NumberOfBombs)
             {
                 mapManager.PlaceBomb(player1);
                 return true;
             }
-            if (player2 != null && player2.Mac == mac && player2.placedBombCount < player2.numberOfBombs)
+            if (player2 != null && player2.Mac == mac && player2.PlacedBombCount < player2.NumberOfBombs)
             {
                 mapManager.PlaceBomb(player2);
                 return true;

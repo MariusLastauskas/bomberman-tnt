@@ -13,26 +13,21 @@ namespace GameServer.Models
 	{
         private bool exploded = false;
 		private Player player;
-        private Color Color = Color.FromKnownColor(KnownColor.ForestGreen);
 
         public void Explode( )
 		{
             if (exploded == false)
             {
+                player.DecreasePlacedBombCount();
                 exploded = true;
-                //is not implemented yet
-                //player.placedBombCount--;
+                //explosions are not implemented yet
             }
 		}
-
-        public void SetColor(Color color)
-        {
-            Color = color;
-        }
 
         public void SetBombToPlayer(Player player)
         {
             this.player = player;
+            player.IncreasePlacedBombCount();
         }
 		
 		public async void Timer()
