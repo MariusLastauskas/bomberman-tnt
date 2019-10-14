@@ -20,38 +20,40 @@ namespace GameServer.Controllers
         /// </summary>
         /// <returns>NoContent if game is not created, Map object if map is created</returns>
         [HttpGet]
-        public MapObject[,] GetGameMap()
+        public List<MapObject>[,] GetGameMap()
         {
             //if (GlobalVar.gm == null || GlobalVar.gm.map == null)
             //{
             //return NoContent();
             //}
-            MapObject[,] map = new MapManagerStub().BuildMap().getMapContainer();
-            MapObject[,] m = new MapObject[map.GetLength(0), map.GetLength(1)];
+            List<MapObject>[,] map = new MapManagerStub().BuildMap().getMapContainer();
 
             for (int i = 0; i < map.GetLength(0); i++)
             {
                 for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    if (map[i, j] is Wall)
+                    for (int k = 0; k < map[i, j].Count; k++)
                     {
-                        m[i, j] = map[i, j] as Wall;
-                    }
-                    if (map[i, j] is Bomb)
-                    {
-                        m[i, j] = map[i, j] as Bomb;
-                    }
-                    if (map[i, j] is PowerUp)
-                    {
-                        m[i, j] = map[i, j] as PowerUp;
-                    }
-                    if (map[i, j] is Player)
-                    {
-                        m[i, j] = map[i, j] as Player;
+                        if (map[i, j][k] is Wall)
+                        {
+                            map[i, j][k] = map[i, j][k] as Wall;
+                        }
+                        if (map[i, j][k] is Bomb)
+                        {
+                            map[i, j][k] = map[i, j][k] as Bomb;
+                        }
+                        if (map[i, j][k] is PowerUp)
+                        {
+                            map[i, j][k] = map[i, j][k] as PowerUp;
+                        }
+                        if (map[i, j][k] is Player)
+                        {
+                            map[i, j][k] = map[i, j][k] as Player;
+                        }
                     }
                 }
             }
-            return m;
+            return map;
 
         }
 

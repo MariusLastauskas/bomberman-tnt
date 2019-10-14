@@ -7,14 +7,21 @@ namespace GameServer.Models
     {
         const int Width = 15;
 
-        private MapObject[,] moList;
+        private List<MapObject>[,] moList;
 
         public MapBuilder()
         {
-            moList = new MapObject[15,15];
+            moList = new List<MapObject>[15,15];
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    moList[i, j] = new List<MapObject>();
+                }
+            }
         }
 
-        public MapObject[,] getMoList()
+        public List<MapObject>[,] getMoList()
         {
             return moList;
         }
@@ -28,7 +35,7 @@ namespace GameServer.Models
                 MapObject wall = new Wall();
                 Coordinates c = new Coordinates(i, 0);
                 wall.SetCoordinates(c);
-                moList[i, 0] = wall;
+                moList[i, 0].Add(wall);
             }
             //Nuo 2 iki 14 eilutes sudarymas
 
@@ -43,18 +50,14 @@ namespace GameServer.Models
                             MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y] = wall;
+                            moList[x, y].Add(wall);
                         }
                         else if (x == Width - 1)
                         {
                             MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y] = wall;
-                        }
-                        else
-                        {
-                            moList[x, y] = null;
+                            moList[x, y].Add(wall);
                         }
                         
                     }
@@ -65,11 +68,7 @@ namespace GameServer.Models
                             MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y] = wall;
-                        }
-                        else
-                        {
-                            moList[x, y] = null;
+                            moList[x, y].Add(wall);
                         }
                     }
                 }
@@ -80,7 +79,7 @@ namespace GameServer.Models
                 MapObject wall = new Wall();
                 Coordinates c = new Coordinates(i, Width - 1);
                 wall.SetCoordinates(c);
-                moList[i, Width - 1] = wall;
+                moList[i, Width - 1].Add(wall);
             }
 
             return this;
@@ -101,7 +100,7 @@ namespace GameServer.Models
                         MapObject wall = new Wall(true);
                         Coordinates c = new Coordinates(x, y);
                         wall.SetCoordinates(c);
-                        moList[x, y] = wall;
+                        moList[x, y].Add(wall);
                     }
                     else
                     {
@@ -110,7 +109,7 @@ namespace GameServer.Models
                             MapObject wall = new Wall(true);
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y] = wall;
+                            moList[x, y].Add(wall);
                         }
                         
                     }
