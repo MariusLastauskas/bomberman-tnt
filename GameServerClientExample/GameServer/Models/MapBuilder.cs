@@ -150,6 +150,11 @@ namespace GameServer.Models
             return this;
         }
 
+        public override Builder AddPlayers()
+        {
+            return this;
+        }
+
         public Map build()
         {
             Map map = new Map(moList);
