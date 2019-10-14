@@ -13,6 +13,7 @@ namespace GameServer.Models
 	{
         private bool exploded = false;
 		private Player player;
+        private MapManagerStub map;
 
         public Bomb(Player player)
         {
@@ -20,6 +21,7 @@ namespace GameServer.Models
             this.SetBombToPlayer(player);
             //this.SetCoordinates(player.) player coordinates
             Timer();
+            map = new MapManagerStub();
         }
         public void Explode( )
 		{
