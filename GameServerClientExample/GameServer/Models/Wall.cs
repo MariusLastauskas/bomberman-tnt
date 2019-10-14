@@ -6,7 +6,7 @@ namespace GameServer.Models
 {
 	public class Wall : MapObject
 	{
-		private bool Destroyable;
+		public bool Destroyable;
         /// <summary>
         /// Nesunaikinama siena
         /// </summary>

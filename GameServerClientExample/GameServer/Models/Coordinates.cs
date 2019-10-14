@@ -4,7 +4,6 @@ namespace GameServer.Models
 
     public class Coordinates
     {
-        public long Id { get; set; }
         /// <summary>
         /// x koordinates
         /// </summary>

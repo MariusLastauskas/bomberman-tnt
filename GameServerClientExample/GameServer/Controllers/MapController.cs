@@ -24,9 +24,34 @@ namespace GameServer.Controllers
         {
             //if (GlobalVar.gm == null || GlobalVar.gm.map == null)
             //{
-                //return NoContent();
+            //return NoContent();
             //}
-            return new MapManagerStub().BuildMap().getMapContainer();
+            MapObject[,] map = new MapManagerStub().BuildMap().getMapContainer();
+            MapObject[,] m = new MapObject[map.GetLength(0), map.GetLength(1)];
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (map[i, j] is Wall)
+                    {
+                        m[i, j] = map[i, j] as Wall;
+                    }
+                    if (map[i, j] is Bomb)
+                    {
+                        m[i, j] = map[i, j] as Bomb;
+                    }
+                    if (map[i, j] is PowerUp)
+                    {
+                        m[i, j] = map[i, j] as PowerUp;
+                    }
+                    if (map[i, j] is Player)
+                    {
+                        m[i, j] = map[i, j] as Player;
+                    }
+                }
+            }
+            return m;
 
         }
 
