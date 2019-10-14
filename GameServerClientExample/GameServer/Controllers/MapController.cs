@@ -20,13 +20,43 @@ namespace GameServer.Controllers
         /// </summary>
         /// <returns>NoContent if game is not created, Map object if map is created</returns>
         [HttpGet]
-        public MapObject[,] GetGameMap()
+        public List<MapObject>[,] GetGameMap()
         {
             //if (GlobalVar.gm == null || GlobalVar.gm.map == null)
             //{
-                //return NoContent();
+            //return NoContent();
             //}
-            return new MapManagerStub().BuildMap().getMapContainer();
+            List<MapObject>[,] map = new MapManagerStub().BuildMap().getMapContainer();
+
+            for (int i = 0; i < map.GetLength(0); i++)
+            {
+                for (int j = 0; j < map.GetLength(1); j++)
+                {
+                    if (map[i, j] != null)
+                    {
+                        for (int k = 0; k < map[i, j].Count; k++)
+                        {
+                            if (map[i, j][k] is Wall)
+                            {
+                                map[i, j][k] = map[i, j][k] as Wall;
+                            }
+                            if (map[i, j][k] is Bomb)
+                            {
+                                map[i, j][k] = map[i, j][k] as Bomb;
+                            }
+                            if (map[i, j][k] is PowerUp)
+                            {
+                                map[i, j][k] = map[i, j][k] as PowerUp;
+                            }
+                            if (map[i, j][k] is Player)
+                            {
+                                map[i, j][k] = map[i, j][k] as Player;
+                            }
+                        }
+                    }
+                }
+            }
+            return map;
 
         }
 

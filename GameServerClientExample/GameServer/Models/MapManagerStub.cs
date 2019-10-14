@@ -7,6 +7,8 @@ namespace GameServer.Models
 {
     public class MapManagerStub
     {
+        AbstractFactory BlueFactory = new BlueFactory();
+        AbstractFactory RedFactory = new BlueFactory();
         MapBuilder builder = new MapBuilder();
 
         public MapManagerStub()     // Dar reikia implementuoti
@@ -14,7 +16,7 @@ namespace GameServer.Models
 
         }
 
-        public Map BuildMap()  // Dar reikia implementuoti
+        public Map BuildMap()  
         {
             builder.BuildIndestructibleWalls().BuildDestructibleWalls();
             return builder.build();
@@ -24,6 +26,24 @@ namespace GameServer.Models
         {
             return true;
         }
-  
+
+        public void PlaceBomb(Player p)
+        {
+            MapObject k;
+            if(p is BluePlayer)
+            {
+                k = BlueFactory.getBomb(p);
+            }else
+            {
+                k = RedFactory.getBomb(p);
+            }
+            //padaryt bombos idejima i zemelapid
+
+        }
+
+        public MapObject getObjectIn(string direction)
+        {
+            return null;
+        }
     }
 }

@@ -7,19 +7,26 @@ namespace GameServer.Models
     {
         const int Width = 15;
 
-        private MapObject[,] moList;
+        private List<MapObject>[,] moList;
 
         public MapBuilder()
         {
-            moList = new MapObject[15,15];
+            moList = new List<MapObject>[15,15];
+            for (int i = 0; i < 15; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    moList[i, j] = new List<MapObject>();
+                }
+            }
         }
 
-        public MapObject[,] getMoList()
+        public List<MapObject>[,] getMoList()
         {
             return moList;
         }
 
-        public override Builder BuildDestructibleWalls()
+        public override Builder BuildIndestructibleWalls()
         {
             //sienu darymas 15x15
             //Pirmos eilutes sudarymas
@@ -28,7 +35,7 @@ namespace GameServer.Models
                 MapObject wall = new Wall();
                 Coordinates c = new Coordinates(i, 0);
                 wall.SetCoordinates(c);
-                moList[i, 0] = wall;
+                moList[i, 0].Add(wall);
             }
             //Nuo 2 iki 14 eilutes sudarymas
 
@@ -43,18 +50,14 @@ namespace GameServer.Models
                             MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y] = wall;
+                            moList[x, y].Add(wall);
                         }
                         else if (x == Width - 1)
                         {
                             MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y] = wall;
-                        }
-                        else
-                        {
-                            moList[x, y] = null;
+                            moList[x, y].Add(wall);
                         }
                         
                     }
@@ -65,11 +68,7 @@ namespace GameServer.Models
                             MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y] = wall;
-                        }
-                        else
-                        {
-                            moList[x, y] = null;
+                            moList[x, y].Add(wall);
                         }
                     }
                 }
@@ -80,15 +79,73 @@ namespace GameServer.Models
                 MapObject wall = new Wall();
                 Coordinates c = new Coordinates(i, Width - 1);
                 wall.SetCoordinates(c);
-                moList[i, Width - 1] = wall;
+                moList[i, Width - 1].Add(wall);
             }
 
             return this;
         }
 
-        public override Builder BuildIndestructibleWalls()
+        public override Builder BuildDestructibleWalls()
         {
             //likucio generavimas
+
+            //Nuo 2 iki 14 eilutes sudarymas
+
+            for (int y = 1; y < Width - 1; y++)
+            {
+                for (int x = 1; x < Width-1; x++)
+                {
+                    Random ran = new Random();
+                    int prob = ran.Next(1, 101);
+
+                    if (y % 2 > 0)
+                    {
+                        MapObject wall = new Wall(true);
+                        Coordinates c = new Coordinates(x, y);
+                        wall.SetCoordinates(c);
+                        if (prob < 70)
+                        {
+                            moList[x, y].Add(wall);
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (x % 2 > 0)
+                        {
+                            MapObject wall = new Wall(true);
+                            Coordinates c = new Coordinates(x, y);
+                            wall.SetCoordinates(c);
+                            if (prob < 70)
+                            {
+                                moList[x, y].Add(wall);
+                            }
+                            
+                        }
+                        
+                    }
+                }
+            }
+            //pranaikinti langelius
+
+            moList[1, 1].Clear();
+            moList[1, 2].Clear();
+            moList[1, 3].Clear();
+            moList[2, 1].Clear();
+            moList[3, 1].Clear();
+            moList[Width - 4, Width - 2].Clear();
+            moList[Width - 3, Width - 2].Clear();
+            moList[Width - 2, Width - 2].Clear();
+            moList[Width - 2, Width - 3].Clear();
+            moList[Width - 2, Width - 4].Clear();
+
+            //panaikinu 10 random deziu(ateityje turetu buti algoritmas
+
+            //.......
+
+            //spawnina zaidejus
+
+
 
             return this;
         }

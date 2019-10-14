@@ -26,9 +26,9 @@ namespace GameServer.Models
         {
             map = new MapStub();
             player1 = p1;
-            p1.mapObserver = new MapObserver(map);
+            p1.MapObserver = new MapObserver(map);
             player2 = p2;
-            p2.mapObserver = new MapObserver(map);
+            p2.MapObserver = new MapObserver(map);
         }
 
 
@@ -61,7 +61,7 @@ namespace GameServer.Models
         /// <returns>are both players still active</returns>
         public bool CheckGameState()
         {
-            if (!checkPing(p1ping) || !checkPing(p2ping))
+            if (!checkPing(p1ping) || !checkPing(p2ping) || player1 == null || player2 == null)
             {
                 stopGame();
             }
@@ -70,25 +70,25 @@ namespace GameServer.Models
         }
 
         /// <summary>
-        /// Connects player to game by its mac address
+        /// Connects player to game by its authToken address
         /// </summary>
-        /// <param name="mac">mac address</param>
+        /// <param name="authToken">authToken address</param>
         /// <returns>player connected</returns>
-        public Player ConnectPlayer(string mac)
+        public Player ConnectPlayer(string authToken)
         {
             Player p = new Player();
-            p.mapObserver = new MapObserver(map);
-            if (player1 == null || player1.Mac == mac)
+            p.MapObserver = new MapObserver(map);
+            if (player1 == null || player1.AuthToken == authToken)
             {
                 p.Name = "player1";
-                p.Mac = mac;
+                p.AuthToken = authToken;
                 player1 = p;
                 pingPlayer(ref p1ping);
             }
-            else if (player2 == null || player2.Mac == mac)
+            else if (player2 == null || player2.AuthToken == authToken)
             {
                 p.Name = "player2";
-                p.Mac = mac;
+                p.AuthToken = authToken;
                 player2 = p;
                 pingPlayer(ref p2ping);
             }
@@ -111,19 +111,19 @@ namespace GameServer.Models
         }
 
         /// <summary>
-        /// Disconnects player by its mac address
+        /// Disconnects player by its authToken address
         /// </summary>
-        /// <param name="mac">mac address</param>
+        /// <param name="authToken">authToken address</param>
         /// <returns>true if player disconnected</returns>
-        public bool DisconnectPlayer(string mac)
+        public bool DisconnectPlayer(string authToken)
         {
-            if (player1 != null && player1.Mac == mac)
+            if (player1 != null && player1.AuthToken == authToken)
             {
                 player1 = null;
                 map = null;
                 return true;
             }
-            if (player2 != null && player2.Mac == mac)
+            if (player2 != null && player2.AuthToken == authToken)
             {
                 player2 = null;
                 map = null;
@@ -153,17 +153,17 @@ namespace GameServer.Models
         /// <summary>
         /// Moves player to direction
         /// </summary>
-        /// <param name="mac">mac address</param>
+        /// <param name="authToken">authToken address</param>
         /// <param name="direction">direction</param>
         /// <returns>true if player can move the dirrection</returns>
-        public bool MovePlayer(string mac, string direction)
+        public bool MovePlayer(string authToken, string direction)
         {
-            if (player1 != null && player1.Mac == mac)
+            if (player1 != null && player1.AuthToken == authToken)
             {
                 return mapManager.UpdatePlayerPos(player1, direction);
             }
 
-            if (player2 != null && player2.Mac == mac)
+            if (player2 != null && player2.AuthToken == authToken)
             {
                 return mapManager.UpdatePlayerPos(player2, direction);
             }
@@ -172,18 +172,18 @@ namespace GameServer.Models
         }
 
         /// <summary>
-        /// Plants a bomb by player with mac address provided
+        /// Plants a bomb by player with authToken address provided
         /// </summary>
-        /// <param name="mac">mac address</param>
+        /// <param name="authToken">authToken address</param>
         /// <returns>true if player can plant bomb</returns>
-        public bool PlantBomb(string mac)
+        public bool PlantBomb(string authToken)
         {
-            if (player1 != null && player1.Mac == mac && player1.placedBombCount < player1.numberOfBombs)
+            if (player1 != null && player1.AuthToken == authToken && player1.PlacedBombCount < player1.NumberOfBombs)
             {
                 mapManager.PlaceBomb(player1);
                 return true;
             }
-            if (player2 != null && player2.Mac == mac && player2.placedBombCount < player2.numberOfBombs)
+            if (player2 != null && player2.AuthToken == authToken && player2.PlacedBombCount < player2.NumberOfBombs)
             {
                 mapManager.PlaceBomb(player2);
                 return true;

@@ -13,7 +13,7 @@ namespace GameServer.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private readonly PlayerContext _context;
+        /*private readonly PlayerContext _context;
         public int Qty { get; set; } = 0;
 
         // GET: /<controller>/
@@ -115,10 +115,10 @@ namespace GameServer.Controllers
         }
 
         // DELETE api/values/5
-        /*[HttpDelete("{id}")]
+        *//*[HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }*/
+        }*//*
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
@@ -131,7 +131,7 @@ namespace GameServer.Controllers
             _context.Players.Remove(todo);
             _context.SaveChanges();
             return NoContent();
-        }
+        }*/
 
     }
 }
