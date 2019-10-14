@@ -1,26 +1,25 @@
 ﻿using System;
+using GameServer.Models.GameObserver;
+using System.Collections.Generic;
+using System.Windows.Input;
+using GameServer.Models.Strategy;
+
 namespace GameServer.Models
 {
     public class Player : MapObject
     {
-        //public long Id { get; set; }
-        //public string Name { get; set; }
-        //public long Score { get; set; }
-        //public long PosX { get; set; }
-        //public long PosY { get; set; }
-        //public string Mac { get; set; }
-
         public int PlacedBombCount { get; set; }
         public int NumberOfBombs { get; set; }
         public int BombPower { get; set; }
         public int Health { get; set; }
         public int MovementSpeed { get; set; }
-        public bool CanKick { get; set; }
-        public bool CanThrow { get; set; }
-        public int ImuneTime { get; set; }
+        public bool TookDamage { get; set; }
+        public MoveStrategy moveStrategy { get; set; }
+        public PlantBombStrategy plantBombStrategy { get; set; }
 
         //Strategy classes: kick, throw, place, imune
 
+        // public MapObserver mapObserver { get; set; }
 
         public Player() { }
 
@@ -30,11 +29,10 @@ namespace GameServer.Models
             BombPower = bombPower;
             Health = health;
             MovementSpeed = movementSpeed;
-
             PlacedBombCount = 0;
-            ImuneTime = 0;
-            CanKick = false;
-            CanThrow = false;
+
+            moveStrategy = new SimpleMove();
+            plantBombStrategy = new SimplePlant();
         }
 
         //---------------------
@@ -80,23 +78,31 @@ namespace GameServer.Models
         }
 
         //Can he kick the bomb?
-        public bool SetCanKick(bool decision)
+        public void SetCanKick()
         {
-            return CanKick = decision;
+            moveStrategy = new KickMove();
         }
 
         //Can he throw the bomb?
-        public bool SetCanThrow(bool decision)
+        public void SetCanThrow()
         {
-            return CanThrow = decision;
+            moveStrategy = new ThrowMove();
         }
 
         //Invinsible
-        public void SetImuneTime(int time)
+        public void SetImuneTime()
         {
-            ImuneTime = time;
+            plantBombStrategy = new ImunePlant();
         }
 
+        public void SetCanPlantBomb()
+        {
+            plantBombStrategy = new SimplePlant();
+        }
 
+        public void Move(string direction)
+        {
+            moveStrategy.Move(this, direction);
+        }
     }
 }

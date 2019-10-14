@@ -1,7 +1,9 @@
 
 
 using System;
+using System.Drawing;
 using System.Threading;
+using System.Threading.Tasks;
 /**
 * @(#) Bomb.cs
 */
@@ -11,26 +13,32 @@ namespace GameServer.Models
 	{
         private bool exploded = false;
 		private Player player;
-		public Bomb(Player player)
-        {
-            this.isWalkable = false;
-            this.player = player;
-            Timer();
-        }
+        private Color Color = Color.FromKnownColor(KnownColor.ForestGreen);
+        private MapManagerStub map;
 
-		public void Explode( )
+        public void Explode( )
 		{
             if (exploded == false)
             {
                 exploded = true;
                 //is not implemented yet
-                player.placedBombCount--;
+                //player.placedBombCount--;
             }
 		}
+
+        public void SetColor(Color color)
+        {
+            Color = color;
+        }
+
+        public void SetBombToPlayer(Player player)
+        {
+            this.player = player;
+        }
 		
-		public void Timer(  )
+		public async void Timer()
 		{
-            Thread.Sleep(3000);
+            await Task.Delay(3000);
             this.Explode();
 		}
 
@@ -38,7 +46,91 @@ namespace GameServer.Models
         {
             Explode();
         }
-		
-	}
+
+        public void BeKicked(string direction)
+        {
+            KickTimer(direction, 100);
+        }
+
+        public async void KickTimer(string direction, int time)
+        {
+            while (map.getObjectIn(direction) == null)
+            {
+                Coordinates newPos = this.GetCoordinates();
+                switch (direction)
+                {
+                    case "up":
+                        newPos.PosY++;
+                        break;
+                    case "down":
+                        newPos.PosY--;
+                        break;
+                    case "left":
+                        newPos.PosX--;
+                        break;
+                    case "right":
+                        newPos.PosX++;
+                        break;
+                    default:
+                        break;
+                }
+                this.SetCoordinates(newPos);
+                await Task.Delay(time);
+            }
+        }
+
+        public void BeThrown(string direction)
+        {
+            ThrowTimer(direction, 100);
+        }
+
+        public async void ThrowTimer(string direction, int time)
+        {
+            Coordinates newPos;
+            while (map.getObjectIn(direction) != null)
+            {
+                newPos = this.GetCoordinates();
+                switch (direction)
+                {
+                    case "up":
+                        newPos.PosY++;
+                        break;
+                    case "down":
+                        newPos.PosY--;
+                        break;
+                    case "left":
+                        newPos.PosX--;
+                        break;
+                    case "right":
+                        newPos.PosX++;
+                        break;
+                    default:
+                        break;
+                }
+                this.SetCoordinates(newPos);
+                await Task.Delay(time);
+            }
+            newPos = this.GetCoordinates();
+            switch (direction)
+            {
+                case "up":
+                    newPos.PosY++;
+                    break;
+                case "down":
+                    newPos.PosY--;
+                    break;
+                case "left":
+                    newPos.PosX--;
+                    break;
+                case "right":
+                    newPos.PosX++;
+                    break;
+                default:
+                    break;
+            }
+            this.SetCoordinates(newPos);
+            await Task.Delay(time);
+        }
+    }
 	
 }
