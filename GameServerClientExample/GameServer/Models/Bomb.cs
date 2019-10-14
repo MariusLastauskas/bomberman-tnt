@@ -13,6 +13,7 @@ namespace GameServer.Models
 	{
         private bool exploded = false;
 		private Player player;
+        private MapManagerStub map;
 
         public void Explode( )
 		{
@@ -48,7 +49,7 @@ namespace GameServer.Models
 
         public async void KickTimer(string direction, int time)
         {
-            while (map.getObjectIn(direction) == null)
+            while ( map.getObjectIn(direction) == null)
             {
                 Coordinates newPos = this.GetCoordinates();
                 switch (direction)
