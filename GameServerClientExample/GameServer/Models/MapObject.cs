@@ -10,7 +10,7 @@ namespace GameServer.Models
 
         //Map map;
 
-        private Coordinates Coordinates { get; set; }
+        public Coordinates Coordinates { get; set; }
 
         public MapObject() { }
 

@@ -9,7 +9,7 @@ namespace GameServer.Models
     public sealed class Map
     {
         private static readonly object InstanceLock = new object();
-        private MapObject[,] mapContainer;
+        private List<MapObject>[,] mapContainer;
         
         private Map()
         {
@@ -42,7 +42,7 @@ namespace GameServer.Models
             long cx = c.PosX;
             long cy = c.PosY;
 
-            mapContainer[cx, cy] = mapObj;
+            mapContainer[cx, cy].Add(mapObj);
         }
         public void HitMapObj(Coordinates coordinates)
         {
@@ -62,12 +62,12 @@ namespace GameServer.Models
             }
         }
 
-        public Map(MapObject[,] mapObj)
+        public Map(List<MapObject>[,] mapObj)
         {
             this.mapContainer = mapObj;
         }
 
-        public MapObject[,] getMapContainer()
+        public List<MapObject>[,] getMapContainer()
         {
             return mapContainer;
         }
