@@ -27,6 +27,7 @@ namespace GameServer.Controllers
                 //return NoContent();
             //}
             return new MapBuilder().BuildDestructibleWalls();
+
         }
 
         /// <summary>
