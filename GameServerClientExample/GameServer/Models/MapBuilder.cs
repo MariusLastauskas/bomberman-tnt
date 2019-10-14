@@ -95,12 +95,19 @@ namespace GameServer.Models
             {
                 for (int x = 1; x < Width-1; x++)
                 {
+                    Random ran = new Random();
+                    int prob = ran.Next(1, 101);
+
                     if (y % 2 > 0)
                     {
                         MapObject wall = new Wall(true);
                         Coordinates c = new Coordinates(x, y);
                         wall.SetCoordinates(c);
-                        moList[x, y].Add(wall);
+                        if (prob < 70)
+                        {
+                            moList[x, y].Add(wall);
+                        }
+                        
                     }
                     else
                     {
@@ -109,7 +116,11 @@ namespace GameServer.Models
                             MapObject wall = new Wall(true);
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
-                            moList[x, y].Add(wall);
+                            if (prob < 70)
+                            {
+                                moList[x, y].Add(wall);
+                            }
+                            
                         }
                         
                     }
@@ -117,20 +128,24 @@ namespace GameServer.Models
             }
             //pranaikinti langelius
 
-            moList[1, 1] = null;
-            moList[1, 2] = null;
-            moList[1, 3] = null;
-            moList[2, 1] = null;
-            moList[3, 1] = null;
-            moList[Width - 4, Width - 2] = null;
-            moList[Width - 3, Width - 2] = null;
-            moList[Width - 2, Width - 2] = null;
-            moList[Width - 2, Width - 3] = null;
-            moList[Width - 2, Width - 4] = null;
+            moList[1, 1].Clear();
+            moList[1, 2].Clear();
+            moList[1, 3].Clear();
+            moList[2, 1].Clear();
+            moList[3, 1].Clear();
+            moList[Width - 4, Width - 2].Clear();
+            moList[Width - 3, Width - 2].Clear();
+            moList[Width - 2, Width - 2].Clear();
+            moList[Width - 2, Width - 3].Clear();
+            moList[Width - 2, Width - 4].Clear();
+
+            //panaikinu 10 random deziu(ateityje turetu buti algoritmas
+
+            //.......
 
             //spawnina zaidejus
 
-            
+
 
             return this;
         }
