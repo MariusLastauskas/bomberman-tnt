@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameServer.Models.AnstractFactory;
+using System;
 using System.Collections.Generic;
 
 namespace GameServer.Models
@@ -143,15 +144,16 @@ namespace GameServer.Models
 
             //.......
 
-            //spawnina zaidejus
-
-
 
             return this;
         }
 
         public override Builder AddPlayers()
         {
+            AbstractFactory factory = new BlueFactory();
+            moList[1, 1].Add(factory.getPlayer(new Coordinates(1, 1)));
+            factory = new RedFactory();
+            moList[Width - 2, Width - 2].Add(factory.getPlayer(new Coordinates(Width - 2, Width - 2)));
             return this;
         }
 

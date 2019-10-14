@@ -27,7 +27,7 @@ namespace GameServer.Models
                         if (instance == null)
                         {
                             MapBuilder builder = new MapBuilder();
-                            builder.BuildIndestructibleWalls().BuildDestructibleWalls();
+                            builder.BuildIndestructibleWalls().BuildDestructibleWalls().AddPlayers();
                             instance = builder.build();
                         }
                     }
