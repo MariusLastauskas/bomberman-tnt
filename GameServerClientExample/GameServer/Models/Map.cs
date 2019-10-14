@@ -5,7 +5,7 @@ namespace GameServer.Models
 {
     public class Map
     {
-        MapObject[,] mapContainer;
+        List<MapObject>[,] mapContainer;
         
         public void AddMapObj(MapObject mapObj)
         { 
@@ -13,16 +13,16 @@ namespace GameServer.Models
             long cx = c.PosX;
             long cy = c.PosY;
 
-            mapContainer[cx, cy] = mapObj;
+            mapContainer[cx, cy].Add(mapObj);
         }
 
-        public Map(MapObject[,] mapObj)
+        public Map(List<MapObject>[,] mapObj)
         {
             
             this.mapContainer = mapObj;
         }
 
-        public MapObject[,] getMapContainer()
+        public List<MapObject>[,] getMapContainer()
         {
             return mapContainer;
         }
