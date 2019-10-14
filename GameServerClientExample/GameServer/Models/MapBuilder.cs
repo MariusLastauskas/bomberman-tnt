@@ -12,7 +12,6 @@ namespace GameServer.Models
         public MapBuilder()
         {
             moList = new MapObject[15,15];
-            return;
         }
 
         public override Builder BuildDestructibleWalls()
@@ -21,7 +20,7 @@ namespace GameServer.Models
             //Pirmos eilutes sudarymas
             for (int i = 0; i < Width; i++)
             {
-                Wall wall = new Wall();
+                MapObject wall = new Wall();
                 Coordinates c = new Coordinates(i, 0);
                 wall.SetCoordinates(c);
                 moList[i, 0] = wall;
@@ -36,14 +35,14 @@ namespace GameServer.Models
                     {
                         if (x == 0)
                         {
-                            Wall wall = new Wall();
+                            MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
                             moList[x, y] = wall;
                         }
                         else if (x == Width - 1)
                         {
-                            Wall wall = new Wall();
+                            MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
                             moList[x, y] = wall;
@@ -58,7 +57,7 @@ namespace GameServer.Models
                     {
                         if (x % 2 == 0)
                         {
-                            Wall wall = new Wall();
+                            MapObject wall = new Wall();
                             Coordinates c = new Coordinates(x, y);
                             wall.SetCoordinates(c);
                             moList[x, y] = wall;
@@ -73,7 +72,7 @@ namespace GameServer.Models
             //Paskutines eilutes sudarymas
             for(int i = 0; i < Width; i++)
             {
-                Wall wall = new Wall();
+                MapObject wall = new Wall();
                 Coordinates c = new Coordinates(i, Width - 1);
                 wall.SetCoordinates(c);
                 moList[i, Width - 1] = wall;
