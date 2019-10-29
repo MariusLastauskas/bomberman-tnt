@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Decorator
 {
-    public abstract class BombDecorator
+    public abstract class BombDecorator : IBomb
     {
 
     }
