@@ -1,4 +1,5 @@
 ﻿using GameServer.Models.AnstractFactory;
+using GameServer.Models.Facade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace GameServer.Models
     {
         AbstractFactory BlueFactory = new BlueFactory();
         AbstractFactory RedFactory = new BlueFactory();
+        Random rand = new Random();
         MapBuilder builder = new MapBuilder();
 
 
@@ -41,7 +43,36 @@ namespace GameServer.Models
             }
             Map map = Map.GetInstance;
             map.AddMapObj(k);
+        }
+        public void CreateExplosion(Coordinates cord)
+        {
+            Explosion explosion = new Explosion(cord);
+            Map map = Map.GetInstance;
+            map.AddMapObj(explosion);
+        }
 
+        public void CreatePowerUp(Coordinates cord)
+        {
+            int type = rand.Next(0, 4);
+            PowerUp powerUp = new PowerUp(type, cord);
+            Map map = Map.GetInstance;
+            map.AddMapObj(powerUp);
+        }
+        public void DestroyWall(MapObject mapObject)
+        {
+            Map map = Map.GetInstance;
+                if (mapObject is Wall)
+                {
+                    Wall wall = mapObject as Wall;
+                    if (wall.isDestroyable())
+                    {
+                    var mapContainer = map.getMapContainer();
+                    CreatePowerUp(mapObject.Coordinates);
+                    mapContainer[wall.Coordinates.PosX, wall.Coordinates.PosY].Remove(wall);
+                    if(rand.Next(1,5) < 5)
+                        CreatePowerUp(mapObject.Coordinates);
+                }
+                }
         }
 
         public MapObject getObjectIn(string direction)

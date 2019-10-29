@@ -7,7 +7,8 @@ namespace GameServer.Models
 {
 	public class Explosion : MapObject
 	{
-        public Explosion()
+        
+        public Explosion(Coordinates coords) : base (coords)
         {
             Timer();
         }

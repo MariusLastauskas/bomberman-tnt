@@ -10,6 +10,7 @@ namespace GameServer.Models
     {
         private static readonly object InstanceLock = new object();
         private List<MapObject>[,] mapContainer;
+        private MapManagerStub MapManagerStub = new MapManagerStub();
         
         private Map()
         {
@@ -44,7 +45,11 @@ namespace GameServer.Models
 
             mapContainer[cx, cy].Add(mapObj);
         }
-        public void HitMapObj(Coordinates coordinates)
+        /// <summary>
+        /// reik perdaryt sita dali
+        /// </summary>
+        /// <param name="coordinates"></param>
+        public bool HitMapObj(Coordinates coordinates)
         {
             List<MapObject> Objects = mapContainer[coordinates.PosX, coordinates.PosY];
 
@@ -53,14 +58,22 @@ namespace GameServer.Models
             {
                 Player player = mapObject as Player;
                 player.DecreaseHealth(1);
+                    return true;
             } else if (mapObject is Wall)
             {
                 Wall wall = mapObject as Wall;
                 if(wall.isDestroyable())
                 {
-                    mapContainer[coordinates.PosX, coordinates.PosY] = null;
+                        MapManagerStub.DestroyWall(wall);
+                        
                 }
+                    return false;    
             }
+                else
+                {
+                    return true;
+                }
+            return true;
         }
 
         public Map(List<MapObject>[,] mapObj)
