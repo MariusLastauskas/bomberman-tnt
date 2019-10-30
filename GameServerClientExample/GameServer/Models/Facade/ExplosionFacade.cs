@@ -12,11 +12,13 @@ namespace GameServer.Models.Facade
         public ExplosionFacade() { }
         public void Explode(Bomb bomb)
         {
-            RecursiveExplode(bomb.Coordinates, -1, 0, bomb.getPower());
-            RecursiveExplode(bomb.Coordinates, 1, 0, bomb.getPower());
-            RecursiveExplode(bomb.Coordinates, 0, -1, bomb.getPower());
-            RecursiveExplode(bomb.Coordinates, 0, 1, bomb.getPower());
-
+            Map map = Map.GetInstance;
+            RecursiveExplode(new Coordinates(bomb.Coordinates.PosX -1, bomb.Coordinates.PosY),-1, 0, bomb.getPower());
+            RecursiveExplode(new Coordinates(bomb.Coordinates.PosX + 1, bomb.Coordinates.PosY), 1, 0, bomb.getPower());
+            RecursiveExplode(new Coordinates(bomb.Coordinates.PosX, bomb.Coordinates.PosY -1), 0, -1, bomb.getPower());
+            RecursiveExplode(new Coordinates(bomb.Coordinates.PosX, bomb.Coordinates.PosY +1), 0, 1, bomb.getPower());
+            map.HitMapObj(bomb.Coordinates);
+            map.removeObject(bomb);
         }
         private void RecursiveExplode(Coordinates cord, int X, int Y, int power)
         {

@@ -21,7 +21,7 @@ namespace GameServer.Models
         {
             this.isWalkable = false;
             this.SetBombToPlayer(player);
-            //this.SetCoordinates(player.) player coordinates
+            this.SetCoordinates(player.Coordinates);
             Timer();
             map = new MapManagerStub();
         }

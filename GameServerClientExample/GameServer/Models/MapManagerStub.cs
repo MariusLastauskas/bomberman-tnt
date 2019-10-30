@@ -11,7 +11,7 @@ namespace GameServer.Models
     public class MapManagerStub
     {
         AbstractFactory BlueFactory = new BlueFactory();
-        AbstractFactory RedFactory = new BlueFactory();
+        AbstractFactory RedFactory = new RedFactory();
         Random rand = new Random();
         MapBuilder builder = new MapBuilder();
 
@@ -34,15 +34,19 @@ namespace GameServer.Models
         public void PlaceBomb(Player p)
         {
             MapObject k;
-            if(p is BluePlayer)
+            if (p.NumberOfBombs > p.PlacedBombCount)
             {
-                k = BlueFactory.getBomb(p);
-            }else
-            {
-                k = RedFactory.getBomb(p);
+                if (p is BluePlayer)
+                {
+                    k = BlueFactory.getBomb(p);
+                }
+                else
+                {
+                    k = RedFactory.getBomb(p);
+                }
+                Map map = Map.GetInstance;
+                map.AddMapObj(k);
             }
-            Map map = Map.GetInstance;
-            map.AddMapObj(k);
         }
         public void CreateExplosion(Coordinates cord)
         {
@@ -67,7 +71,6 @@ namespace GameServer.Models
                     if (wall.isDestroyable())
                     {
                     var mapContainer = map.getMapContainer();
-                    CreatePowerUp(mapObject.Coordinates);
                     mapContainer[wall.Coordinates.PosX, wall.Coordinates.PosY].Remove(wall);
                     if(rand.Next(1,5) < 5)
                         CreatePowerUp(mapObject.Coordinates);
@@ -78,6 +81,12 @@ namespace GameServer.Models
         public MapObject getObjectIn(string direction)
         {
             return null;
+        }
+
+        public void RemoveThis(MapObject obj)
+        {
+            Map map = Map.GetInstance;
+            map.removeObject(obj);
         }
     }
 }

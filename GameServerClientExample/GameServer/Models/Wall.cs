@@ -25,6 +25,12 @@ namespace GameServer.Models
             Destroyable = true;
         }
 
+        public Wall(bool destroyable, Coordinates coord) :base(coord)
+        {
+            isWalkable = false;
+            Destroyable = true;
+        }
+
         public bool isDestroyable()
         {
             return Destroyable;

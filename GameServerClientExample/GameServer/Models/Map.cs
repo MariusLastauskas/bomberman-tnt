@@ -54,25 +54,33 @@ namespace GameServer.Models
             List<MapObject> Objects = mapContainer[coordinates.PosX, coordinates.PosY];
 
             foreach (var mapObject in Objects)
-            if(mapObject is Player)
             {
-                Player player = mapObject as Player;
-                player.DecreaseHealth(1);
-                    return true;
-            } else if (mapObject is Wall)
-            {
-                Wall wall = mapObject as Wall;
-                if(wall.isDestroyable())
+                if (mapObject is Player)
                 {
+                    Player player = mapObject as Player;
+                    player.DecreaseHealth(1);
+                }
+                else if (mapObject is Wall)
+                {
+                    Wall wall = mapObject as Wall;
+                    if (wall.isDestroyable())
+                    {
                         MapManagerStub.DestroyWall(wall);
-                        
+                        MapManagerStub.CreateExplosion(coordinates);
+                    }
+                    return false;
                 }
-                    return false;    
-            }
-                else
+                else if (mapObject is Bomb)
                 {
+                    Bomb bomb = mapObject as Bomb;
+                    bomb.Explode();
+                    MapManagerStub.CreateExplosion(coordinates);
                     return true;
                 }
+                else {
+                }
+            }
+            MapManagerStub.CreateExplosion(coordinates);
             return true;
         }
 
@@ -84,6 +92,20 @@ namespace GameServer.Models
         public List<MapObject>[,] getMapContainer()
         {
             return mapContainer;
+        }
+        public void removeMap()
+        {
+            instance = null;
+            mapContainer = null;
+        }
+        public void removeObject(MapObject obj)
+        {
+            mapContainer[obj.Coordinates.PosX, obj.Coordinates.PosY].Remove(obj);
+        }
+        public void CleanArena()
+        {
+            mapContainer = new MapBuilder().getMoList();
+            
         }
     }
 }
