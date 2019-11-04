@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+
+
+
+<h2>Index</h2>
+
+<p>Hello from our View Template!</p>
+
+<div id="root"></div>
+
+
+
+<script type="text/jsx">
+    _tileType = {
+        'wall': 'brown',
+        'unbreakableWall': 'gray'
+    }
+
+    Tile = (props) => {
+        return (
+            <div style={{backgroundColor: _tileType[props.type], 
+            width: 50, height: 50}}></div>
+        )
+    }
+
+    TileMap = (props) => {
+        return (
+            <div>
+                <Tile type="unbreakableWall"/>,
+                <Tile type="wall"/>,
+                <Tile type="unbreakableWall"/>,
+                <Tile type="wall"/>,
+            </div>
+        )
+    }
+
+    ReactDOM.render(
+        <TileMap />,
+        document.getElementById('root')
+    );
+</script>
