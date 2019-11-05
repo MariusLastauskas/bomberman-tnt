@@ -14,7 +14,7 @@ namespace GameServer.Models.AnstractFactory
 
         public override MapObject getPlayer(Coordinates coordinates)
         {
-            return new Player(1, 1, 3, 1, coordinates);
+            return new BluePlayer(1, 3, 3, 1, coordinates);
         }
     }
 

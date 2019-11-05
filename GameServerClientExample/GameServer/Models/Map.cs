@@ -10,6 +10,7 @@ namespace GameServer.Models
     {
         private static readonly object InstanceLock = new object();
         private List<MapObject>[,] mapContainer;
+        private MapManagerStub MapManagerStub = new MapManagerStub();
         
         private Map()
         {
@@ -44,23 +45,43 @@ namespace GameServer.Models
 
             mapContainer[cx, cy].Add(mapObj);
         }
-        public void HitMapObj(Coordinates coordinates)
+        /// <summary>
+        /// reik perdaryt sita dali
+        /// </summary>
+        /// <param name="coordinates"></param>
+        public bool HitMapObj(Coordinates coordinates)
         {
             List<MapObject> Objects = mapContainer[coordinates.PosX, coordinates.PosY];
 
             foreach (var mapObject in Objects)
-            if(mapObject is Player)
             {
-                Player player = mapObject as Player;
-                player.DecreaseHealth(1);
-            } else if (mapObject is Wall)
-            {
-                Wall wall = mapObject as Wall;
-                if(wall.isDestroyable())
+                if (mapObject is Player)
                 {
-                    mapContainer[coordinates.PosX, coordinates.PosY] = null;
+                    Player player = mapObject as Player;
+                    player.DecreaseHealth(1);
+                }
+                else if (mapObject is Wall)
+                {
+                    Wall wall = mapObject as Wall;
+                    if (wall.isDestroyable())
+                    {
+                        MapManagerStub.DestroyWall(wall);
+                        MapManagerStub.CreateExplosion(coordinates);
+                    }
+                    return false;
+                }
+                else if (mapObject is Bomb)
+                {
+                    Bomb bomb = mapObject as Bomb;
+                    bomb.Explode();
+                    MapManagerStub.CreateExplosion(coordinates);
+                    return true;
+                }
+                else {
                 }
             }
+            MapManagerStub.CreateExplosion(coordinates);
+            return true;
         }
 
         public Map(List<MapObject>[,] mapObj)
@@ -71,6 +92,20 @@ namespace GameServer.Models
         public List<MapObject>[,] getMapContainer()
         {
             return mapContainer;
+        }
+        public void removeMap()
+        {
+            instance = null;
+            mapContainer = null;
+        }
+        public void removeObject(MapObject obj)
+        {
+            mapContainer[obj.Coordinates.PosX, obj.Coordinates.PosY].Remove(obj);
+        }
+        public void CleanArena()
+        {
+            mapContainer = new MapBuilder().getMoList();
+            
         }
     }
 }

@@ -8,7 +8,7 @@ namespace GameServer.Models
 	{
         private int Type { get; set; }
 
-        public PowerUp(int type)
+        public PowerUp(int type, Coordinates coords) : base (coords)
         {
             Type = type;
         }
