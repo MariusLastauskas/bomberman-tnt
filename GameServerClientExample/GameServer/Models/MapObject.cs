@@ -12,7 +12,14 @@ namespace GameServer.Models
 
         public Coordinates Coordinates { get; set; }
 
-        public Coordinates GetCoordinates()
+        public MapObject() { }
+
+        public MapObject(Coordinates coords)
+        {
+            SetCoordinates(coords);
+        }
+
+        public Coordinates GetCoordinates(  )
 		{
             return Coordinates;
 		}

@@ -28,7 +28,7 @@ namespace GameServer.Models
 
         public Player() { }
 
-        public Player(int bombNumber, int power, int heart, int speed)
+        public Player(int bombNumber, int power, int heart, int speed, Coordinates coords) : base(coords)
         {
             NumberOfBombs = bombNumber;
             BombPower = power;
@@ -40,6 +40,8 @@ namespace GameServer.Models
             PlantBombStrategy = new SimplePlant();
 
             PlayerIsDead = false;
+
+            SetCoordinates(coords);
         }
 
         //---------------------

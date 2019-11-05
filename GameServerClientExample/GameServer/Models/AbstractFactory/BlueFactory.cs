@@ -2,7 +2,7 @@
  * @(#) BlueFactory.cs
  */
 
-namespace GameServer.Models
+namespace GameServer.Models.AnstractFactory
 {
     public class BlueFactory : AbstractFactory
     {
@@ -12,9 +12,9 @@ namespace GameServer.Models
             return new BlueBomb(player);
         }
 
-        public override MapObject getPlayer()
+        public override MapObject getPlayer(Coordinates coordinates)
         {
-            throw new System.NotImplementedException();
+            return new BluePlayer(1, 3, 3, 1, coordinates);
         }
     }
 

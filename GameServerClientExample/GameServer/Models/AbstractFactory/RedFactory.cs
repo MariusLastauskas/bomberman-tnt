@@ -2,7 +2,7 @@
  * @(#) RedFactory.cs
  */
 
-namespace GameServer.Models
+namespace GameServer.Models.AnstractFactory
 {
     public class RedFactory : AbstractFactory
     {
@@ -11,9 +11,9 @@ namespace GameServer.Models
             return new RedBomb(player);
         }
 
-        public override MapObject getPlayer()
+        public override MapObject getPlayer(Coordinates coordinates)
         {
-            throw new System.NotImplementedException();
+            return new RedPlayer(1, 3, 3, 1, coordinates);
         }
     }
 

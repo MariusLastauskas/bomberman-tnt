@@ -1,5 +1,6 @@
 
 
+using GameServer.Models.Facade;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -11,20 +12,33 @@ namespace GameServer.Models
 {
 	public class Bomb : MapObject
 	{
+        private ExplosionFacade explosionFacade = new ExplosionFacade();
         private bool exploded = false;
 		private Player player;
         private MapManagerStub map;
 
+        public Bomb(Player player)
+        {
+            this.isWalkable = false;
+            this.SetBombToPlayer(player);
+            this.SetCoordinates(player.Coordinates);
+            Timer();
+            map = new MapManagerStub();
+        }
         public void Explode( )
 		{
             if (exploded == false)
             {
                 player.DecreasePlacedBombCount();
                 exploded = true;
-                //explosions are not implemented yet
+                explosionFacade.Explode(this);
             }
 		}
-
+        public int getPower()
+        {
+            return player.BombPower;
+        }
+        
         public void SetBombToPlayer(Player player)
         {
             this.player = player;
@@ -49,7 +63,7 @@ namespace GameServer.Models
 
         public async void KickTimer(string direction, int time)
         {
-            while ( map.getObjectIn(direction) == null)
+            while (map.getObjectIn(direction) == null)
             {
                 Coordinates newPos = this.GetCoordinates();
                 switch (direction)
