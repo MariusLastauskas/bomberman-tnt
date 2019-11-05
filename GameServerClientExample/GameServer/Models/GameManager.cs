@@ -14,6 +14,7 @@ namespace GameServer.Models
         private DateTime p2ping;
         public MapStub map;
         private MapManagerStub mapManager;
+        public int gameState = 0;
 
         public GameManager()
         {
@@ -146,6 +147,7 @@ namespace GameServer.Models
         /// </summary>
         public void StartGame()
         {
+            gameState = 2;
             mapManager = new MapManagerStub();
             mapManager.BuildMap();
         }
@@ -198,6 +200,7 @@ namespace GameServer.Models
         {
             mapManager = null;
             DisconnectPlayers();
+            gameState = 0;
         }
     }
 }

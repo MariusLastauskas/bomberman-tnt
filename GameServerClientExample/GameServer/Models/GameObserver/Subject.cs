@@ -31,5 +31,9 @@ namespace GameServer.Models.GameObserver
                 observer.Update(mapObject);
             }
         }
+        public int Count()
+        {
+            return this.observerList.Count;
+        }
     }
 }

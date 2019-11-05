@@ -133,5 +133,42 @@ namespace GameServer.Models
             await Task.Delay(2000);
             Imune = false;
         }
+        public void CheckForPowerUps()
+        {
+            Map map = Map.GetInstance;
+            List<MapObject>[,] maps = map.getMapContainer();
+            if (maps[Coordinates.PosX,Coordinates.PosY].Count > 1)
+            {
+                for(int i = 0; i < maps[Coordinates.PosX, Coordinates.PosY].Count; i++)
+                {
+                    if(maps[Coordinates.PosX, Coordinates.PosY][i] is PowerUp)
+                    {
+                        PowerUp up = maps[Coordinates.PosX, Coordinates.PosY][i] as PowerUp;
+                        if(up.getType() == 0)
+                        {
+                            IncreaseMovementSpeed(1);
+                        }
+                        else if (up.getType() == 1)
+                        {
+                            IncreaseNumberOfBombs(1);
+                        }
+                        else if (up.getType() == 2)
+                        {
+                            IncreaseBombPower(1);
+                        }
+                        else if (up.getType() == 3)
+                        {
+                            SetCanKick();
+                        }
+                        else
+                        {
+                            SetCanThrow();
+                        }
+                        map.removeObject(up);
+                    }
+                }
+                        
+            }
+        }
     }
 }

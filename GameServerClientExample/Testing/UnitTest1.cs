@@ -9,7 +9,9 @@ namespace Testing
 {
     public class UnitTest1
     {
-
+        /// <summary>
+        /// creates blue player
+        /// </summary>
         [Fact]
         public void BluePlayerCreateTest()
         {
@@ -18,7 +20,9 @@ namespace Testing
             Assert.True(map.getMapContainer()[1, 1][0] is BluePlayer, "not a blue player");
             map.removeMap();
         }
-
+        /// <summary>
+        /// creates red player
+        /// </summary>
         [Fact]
         public void RedPlayerCreateTest()
         {
@@ -27,7 +31,9 @@ namespace Testing
             Assert.True(map.getMapContainer()[13, 13][0] is RedPlayer, "not a red player");
             map.removeMap();
         }
-
+        /// <summary>
+        /// checks if blue player HAS BLUE COLOR ASSIGNED
+        /// </summary>
         [Fact]
         public void BluePlayerColorTest()
         {
@@ -37,7 +43,9 @@ namespace Testing
             Assert.Equal(Color.FromKnownColor(KnownColor.Blue), player.GetColor());
             map.removeMap();
         }
-
+        /// <summary>
+        /// checks if red player HAS BLUE COLOR ASSIGNED
+        /// </summary>
         [Fact]
         public void RedPlayerColorTest()
         {
@@ -47,7 +55,9 @@ namespace Testing
             Assert.Equal(Color.FromKnownColor(KnownColor.Red), player.GetColor());
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if blue player plants blue bombs
+        /// </summary>
         [Fact]
         public void BluePlayerPlantBlueBombTest()
         {
@@ -63,7 +73,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if player plants bombs where the user is
+        /// </summary>
         [Fact]
         public void PlayerPlantBombOnUserTest()
         {
@@ -81,7 +93,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if after explosion bomb counter goes up for a player
+        /// </summary>
         [Fact]
         public void PlayerPlantBombCountAfterExplosionTest()
         {
@@ -101,7 +115,10 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if u can't place more bombs than you are supposed to
+        /// </summary>
+        /// <param name="plantBombCount"></param>
         [Theory]
         [InlineData(1)]
         [InlineData(3)]
@@ -114,26 +131,29 @@ namespace Testing
             if (map.getMapContainer()[1, 1][0] is Player)
             {
                 Player player = map.getMapContainer()[1, 1][0] as Player;
+                player.NumberOfBombs = 3;
                 int maxNumber = player.NumberOfBombs;
                 for (int i = 0; i < plantBombCount; i++)
                 {
                     mapManager.PlaceBomb(player);
                 }
                 int posBomb = player.PlacedBombCount;
-                if (posBomb >= maxNumber)
+                if (plantBombCount >= maxNumber)
                 {
-                    Assert.True(maxNumber == posBomb, "planted more bombs than should");
+                    Assert.Equal(maxNumber, posBomb);
                 }
                 else
                 {
-                    Assert.True(plantBombCount == posBomb, "not enough bombs planted");
+                    Assert.Equal(plantBombCount, posBomb);
                 }
             }
             else
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if red player plants red bombs
+        /// </summary>
         [Fact]
         public void RedPlayerPlantRedBombTest()
         {
@@ -150,7 +170,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests the color of the red bombs
+        /// </summary>
         [Fact]
         public void RedBombGetColorTest()
         {
@@ -168,7 +190,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests the color of the blue bombs
+        /// </summary>
         [Fact]
         public void BlueBombGetColorTest()
         {
@@ -186,7 +210,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if player takes damage from the bomb
+        /// </summary>
         [Fact]
         public void BombExplosionOnPlayerTest()
         {
@@ -207,7 +233,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if player does not recieve multiple dmg from multiple simultanius explosions
+        /// </summary>
         [Fact]
         public void BombMultipleExplosionOnPlayerTest()
         {
@@ -230,7 +258,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if explosives do not damage unbreakable walls
+        /// </summary>
         [Fact]
         public void BombExplosionNearUnbreakableWallTest()
         {
@@ -248,7 +278,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if bomb autodetonates after 3s time
+        /// </summary>
         [Fact]
         public void BombAutoDetonateTest()
         {
@@ -265,7 +297,9 @@ namespace Testing
                 Assert.True(false, "did not detonate");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if bomb breaks breakable walls
+        /// </summary>
         [Fact]
         public void BombExplosionNearBreakableWallTest()
         {
@@ -299,6 +333,10 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
+        /// <summary>
+        /// tests if explosion length works propertly
+        /// </summary>
+        /// <param name="pover"></param>
         [Theory]
         [InlineData(2)]
         [InlineData(3)]
@@ -318,7 +356,9 @@ namespace Testing
             Assert.Equal(1 + pover * 4, cnt);
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if explosion detonates another bomb
+        /// </summary>
         [Fact]
         public void ExplosionDetonateBombTest()
         {
@@ -339,7 +379,9 @@ namespace Testing
             Assert.Equal((1 + 2 * 4) * 2, cnt);
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if u can't have 2 bombs in a single space
+        /// </summary>
         [Fact]
         public void TwoBombsInSingleSpace()
         {
@@ -388,5 +430,7 @@ namespace Testing
             Assert.Equal(1, cnt);
             map.removeMap();
         }
+
+        
     }
 }
