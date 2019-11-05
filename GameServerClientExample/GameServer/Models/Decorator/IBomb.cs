@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Decorator
 {
-    interface IBomb
+    public interface IBomb
     {
-
+        //public abstract void Operation();
+        //void Draw();
     }
 }
