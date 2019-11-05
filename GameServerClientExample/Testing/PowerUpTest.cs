@@ -53,6 +53,30 @@ namespace Testing
             map.removeMap();
         }
 
+        /// <summary>
+        /// tests if explosion length works propertly
+        /// </summary>
+        /// <param name="pover"></param>
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void ExplosionLengthTest(int pover)
+        {
+            Map map = Map.GetInstance;
+            map.CleanArena();
+            Player player = new Player(1, pover, 3, 1, new Coordinates(6, 6));
+            Bomb bomb = new Bomb(player);
+            map.AddMapObj(bomb);
+            bomb.Explode();
+            int cnt = 0;
+            foreach (var list in map.getMapContainer())
+            {
+                cnt += list.Count;
+            }
+            Assert.Equal(1 + pover * 4, cnt);
+            map.removeMap();
+        }
+
         [Fact]
         public void PlayerKickPowerUpTest()
         {
