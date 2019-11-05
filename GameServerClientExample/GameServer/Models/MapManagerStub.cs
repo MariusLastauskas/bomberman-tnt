@@ -1,5 +1,6 @@
 ﻿using GameServer.Models.AnstractFactory;
 using GameServer.Models.Facade;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace GameServer.Models
         AbstractFactory RedFactory = new RedFactory();
         Random rand = new Random();
         MapBuilder builder = new MapBuilder();
+        private readonly AsyncLock m_lock = new AsyncLock();
 
 
         public MapManagerStub()     // Dar reikia implementuoti
@@ -55,6 +57,13 @@ namespace GameServer.Models
             map.AddMapObj(explosion);
         }
 
+        public void CreateExplosion(Coordinates cord, Wall wall)
+        {
+            Explosion explosion = new Explosion(cord, wall);
+            Map map = Map.GetInstance;
+            map.AddMapObj(explosion);
+        }
+
         public void CreatePowerUp(Coordinates cord)
         {
             int type = rand.Next(0, 4);
@@ -62,20 +71,37 @@ namespace GameServer.Models
             Map map = Map.GetInstance;
             map.AddMapObj(powerUp);
         }
-        public void DestroyWall(MapObject mapObject)
+        public async void DestroyWall(MapObject mapObject)
         {
-            Map map = Map.GetInstance;
-                if (mapObject is Wall)
+            using (await m_lock.LockAsync())
+            {
+                if (mapObject != null)
                 {
-                    Wall wall = mapObject as Wall;
-                    if (wall.isDestroyable())
+                    Map map = Map.GetInstance;
+                    if (mapObject is Wall)
                     {
-                    var mapContainer = map.getMapContainer();
-                    mapContainer[wall.Coordinates.PosX, wall.Coordinates.PosY].Remove(wall);
-                    if(rand.Next(1,5) < 5)
-                        CreatePowerUp(mapObject.Coordinates);
+                        Wall wall = mapObject as Wall;
+                        if (wall.isDestroyable())
+                        {
+                            var mapContainer = map.getMapContainer();
+                            int cnt = 0;
+                            for (int i = 0; i < mapContainer[wall.Coordinates.PosX, wall.Coordinates.PosY].Count; i++)
+                            {
+                                if (mapContainer[wall.Coordinates.PosX, wall.Coordinates.PosY][i] is Wall)
+                                {
+                                    cnt++;
+                                }
+                            }
+                            if (cnt > 0)
+                            {
+                                mapContainer[wall.Coordinates.PosX, wall.Coordinates.PosY].Remove(wall);
+                                if (rand.Next(1, 5) < 5)
+                                    CreatePowerUp(mapObject.Coordinates);
+                            }
+                        }
+                    }
                 }
-                }
+            }
         }
 
         public MapObject getObjectIn(string direction)

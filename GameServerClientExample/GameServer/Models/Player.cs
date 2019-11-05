@@ -3,6 +3,7 @@ using GameServer.Models.GameObserver;
 using System.Collections.Generic;
 using System.Windows.Input;
 using GameServer.Models.Strategy;
+using System.Threading.Tasks;
 
 namespace GameServer.Models
 {
@@ -18,6 +19,7 @@ namespace GameServer.Models
         public int MovementSpeed { get; set; }
 
         public bool PlayerIsDead { get; set; }
+        public bool Imune { get; set; }
 
         public MoveStrategy MoveStrategy { get; set; }
         public PlantBombStrategy PlantBombStrategy { get; set; }
@@ -42,6 +44,7 @@ namespace GameServer.Models
             PlayerIsDead = false;
 
             SetCoordinates(coords);
+            Imune = false;
         }
 
         //---------------------
@@ -79,7 +82,12 @@ namespace GameServer.Models
         {
             if (Health > 0)
             {
-                Health -= damage;
+                if (!Imune)
+                {
+                    Imune = true;
+                    Health -= damage;
+                    ImuneCount();
+                }
             }
             else if (Health <= 0)
             {
@@ -119,6 +127,11 @@ namespace GameServer.Models
         public void Move(string direction)
         {
             MoveStrategy.Move(this, direction);
+        }
+        public async void ImuneCount()
+        {
+            await Task.Delay(2000);
+            Imune = false;
         }
     }
 }
