@@ -48,7 +48,7 @@ namespace GameServer.Models
         /// <returns>true if player is still active</returns>
         public bool checkPing(DateTime ping)
         {
-            if ((DateTime.Now - ping).TotalSeconds > 10)
+            if ((DateTime.Now - ping).TotalSeconds > 20)
             {
                 return false;
             }
