@@ -11,11 +11,28 @@ namespace GameServer.Models
         private static readonly object InstanceLock = new object();
         private List<MapObject>[,] mapContainer;
         private MapManagerStub MapManagerStub = new MapManagerStub();
-        
+
+        private static MapPrototype mapWithDestructibleWalls = new ConcreteMap(true);
+        private static MapPrototype mapWithoutDestructibleWalls = new ConcreteMap(false);
+
+        static bool createWalls = true;
+
         private Map()
         {
+            
 
         }
+        
+        public void MapTypeToFalse()
+        {
+            createWalls = false;
+        }
+        
+        public void MapTypeToTrue()
+        {
+            createWalls = true;
+        }
+
         private static Map instance = null;
         public static Map GetInstance
         {
@@ -27,9 +44,10 @@ namespace GameServer.Models
                     {
                         if (instance == null)
                         {
-                            MapBuilder builder = new MapBuilder();
-                            builder.BuildIndestructibleWalls().BuildDestructibleWalls().AddPlayers();
-                            instance = builder.build();
+                            if(createWalls)
+                            instance = new Map((mapWithDestructibleWalls.Clone() as ConcreteMap).moList);
+                            else
+                                instance = new Map((mapWithoutDestructibleWalls.Clone() as ConcreteMap).moList);
                         }
                     }
                 }

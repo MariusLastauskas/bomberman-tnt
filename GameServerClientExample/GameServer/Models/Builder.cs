@@ -6,5 +6,7 @@ namespace GameServer.Models
         public abstract Builder BuildDestructibleWalls();
         public abstract Builder BuildIndestructibleWalls();
         public abstract Builder AddPlayers();
+
+        
     }
 }
