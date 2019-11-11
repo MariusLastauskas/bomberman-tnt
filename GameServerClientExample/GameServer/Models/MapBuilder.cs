@@ -167,8 +167,5 @@ namespace GameServer.Models
             Map map = new Map(moList);
             return map;
         }
-
-       
-
     }
 }
