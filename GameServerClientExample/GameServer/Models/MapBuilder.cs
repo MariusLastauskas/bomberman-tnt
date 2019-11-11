@@ -1,4 +1,5 @@
-﻿using GameServer.Models.AnstractFactory;
+﻿using GameServer.Controllers;
+using GameServer.Models.AnstractFactory;
 using System;
 using System.Collections.Generic;
 
@@ -151,9 +152,14 @@ namespace GameServer.Models
         public override Builder AddPlayers()
         {
             AbstractFactory factory = new BlueFactory();
-            moList[1, 1].Add(factory.getPlayer(new Coordinates(1, 1)));
+            MapObject p1 = factory.getPlayer(new Coordinates(1, 1));
+            MapObject p2 = factory.getPlayer(new Coordinates(Width - 2, Width - 2));
+
+            GlobalVar.getGm().setPlayers((Player)p1, (Player)p2);
+
+            moList[1, 1].Add(p1);
             factory = new RedFactory();
-            moList[Width - 2, Width - 2].Add(factory.getPlayer(new Coordinates(Width - 2, Width - 2)));
+            moList[Width - 2, Width - 2].Add(p2);
             return this;
         }
 

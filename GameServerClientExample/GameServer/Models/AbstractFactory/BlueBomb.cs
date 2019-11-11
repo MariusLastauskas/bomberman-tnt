@@ -10,7 +10,7 @@ namespace GameServer.Models.AnstractFactory
 	
 	public class BlueBomb : Bomb
 	{
-        private Color Color { get; set; }
+        public Color Color { get; set; }
         public BlueBomb(Player player) : base(player)
         {
             Color = Color.FromKnownColor(KnownColor.Blue);

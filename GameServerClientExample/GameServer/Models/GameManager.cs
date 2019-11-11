@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameServer.Models.Command;
 using GameServer.Models.GameObserver;
 
 namespace GameServer.Models
@@ -9,8 +10,10 @@ namespace GameServer.Models
     public class GameManager
     {
         private Player player1;
+        private Invoker invoker1;
         private DateTime p1ping;
         private Player player2;
+        private Invoker invoker2;
         private DateTime p2ping;
         public MapStub map;
         private MapManagerStub mapManager;
@@ -19,6 +22,8 @@ namespace GameServer.Models
         {
             player1 = null;
             player2 = null;
+            invoker1 = null;
+            invoker2 = null;
             map = null;
         }
 
@@ -27,10 +32,17 @@ namespace GameServer.Models
             map = new MapStub();
             player1 = p1;
             p1.MapObserver = new MapObserver(map);
+            invoker1 = new Invoker();
             player2 = p2;
             p2.MapObserver = new MapObserver(map);
+            invoker2 = new Invoker();
         }
 
+        public void setPlayers(Player p1, Player p2)
+        {
+            player1 = p1;
+            player2 = p2;
+        }
 
         /// <summary>
         /// Resets player last ping time to current date
@@ -160,12 +172,16 @@ namespace GameServer.Models
         {
             if (player1 != null && player1.AuthToken == authToken)
             {
-                return mapManager.UpdatePlayerPos(player1, direction);
+                player1.Move(direction);
+                //return mapManager.UpdatePlayerPos(player1, direction);
+                return true;
             }
 
             if (player2 != null && player2.AuthToken == authToken)
             {
-                return mapManager.UpdatePlayerPos(player2, direction);
+                player2.Move(direction);
+                //return mapManager.UpdatePlayerPos(player2, direction);
+                return true;
             }
 
             return false;

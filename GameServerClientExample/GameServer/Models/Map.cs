@@ -107,5 +107,15 @@ namespace GameServer.Models
             mapContainer = new MapBuilder().getMoList();
             
         }
+
+        public List<MapObject> getObjectIn(long x, long y)
+        {
+            return mapContainer[x, y];
+        }
+
+        public void addObject(MapObject mo, long x, long y)
+        {
+            mapContainer[x, y].Add(mo);
+        }
     }
 }
