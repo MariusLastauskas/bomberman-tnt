@@ -7,6 +7,19 @@ namespace GameServer.Models.Decorator
 {
     public abstract class BombDecorator : IBomb
     {
-        
+        protected IBomb bombComponent;
+
+        public void SetComponent(IBomb component)
+        {
+            bombComponent = component;
+        }
+
+        public override void Operation()
+        {
+            if (bombComponent != null)
+            {
+                bombComponent.Operation();
+            }
+        }
     }
 }
