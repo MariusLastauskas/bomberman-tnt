@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using GameServer.Models;
 using GameServer.Models.AnstractFactory;
+using GameServer.Models.Decorator;
 
 namespace GameServer
 {
@@ -30,8 +31,6 @@ namespace GameServer
             abstractFactory = new RedFactory();
             bomb1 = abstractFactory.getBomb(player);*/
             //bombFactory testas, naudot su pause mygtuku ir debugginimu, nes neturim consoles
-
-
 
             CreateWebHostBuilder(args).Build().Run();
 

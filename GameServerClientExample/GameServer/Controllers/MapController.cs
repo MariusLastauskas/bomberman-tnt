@@ -58,6 +58,10 @@ namespace GameServer.Controllers
                             {
                                 map[i, j][k] = map[i, j][k] as BluePlayer;
                             }
+                            if (map[i, j][k] is Explosion)
+                            {
+                                map[i, j][k] = map[i, j][k] as Explosion;
+                            }
                         }
                     }
                 }
