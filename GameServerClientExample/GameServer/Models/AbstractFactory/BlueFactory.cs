@@ -1,7 +1,9 @@
-/**
- * @(#) BlueFactory.cs
- */
 
+
+using GameServer.Models.Decorator;
+/**
+* @(#) BlueFactory.cs
+*/
 namespace GameServer.Models.AnstractFactory
 {
     public class BlueFactory : AbstractFactory
@@ -9,7 +11,13 @@ namespace GameServer.Models.AnstractFactory
 
         public override MapObject getBomb(Player player)
         {
-            return new BlueBomb(player);
+            BombDecorator bombIcon = new BombIcon();
+            BombDecorator bombFire = new BombFire();
+            BlueBomb bomb = new BlueBomb(player);
+            bombIcon.SetComponent(bomb);
+            bombFire.SetComponent(bombIcon);
+            bombFire.Operation();
+            return bomb;
         }
 
         public override MapObject getPlayer(Coordinates coordinates)

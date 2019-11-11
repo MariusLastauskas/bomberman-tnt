@@ -9,9 +9,9 @@ namespace GameServer.Models.Decorator
     {
         public override void Operation()
         {
-            base.Operation();
             SetIcon();
             component.decorations.AddRange(this.decorations);
+            base.Operation();
         }
 
         public void SetIcon()

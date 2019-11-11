@@ -9,9 +9,9 @@ namespace GameServer.Models.Decorator
     {
         public override void Operation()
         {
-            base.Operation();
             SetFire();
             component.decorations.AddRange(this.decorations);
+            base.Operation();
         }
 
         public void SetFire()

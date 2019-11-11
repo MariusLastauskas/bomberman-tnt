@@ -16,9 +16,9 @@ namespace GameServer.Models.Decorator
 
         public override void Operation()
         {
-            base.Operation();
             SetBorder();
             component.decorations.AddRange(this.decorations);
+            base.Operation();
         }
 
         public void SetBorder()
