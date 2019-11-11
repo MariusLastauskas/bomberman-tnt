@@ -153,13 +153,12 @@ namespace GameServer.Models
         {
             AbstractFactory factory = new BlueFactory();
             MapObject p1 = factory.getPlayer(new Coordinates(1, 1));
-            MapObject p2 = factory.getPlayer(new Coordinates(Width - 2, Width - 2));
-
-            GlobalVar.getGm().setPlayers((Player)p1, (Player)p2);
 
             moList[1, 1].Add(p1);
             factory = new RedFactory();
+            MapObject p2 = factory.getPlayer(new Coordinates(Width - 2, Width - 2));
             moList[Width - 2, Width - 2].Add(p2);
+            GlobalVar.getGm().setPlayers((Player)p1, (Player)p2);
             return this;
         }
 
