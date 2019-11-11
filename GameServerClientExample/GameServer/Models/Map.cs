@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameServer.Models.Adapter;
+using System;
 using System.Collections.Generic;
 
 namespace GameServer.Models
@@ -12,6 +13,7 @@ namespace GameServer.Models
         private List<MapObject>[,] mapContainer;
         private MapManagerStub MapManagerStub = new MapManagerStub();
         
+
         private Map()
         {
 
@@ -45,43 +47,7 @@ namespace GameServer.Models
 
             mapContainer[cx, cy].Add(mapObj);
         }
-        /// <summary>
-        /// reik perdaryt sita dali
-        /// </summary>
-        /// <param name="coordinates"></param>
-        public bool HitMapObj(Coordinates coordinates)
-        {
-            List<MapObject> Objects = mapContainer[coordinates.PosX, coordinates.PosY];
-
-            foreach (var mapObject in Objects)
-            {
-                if (mapObject is Player)
-                {
-                    Player player = mapObject as Player;
-                    player.DecreaseHealth(1);
-                }
-                else if (mapObject is Wall)
-                {
-                    Wall wall = mapObject as Wall;
-                    if (wall.isDestroyable())
-                    {
-                        MapManagerStub.CreateExplosion(coordinates, wall);
-                    }
-                    return false;
-                }
-                else if (mapObject is Bomb)
-                {
-                    Bomb bomb = mapObject as Bomb;
-                    bomb.Explode();
-                    MapManagerStub.CreateExplosion(coordinates);
-                    return true;
-                }
-                else {
-                }
-            }
-            MapManagerStub.CreateExplosion(coordinates);
-            return true;
-        }
+        
 
         public Map(List<MapObject>[,] mapObj)
         {
