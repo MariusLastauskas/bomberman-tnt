@@ -7,63 +7,12 @@ using Xunit;
 
 namespace Testing
 {
-    public class UnitTest1
+    public class BombLogicTests
     {
-
-        [Fact]
-        public void BluePlayerCreateTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-            Assert.True(map.getMapContainer()[1, 1][0] is BluePlayer, "not a blue player");
-            map.removeMap();
-        }
-
-        [Fact]
-        public void RedPlayerCreateTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-            Assert.True(map.getMapContainer()[13, 13][0] is RedPlayer, "not a red player");
-            map.removeMap();
-        }
-
-        [Fact]
-        public void BluePlayerColorTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-            BluePlayer player = map.getMapContainer()[1, 1][0] as BluePlayer;
-            Assert.Equal(Color.FromKnownColor(KnownColor.Blue), player.GetColor());
-            map.removeMap();
-        }
-
-        [Fact]
-        public void RedPlayerColorTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-            RedPlayer player = map.getMapContainer()[13, 13][0] as RedPlayer;
-            Assert.Equal(Color.FromKnownColor(KnownColor.Red), player.GetColor());
-            map.removeMap();
-        }
-
-        [Fact]
-        public void BluePlayerPlantBlueBombTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-                if(map.getMapContainer()[1, 1][0] is Player)
-                {
-                    Player player = map.getMapContainer()[1, 1][0] as Player;
-                    mapManager.PlaceBomb(player);
-                    Assert.True(map.getMapContainer()[1, 1][1] is BlueBomb, "not a blue bomb");
-            }
-            else
-                Assert.True(false, "player not found");
-            map.removeMap();
-        }
-
+        
+        /// <summary>
+        /// tests if player plants bombs where the user is
+        /// </summary>
         [Fact]
         public void PlayerPlantBombOnUserTest()
         {
@@ -81,7 +30,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if after explosion bomb counter goes up for a player
+        /// </summary>
         [Fact]
         public void PlayerPlantBombCountAfterExplosionTest()
         {
@@ -101,12 +52,15 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if u can't place more bombs than you are supposed to
+        /// </summary>
+        /// <param name="plantBombCount"></param>
         [Theory]
         [InlineData(1)]
         [InlineData(3)]
         [InlineData(4)]
-        
+
         public void PlayerPlantDifferentAmountOfBombs(int plantBombCount)
         {
             Map map = Map.GetInstance;
@@ -114,79 +68,32 @@ namespace Testing
             if (map.getMapContainer()[1, 1][0] is Player)
             {
                 Player player = map.getMapContainer()[1, 1][0] as Player;
+                player.NumberOfBombs = 3;
                 int maxNumber = player.NumberOfBombs;
                 for (int i = 0; i < plantBombCount; i++)
                 {
                     mapManager.PlaceBomb(player);
                 }
                 int posBomb = player.PlacedBombCount;
-                if (posBomb >= maxNumber)
+                if (plantBombCount >= maxNumber)
                 {
-                    Assert.True(maxNumber == posBomb, "planted more bombs than should");
+                    Assert.Equal(maxNumber, posBomb);
                 }
                 else
                 {
-                    Assert.True(plantBombCount == posBomb, "not enough bombs planted");
+                    Assert.Equal(plantBombCount, posBomb);
                 }
             }
             else
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
-        [Fact]
-        public void RedPlayerPlantRedBombTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-            if (map.getMapContainer()[13,13][0] is Player)
-            {
-                Player player = map.getMapContainer()[13, 13][0] as Player;
-                mapManager.PlaceBomb(player);
-                var container = map.getMapContainer();
-                Assert.True(container[13,13][1] is RedBomb, "is not a red bomb");
-            }
-            else
-                Assert.True(false, "player not found");
-            map.removeMap();
-        }
-
-        [Fact]
-        public void RedBombGetColorTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-            if (map.getMapContainer()[13, 13][0] is Player)
-            {
-                Player player = map.getMapContainer()[13, 13][0] as Player;
-                mapManager.PlaceBomb(player);
-                var container = map.getMapContainer();
-                RedBomb bomb = container[13, 13][1] as RedBomb;
-                Assert.Equal(Color.FromKnownColor(KnownColor.Red), bomb.GetColor());
-            }
-            else
-                Assert.True(false, "player not found");
-            map.removeMap();
-        }
-
-        [Fact]
-        public void BlueBombGetColorTest()
-        {
-            Map map = Map.GetInstance;
-            MapManagerStub mapManager = new MapManagerStub();
-            if (map.getMapContainer()[1, 1][0] is Player)
-            {
-                Player player = map.getMapContainer()[1, 1][0] as Player;
-                mapManager.PlaceBomb(player);
-                var container = map.getMapContainer();
-                BlueBomb bomb = container[1, 1][1] as BlueBomb;
-                Assert.Equal(Color.FromKnownColor(KnownColor.Blue), bomb.GetColor());
-            }
-            else
-                Assert.True(false, "player not found");
-            map.removeMap();
-        }
-
+        
+        
+        
+        /// <summary>
+        /// tests if player takes damage from the bomb
+        /// </summary>
         [Fact]
         public void BombExplosionOnPlayerTest()
         {
@@ -207,7 +114,34 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if player does not recieve multiple dmg from multiple simultanius explosions
+        /// </summary>
+        [Fact]
+        public void BombMultipleExplosionOnPlayerTest()
+        {
+            Map map = Map.GetInstance;
+            MapManagerStub mapManager = new MapManagerStub();
+            if (map.getMapContainer()[13, 13][0] is Player)
+            {
+                Player player = map.getMapContainer()[13, 13][0] as Player;
+                Player player2 = new Player(3, 3, 3, 3, new Coordinates(12, 13));
+                mapManager.PlaceBomb(player);
+                mapManager.PlaceBomb(player2);
+                int initial = player.Health;
+                Bomb bomb = map.getMapContainer()[13, 13][1] as Bomb;
+                bomb.Explode();
+                int after = player.Health;
+                var container = map.getMapContainer();
+                Assert.Equal(initial - 1, after);
+            }
+            else
+                Assert.True(false, "player not found");
+            map.removeMap();
+        }
+        /// <summary>
+        /// tests if explosives do not damage unbreakable walls
+        /// </summary>
         [Fact]
         public void BombExplosionNearUnbreakableWallTest()
         {
@@ -225,7 +159,9 @@ namespace Testing
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if bomb autodetonates after 3s time
+        /// </summary>
         [Fact]
         public void BombAutoDetonateTest()
         {
@@ -242,7 +178,9 @@ namespace Testing
                 Assert.True(false, "did not detonate");
             map.removeMap();
         }
-
+        /// <summary>
+        /// tests if bomb breaks breakable walls
+        /// </summary>
         [Fact]
         public void BombExplosionNearBreakableWallTest()
         {
@@ -255,12 +193,13 @@ namespace Testing
                 Bomb bomb = map.getMapContainer()[13, 13][1] as Bomb;
                 map.AddMapObj(new Wall(true, new Coordinates(12, 13)));
                 bomb.Explode();
+                Thread.Sleep(1100);
                 //po sprogimo sienos nebelieka arba po jos lieka powerUp
                 if (map.getMapContainer()[12, 13].Count == 1)
                 {
                     Assert.True(true);
                 }
-                else if(map.getMapContainer()[12, 13].Count == 2)
+                else if (map.getMapContainer()[12, 13].Count == 2)
                 {
                     Assert.True(map.getMapContainer()[12, 13][0] is PowerUp || map.getMapContainer()[12, 13][1] is PowerUp, "nevienas ne powerUp, bet 2");
                 }
@@ -268,33 +207,17 @@ namespace Testing
                 {
                     Assert.True(false, "sienai susprogus atsirado daugiau arba maziau obijektu nei turejo");
                 }
-                
+
                 Assert.Single(map.getMapContainer()[13, 14]);
             }
             else
                 Assert.True(false, "player not found");
             map.removeMap();
         }
-        [Theory]
-        [InlineData(2)]
-        [InlineData(3)]
-        public void ExplosionLengthTest(int pover)
-        {
-            Map map = Map.GetInstance;
-            map.CleanArena();
-            Player player = new Player(1, pover, 3, 1, new Coordinates(6, 6));
-            Bomb bomb = new Bomb(player);
-            map.AddMapObj(bomb);
-            bomb.Explode();
-            int cnt = 0;
-                foreach (var list in map.getMapContainer())
-                {
-                cnt += list.Count;
-                }
-            Assert.Equal(1 + pover*4, cnt);
-            map.removeMap();
-        }
-
+        
+        /// <summary>
+        /// tests if explosion detonates another bomb
+        /// </summary>
         [Fact]
         public void ExplosionDetonateBombTest()
         {
@@ -312,8 +235,61 @@ namespace Testing
             {
                 cnt += list.Count;
             }
-            Assert.Equal((1 + 2 * 4)*2, cnt);
+            Assert.Equal((1 + 2 * 4) * 2, cnt);
             map.removeMap();
         }
+        /// <summary>
+        /// tests if u can't have 2 bombs in a single space
+        /// </summary>
+        [Fact]
+        public void TwoBombsInSingleSpace()
+        {
+            Map map = Map.GetInstance;
+            MapManagerStub mapManager = new MapManagerStub();
+            if (map.getMapContainer()[13, 13][0] is Player)
+            {
+                Player player = map.getMapContainer()[13, 13][0] as Player;
+                int pre = map.getMapContainer()[13, 13].Count;
+                mapManager.PlaceBomb(player);
+                mapManager.PlaceBomb(player);
+                int pos = map.getMapContainer()[13, 13].Count;
+                Assert.Equal(pre + 1, pos);
+            }
+            map.removeMap();
+        }
+
+        [Fact]
+        public void doubleExplosionInRowWallDestruction()
+        {
+            Map map = Map.GetInstance;
+            map.CleanArena();
+            Player player = new Player(1, 3, 3, 1, new Coordinates(6, 6));
+            Player player2 = new Player(1, 2, 3, 1, new Coordinates(7, 6));
+            Wall wall1 = new Wall(true, new Coordinates(8, 6));
+            Wall wall2 = new Wall(true, new Coordinates(9, 6));
+            Bomb bomb = new Bomb(player);
+            Bomb bomb2 = new Bomb(player2);
+            map.AddMapObj(wall1);
+            map.AddMapObj(wall2);
+            map.AddMapObj(bomb);
+            map.AddMapObj(bomb2);
+            bomb.Explode();
+            Thread.Sleep(1300);
+            int cnt = 0;
+            foreach (var list in map.getMapContainer())
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if(list[i] is Wall)
+                    {
+                        cnt++;
+                    }
+                }
+            }
+            Assert.Equal(1, cnt);
+            map.removeMap();
+        }
+
+        
     }
 }

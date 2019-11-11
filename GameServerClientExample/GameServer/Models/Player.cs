@@ -3,6 +3,7 @@ using GameServer.Models.GameObserver;
 using System.Collections.Generic;
 using System.Windows.Input;
 using GameServer.Models.Strategy;
+using System.Threading.Tasks;
 
 namespace GameServer.Models
 {
@@ -18,6 +19,7 @@ namespace GameServer.Models
         public int MovementSpeed { get; set; }
 
         public bool PlayerIsDead { get; set; }
+        public bool Imune { get; set; }
 
         public MoveStrategy MoveStrategy { get; set; }
         public PlantBombStrategy PlantBombStrategy { get; set; }
@@ -42,6 +44,7 @@ namespace GameServer.Models
             PlayerIsDead = false;
 
             SetCoordinates(coords);
+            Imune = false;
         }
 
         //---------------------
@@ -79,7 +82,12 @@ namespace GameServer.Models
         {
             if (Health > 0)
             {
-                Health -= damage;
+                if (!Imune)
+                {
+                    Imune = true;
+                    Health -= damage;
+                    ImuneCount();
+                }
             }
             else if (Health <= 0)
             {
@@ -119,6 +127,48 @@ namespace GameServer.Models
         public void Move(string direction)
         {
             MoveStrategy.Move(this, direction);
+        }
+        public async void ImuneCount()
+        {
+            await Task.Delay(2000);
+            Imune = false;
+        }
+        public void CheckForPowerUps()
+        {
+            Map map = Map.GetInstance;
+            List<MapObject>[,] maps = map.getMapContainer();
+            if (maps[Coordinates.PosX,Coordinates.PosY].Count > 1)
+            {
+                for(int i = 0; i < maps[Coordinates.PosX, Coordinates.PosY].Count; i++)
+                {
+                    if(maps[Coordinates.PosX, Coordinates.PosY][i] is PowerUp)
+                    {
+                        PowerUp up = maps[Coordinates.PosX, Coordinates.PosY][i] as PowerUp;
+                        if(up.getType() == 0)
+                        {
+                            IncreaseMovementSpeed(1);
+                        }
+                        else if (up.getType() == 1)
+                        {
+                            IncreaseNumberOfBombs(1);
+                        }
+                        else if (up.getType() == 2)
+                        {
+                            IncreaseBombPower(1);
+                        }
+                        else if (up.getType() == 3)
+                        {
+                            SetCanKick();
+                        }
+                        else
+                        {
+                            SetCanThrow();
+                        }
+                        map.removeObject(up);
+                    }
+                }
+                        
+            }
         }
     }
 }

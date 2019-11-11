@@ -65,8 +65,7 @@ namespace GameServer.Models
                     Wall wall = mapObject as Wall;
                     if (wall.isDestroyable())
                     {
-                        MapManagerStub.DestroyWall(wall);
-                        MapManagerStub.CreateExplosion(coordinates);
+                        MapManagerStub.CreateExplosion(coordinates, wall);
                     }
                     return false;
                 }

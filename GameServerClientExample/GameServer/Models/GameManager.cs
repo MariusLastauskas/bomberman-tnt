@@ -14,6 +14,7 @@ namespace GameServer.Models
         private DateTime p2ping;
         public MapStub map;
         private MapManagerStub mapManager;
+        public int gameState = 0;
 
         public GameManager()
         {
@@ -48,7 +49,7 @@ namespace GameServer.Models
         /// <returns>true if player is still active</returns>
         public bool checkPing(DateTime ping)
         {
-            if ((DateTime.Now - ping).TotalSeconds > 10)
+            if ((DateTime.Now - ping).TotalSeconds > 20)
             {
                 return false;
             }
@@ -146,6 +147,7 @@ namespace GameServer.Models
         /// </summary>
         public void StartGame()
         {
+            gameState = 2;
             mapManager = new MapManagerStub();
             mapManager.BuildMap();
         }
@@ -198,6 +200,7 @@ namespace GameServer.Models
         {
             mapManager = null;
             DisconnectPlayers();
+            gameState = 0;
         }
     }
 }
