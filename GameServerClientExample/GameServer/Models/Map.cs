@@ -12,15 +12,11 @@ namespace GameServer.Models
         private static readonly object InstanceLock = new object();
         private List<MapObject>[,] mapContainer;
         private MapManagerStub MapManagerStub = new MapManagerStub();
-<<<<<<< HEAD
 
         private static MapPrototype mapWithDestructibleWalls = new ConcreteMap(true);
         private static MapPrototype mapWithoutDestructibleWalls = new ConcreteMap(false);
 
         static bool createWalls = true;
-=======
-        
->>>>>>> 8e897b2ae819513a7bef01254283358a0f45dd53
 
         private Map()
         {
