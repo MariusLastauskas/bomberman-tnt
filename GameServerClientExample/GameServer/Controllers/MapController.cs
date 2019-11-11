@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GameServer.Models;
 using GameServer.Models.AnstractFactory;
+using GameServer.Models.Command;
 
 namespace GameServer.Controllers
 {
@@ -74,19 +75,51 @@ namespace GameServer.Controllers
         [HttpPatch]
         public IActionResult MovePlayer([FromHeader] string authToken, [FromHeader] string action)
         {
-            if (action == GlobalVar.PLANT_BOMB)
+            Player p;
+            if (GlobalVar.getGm().player1 != null && GlobalVar.getGm().player1.AuthToken == authToken)
             {
-                if (GlobalVar.getGm().PlantBomb(authToken))
-                {
-                    return Ok();
-                }
+                p = GlobalVar.getGm().player1;
+            } else if (GlobalVar.getGm().player2 != null && GlobalVar.getGm().player2.AuthToken == authToken)
+            {
+                p = GlobalVar.getGm().player2;
+            } else
+            {
                 return BadRequest();
             }
-            if (GlobalVar.getGm().MovePlayer(authToken, action))
+
+            switch (action)
             {
-                return Ok();
+                case "plant":
+                    if (GlobalVar.getGm().PlantBomb(authToken))
+                    {
+                        return Ok();
+                    }
+                    return BadRequest();
+                case "up":
+                    ICommand verticalCommand = new VerticalMoveCommand(p);
+                    Invoker verticalInvoker = new Invoker();
+                    verticalInvoker.addCommand(verticalCommand);
+                    verticalInvoker.run();
+                    return Ok();
+                    break;
+                case "down":
+                    new VerticalMoveCommand(p).Undo();
+                    return Ok();
+                    break;
+                case "left":
+                    new HorizontalMoveCommand(p).Undo();
+                    return Ok();
+                    break;
+                case "right":
+                    ICommand horizontalCommand = new HorizontalMoveCommand(p);
+                    Invoker horizontalInvoker = new Invoker();
+                    horizontalInvoker.addCommand(horizontalCommand);
+                    horizontalInvoker.run();
+                    return Ok();
+                    break;
+                default:
+                    return BadRequest();
             }
-            return BadRequest();
         }
     }
 }

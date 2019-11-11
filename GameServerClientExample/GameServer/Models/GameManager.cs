@@ -9,11 +9,11 @@ namespace GameServer.Models
 {
     public class GameManager
     {
-        private Player player1;
-        private Invoker invoker1;
+        public Player player1;
+        public Invoker invoker1;
         private DateTime p1ping;
-        private Player player2;
-        private Invoker invoker2;
+        public Player player2;
+        public Invoker invoker2;
         private DateTime p2ping;
         public MapStub map;
         private MapManagerStub mapManager;
