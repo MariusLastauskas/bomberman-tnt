@@ -57,22 +57,21 @@ namespace Testing
         /// </summary>
         /// <param name="plantBombCount"></param>
         [Theory]
-        [InlineData(1)]
-        [InlineData(3)]
         [InlineData(4)]
+        [InlineData(3)]
+        [InlineData(1)]
 
         public void PlayerPlantDifferentAmountOfBombs(int plantBombCount)
         {
             Map map = Map.GetInstance;
+            map.CleanArena();
+            Player player = new Player(3, 2, 3, 1, new Coordinates(6, 6));
             MapManagerStub mapManager = new MapManagerStub();
-            if (map.getMapContainer()[1, 1][0] is Player)
-            {
-                Player player = map.getMapContainer()[1, 1][0] as Player;
-                player.NumberOfBombs = 3;
                 int maxNumber = player.NumberOfBombs;
                 for (int i = 0; i < plantBombCount; i++)
                 {
                     mapManager.PlaceBomb(player);
+                    player.Coordinates.PosY++;
                 }
                 int posBomb = player.PlacedBombCount;
                 if (plantBombCount >= maxNumber)
@@ -83,9 +82,6 @@ namespace Testing
                 {
                     Assert.Equal(plantBombCount, posBomb);
                 }
-            }
-            else
-                Assert.True(false, "player not found");
             map.removeMap();
         }
         

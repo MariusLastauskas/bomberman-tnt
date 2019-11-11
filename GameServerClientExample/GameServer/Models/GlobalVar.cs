@@ -11,7 +11,11 @@ namespace GameServer.Controllers
     /// </summary>
     public class GlobalVar
     {
-        public static GameManager gm = new GameManager();
+        private static GameManager gm = new GameManager();
+        public static GameManager getGm()
+        {
+            return gm;
+        }
         public static string MOVE_UP = "up";
         public static string MOVE_DOWN = "down";
         public static string MOVE_LEFT = "left";

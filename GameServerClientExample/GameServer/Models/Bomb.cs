@@ -12,7 +12,7 @@ namespace GameServer.Models
 {
 	public class Bomb : MapObject
 	{
-        private ExplosionFacade explosionFacade = new ExplosionFacade();
+        private BombermanFacade explosionFacade = new BombermanFacade();
         private bool exploded = false;
 		private Player player;
         private MapManagerStub map;
@@ -34,7 +34,7 @@ namespace GameServer.Models
                 explosionFacade.Explode(this);
             }
 		}
-        public int getPower()
+        public int GetPower()
         {
             return player.BombPower;
         }

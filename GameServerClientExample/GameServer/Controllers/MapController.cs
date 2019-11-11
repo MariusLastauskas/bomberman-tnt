@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GameServer.Models;
+using GameServer.Models.AnstractFactory;
+using GameServer.Models.Command;
 
 namespace GameServer.Controllers
 {
@@ -48,9 +50,13 @@ namespace GameServer.Controllers
                             {
                                 map[i, j][k] = map[i, j][k] as PowerUp;
                             }
-                            if (map[i, j][k] is Player)
+                            if (map[i, j][k] is RedPlayer)
                             {
-                                map[i, j][k] = map[i, j][k] as Player;
+                                map[i, j][k] = map[i, j][k] as RedPlayer;
+                            }
+                            if (map[i, j][k] is BluePlayer)
+                            {
+                                map[i, j][k] = map[i, j][k] as BluePlayer;
                             }
                             if (map[i, j][k] is Explosion)
                             {
@@ -70,22 +76,54 @@ namespace GameServer.Controllers
         /// <param name="mac">mac address of player</param>
         /// <param name="action">dirrection of movement or plant action</param>
         /// <returns>Ok if movement or plant is allowed, BadRequest if player cant move the dirrection or plant bomb</returns>
-        [HttpPatch("{mac}")]
-        public IActionResult MovePlayer(string mac, [FromBody] string action)
+        [HttpPatch]
+        public IActionResult MovePlayer([FromHeader] string authToken, [FromHeader] string action)
         {
-            if (action == GlobalVar.PLANT_BOMB)
+            Player p;
+            if (GlobalVar.getGm().player1 != null && GlobalVar.getGm().player1.AuthToken == authToken)
             {
-                if (GlobalVar.gm.PlantBomb(mac))
-                {
-                    return Ok();
-                }
+                p = GlobalVar.getGm().player1;
+            } else if (GlobalVar.getGm().player2 != null && GlobalVar.getGm().player2.AuthToken == authToken)
+            {
+                p = GlobalVar.getGm().player2;
+            } else
+            {
                 return BadRequest();
             }
-            if (GlobalVar.gm.MovePlayer(mac, action))
+
+            switch (action)
             {
-                return Ok();
+                case "plant":
+                    if (GlobalVar.getGm().PlantBomb(authToken))
+                    {
+                        return Ok();
+                    }
+                    return BadRequest();
+                case "up":
+                    ICommand verticalCommand = new VerticalMoveCommand(p);
+                    Invoker verticalInvoker = new Invoker();
+                    verticalInvoker.addCommand(verticalCommand);
+                    verticalInvoker.run();
+                    return Ok();
+                    break;
+                case "down":
+                    new VerticalMoveCommand(p).Undo();
+                    return Ok();
+                    break;
+                case "left":
+                    new HorizontalMoveCommand(p).Undo();
+                    return Ok();
+                    break;
+                case "right":
+                    ICommand horizontalCommand = new HorizontalMoveCommand(p);
+                    Invoker horizontalInvoker = new Invoker();
+                    horizontalInvoker.addCommand(horizontalCommand);
+                    horizontalInvoker.run();
+                    return Ok();
+                    break;
+                default:
+                    return BadRequest();
             }
-            return BadRequest();
         }
     }
 }

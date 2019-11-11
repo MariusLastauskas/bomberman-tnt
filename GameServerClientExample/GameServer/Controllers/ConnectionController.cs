@@ -22,7 +22,7 @@ namespace GameServer.Controllers
         [HttpGet]
         public IActionResult GetGameConnectionStatus()
         {
-            if (GlobalVar.gm.CheckGameState())
+            if (GlobalVar.getGm().CheckGameState())
             {
                 return Ok();
             }
@@ -37,7 +37,7 @@ namespace GameServer.Controllers
         [HttpPost]
         public ActionResult<Player> ConnectPlayer([FromHeader] string authToken)
         {
-            return GlobalVar.gm.ConnectPlayer(authToken);
+            return GlobalVar.getGm().ConnectPlayer(authToken);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace GameServer.Controllers
         [HttpDelete]
         public IActionResult DisconnectPlayer([FromHeader] string authToken)
         {
-            if (GlobalVar.gm.DisconnectPlayer(authToken))
+            if (GlobalVar.getGm().DisconnectPlayer(authToken))
             {
                 return NoContent();
             }

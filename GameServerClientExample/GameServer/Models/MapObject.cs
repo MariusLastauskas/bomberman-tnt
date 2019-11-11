@@ -1,13 +1,17 @@
-/**
- * @(#) MapObject.cs
- */
 
+
+using GameServer.Models.Decorator;
+using System.Collections.Generic;
+/**
+* @(#) MapObject.cs
+*/
 namespace GameServer.Models
 {
-	public abstract class MapObject
+	public abstract class MapObject : Component
 	{
         public bool isWalkable = true;
 
+        //public List<string> decorations = new List<string>();
         //Map map;
 
         public Coordinates Coordinates { get; set; }
@@ -34,8 +38,13 @@ namespace GameServer.Models
         {
             //map.Update(this.ID);
         }
-		
-	}
+
+        public override void Operation()
+        {
+            
+        }
+
+    }
 	
 }
     

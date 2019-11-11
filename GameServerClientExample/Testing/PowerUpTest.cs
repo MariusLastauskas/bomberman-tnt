@@ -1,4 +1,5 @@
 ﻿using GameServer.Models;
+using GameServer.Models.Strategy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,9 @@ namespace Testing
 {
     public class PowerUpTest
     {
+        /// <summary>
+        /// checks if powerUp gets assigned
+        /// </summary>
         [Fact]
         public void PlayerMovementSpeedTest()
         {
@@ -22,7 +26,9 @@ namespace Testing
             Assert.Equal(2, player.MovementSpeed);
             map.removeMap();
         }
-
+        /// <summary>
+        /// checks if powerUp gets assigned
+        /// </summary>
         [Fact]
         public void PlayerExtraBombPowerUpTest()
         {
@@ -37,7 +43,9 @@ namespace Testing
             Assert.Equal(2, player.NumberOfBombs);
             map.removeMap();
         }
-
+        /// <summary>
+        /// checks if powerUp gets assigned
+        /// </summary>
         [Fact]
         public void PlayerBombPowerPowerUpTest()
         {
@@ -76,7 +84,9 @@ namespace Testing
             Assert.Equal(1 + pover * 4, cnt);
             map.removeMap();
         }
-
+        /// <summary>
+        /// checks if powerUp gets assigned
+        /// </summary>
         [Fact]
         public void PlayerKickPowerUpTest()
         {
@@ -88,10 +98,12 @@ namespace Testing
             map.AddMapObj(power);
             player.CheckForPowerUps();
             player.CheckForPowerUps();
-            Assert.Equal(2, player.MovementSpeed);
+            Assert.True(player.MoveStrategy is KickMove);
             map.removeMap();
         }
-
+        /// <summary>
+        /// checks if powerUp gets assigned
+        /// </summary>
         [Fact]
         public void PlayerThrowPowerUpTest()
         {
@@ -103,7 +115,7 @@ namespace Testing
             map.AddMapObj(power);
             player.CheckForPowerUps();
             player.CheckForPowerUps();
-            Assert.Equal(2, player.MovementSpeed);
+            Assert.True(player.MoveStrategy is ThrowMove);
             map.removeMap();
         }
     }
