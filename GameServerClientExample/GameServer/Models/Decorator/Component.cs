@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Decorator
 {
-    public abstract class IBomb
+    public abstract class Component
     {
         public abstract void Operation();
         //void Operation();

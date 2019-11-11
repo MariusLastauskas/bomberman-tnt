@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Decorator
 {
-    public abstract class BombDecorator : IBomb
+    public abstract class BombDecorator : Component
     {
-        protected IBomb bombComponent;
+        protected Component bombComponent;
 
-        public void SetComponent(IBomb component)
+        public void SetComponent(Component component)
         {
             bombComponent = component;
         }
