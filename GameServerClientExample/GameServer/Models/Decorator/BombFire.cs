@@ -5,25 +5,18 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Decorator
 {
-    public class BombBorder : BombDecorator
+    public class BombFire : BombDecorator
     {
-        public string color;
-
-        public BombBorder(string _color)
-        {
-            color = _color;
-        }
-
         public override void Operation()
         {
             base.Operation();
-            SetBorder();
+            SetFire();
             component.decorations.AddRange(this.decorations);
         }
 
-        public void SetBorder()
+        public void SetFire()
         {
-            decorations.Add(color);
+            decorations.Add(@"BombPictures/fire-svgrepo-com.svg");
         }
     }
 }

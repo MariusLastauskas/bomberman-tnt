@@ -7,6 +7,8 @@ namespace GameServer.Models.Decorator
 {
     public abstract class Component
     {
+        public List<string> decorations = new List<string>();
+
         public abstract void Operation();
         //void Operation();
     }
