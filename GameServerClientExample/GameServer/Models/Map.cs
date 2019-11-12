@@ -13,8 +13,8 @@ namespace GameServer.Models
         private List<MapObject>[,] mapContainer;
         private MapManagerStub MapManagerStub = new MapManagerStub();
 
-        private static MapPrototype mapWithDestructibleWalls = new ConcreteMap(true);
-        private static MapPrototype mapWithoutDestructibleWalls = new ConcreteMap(false);
+        private static MapPrototype mapWithDestructibleWalls = new MapWithDestructibleWalls();
+        private static MapPrototype mapWithoutDestructibleWalls = new MapWithUndestructibleWalls();
 
         static bool createWalls = true;
 
@@ -46,9 +46,9 @@ namespace GameServer.Models
                         if (instance == null)
                         {
                             if(createWalls)
-                            instance = new Map((mapWithDestructibleWalls.Clone() as ConcreteMap).moList);
+                            instance = new Map((mapWithDestructibleWalls.Clone() as MapWithDestructibleWalls).moList);
                             else
-                                instance = new Map((mapWithoutDestructibleWalls.Clone() as ConcreteMap).moList);
+                                instance = new Map((mapWithoutDestructibleWalls.Clone() as MapWithUndestructibleWalls).moList);
                         }
                     }
                 }
