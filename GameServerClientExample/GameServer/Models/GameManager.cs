@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using GameServer.Models.Command;
 using GameServer.Models.GameObserver;
+using GameServer.Models.Template;
 
 namespace GameServer.Models
 {
-    public class GameManager
+    public class GameManager : GameTemplate
     {
         public Player player1;
         public Invoker invoker1;
@@ -39,7 +40,7 @@ namespace GameServer.Models
             invoker2 = new Invoker();
         }
 
-        public void setPlayers(Player p1, Player p2)
+        public sealed override void setPlayers(Player p1, Player p2)
         {
             player1 = p1;
             player2 = p2;
@@ -49,7 +50,7 @@ namespace GameServer.Models
         /// Resets player last ping time to current date
         /// </summary>
         /// <param name="ping">Player last ping time</param>
-        public void pingPlayer(ref DateTime ping)
+        public sealed override void pingPlayer(ref DateTime ping)
         {
             ping = DateTime.Now;
         }
@@ -59,7 +60,7 @@ namespace GameServer.Models
         /// </summary>
         /// <param name="ping">Player last ping time</param>
         /// <returns>true if player is still active</returns>
-        public bool checkPing(DateTime ping)
+        public sealed override bool checkPing(DateTime ping)
         {
             if ((DateTime.Now - ping).TotalSeconds > 20)
             {
@@ -72,7 +73,7 @@ namespace GameServer.Models
         /// Checks if players in game are still active and stops the game if they are not
         /// </summary>
         /// <returns>are both players still active</returns>
-        public bool CheckGameState()
+        public sealed override bool CheckGameState()
         {
             if (!checkPing(p1ping) || !checkPing(p2ping) || player1 == null || player2 == null)
             {
@@ -128,7 +129,7 @@ namespace GameServer.Models
         /// </summary>
         /// <param name="authToken">authToken address</param>
         /// <returns>true if player disconnected</returns>
-        public bool DisconnectPlayer(string authToken)
+        public sealed override bool DisconnectPlayer(string authToken)
         {
             if (player1 != null && player1.AuthToken == authToken)
             {
@@ -157,7 +158,7 @@ namespace GameServer.Models
         /// <summary>
         /// Starts game, creates MapManager
         /// </summary>
-        public void StartGame()
+        public sealed override void StartGame()
         {
             gameState = 2;
             mapManager = new MapManagerStub();
@@ -170,7 +171,7 @@ namespace GameServer.Models
         /// <param name="authToken">authToken address</param>
         /// <param name="direction">direction</param>
         /// <returns>true if player can move the dirrection</returns>
-        public bool MovePlayer(string authToken, string direction)
+        public sealed override bool MovePlayer(string authToken, string direction)
         {
             if (player1 != null && player1.AuthToken == authToken)
             {
@@ -194,7 +195,7 @@ namespace GameServer.Models
         /// </summary>
         /// <param name="authToken">authToken address</param>
         /// <returns>true if player can plant bomb</returns>
-        public bool PlantBomb(string authToken)
+        public sealed override bool PlantBomb(string authToken)
         {
             if (player1 != null && player1.AuthToken == authToken && player1.PlacedBombCount < player1.NumberOfBombs)
             {

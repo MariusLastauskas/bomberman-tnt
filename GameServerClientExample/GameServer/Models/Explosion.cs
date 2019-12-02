@@ -9,6 +9,7 @@ namespace GameServer.Models
 	public class Explosion : MapObject
 	{
         private MapManagerStub map;
+        private Wall willDestroy;
         public Explosion(Coordinates coords) : base (coords)
         {
             map = new MapManagerStub();
@@ -21,16 +22,18 @@ namespace GameServer.Models
             Timer(wall);
         }
 
-        public async void Timer()
+        public void Timer()
 		{
-            await Task.Delay(1000);
-            
-            map.RemoveThis(this);
         }
-        public async void Timer(Wall wall)
+        public void Timer(Wall wall)
         {
-            await Task.Delay(1000);
-            map.DestroyWall(wall);
+            willDestroy = wall;
+            
+        }
+        public override void Operation()
+        {
+            base.Operation();
+            map.DestroyWall(willDestroy);
             map.RemoveThis(this);
         }
 

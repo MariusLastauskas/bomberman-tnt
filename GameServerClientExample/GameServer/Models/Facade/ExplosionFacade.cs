@@ -1,4 +1,5 @@
 ﻿using GameServer.Models.Adapter;
+using GameServer.Models.Composite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,10 @@ namespace GameServer.Models.Facade
         private PlayerHitAdapter PlayerHitAdapter = new PlayerHitAdapter();
         private BombHitAdapter BombHitAdapter = new BombHitAdapter();
         private WallHitAdapter WallHitAdapter = new WallHitAdapter();
-
+        private CompositeExplosion CompositeExplosion = new CompositeExplosion();
+        private bool isFirst = false;
         public BombermanFacade() { }
-        public void Explode(Bomb bomb)
+        public CompositeExplosion Explode(Bomb bomb)
         {
             Map map = Map.GetInstance;
             RecursiveExplode(new Coordinates(bomb.Coordinates.PosX -1, bomb.Coordinates.PosY),-1, 0, bomb.GetPower());
@@ -23,6 +25,15 @@ namespace GameServer.Models.Facade
             RecursiveExplode(new Coordinates(bomb.Coordinates.PosX, bomb.Coordinates.PosY +1), 0, 1, bomb.GetPower());
             HitMapObj(bomb.Coordinates);
             map.removeObject(bomb);
+            if (isFirst)
+            {
+                CompositeExplosion.setTimer();
+            }
+            return CompositeExplosion;
+        }
+        public void IsFirst()
+        {
+            isFirst = true;
         }
         private void RecursiveExplode(Coordinates cord, int X, int Y, int power)
         {
@@ -54,22 +65,22 @@ namespace GameServer.Models.Facade
                 else if (mapObject is Wall)
                 {
                     Wall wall = mapObject as Wall;
-                    WallHitAdapter.Hit(wall);
+                    WallHitAdapter.Hit(wall, CompositeExplosion);
                     
                     return false;
                 }
                 else if (mapObject is Bomb)
                 {
                     Bomb bomb = mapObject as Bomb;
-                    BombHitAdapter.Hit(bomb);
-                    MapManagerStub.CreateExplosion(coordinates);
+                    BombHitAdapter.Hit(bomb, CompositeExplosion);
+                    MapManagerStub.CreateExplosion(coordinates, CompositeExplosion);
                     return true;
                 }
                 else
                 {
                 }
             }
-            MapManagerStub.CreateExplosion(coordinates);
+            MapManagerStub.CreateExplosion(coordinates, CompositeExplosion);
             return true;
         }
     }
