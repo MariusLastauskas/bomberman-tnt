@@ -1,4 +1,5 @@
 ﻿using GameServer.Models.AnstractFactory;
+using GameServer.Models.Composite;
 using GameServer.Models.Facade;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
@@ -56,12 +57,27 @@ namespace GameServer.Models
             Map map = Map.GetInstance;
             map.AddMapObj(explosion);
         }
+        public void CreateExplosion(Coordinates cord, CompositeExplosion CompositeExplosion)
+        {
+            Explosion explosion = new Explosion(cord);
+            Map map = Map.GetInstance;
+            map.AddMapObj(explosion);
+            CompositeExplosion.AddChildren(explosion);
+        }
+        
 
         public void CreateExplosion(Coordinates cord, Wall wall)
         {
             Explosion explosion = new Explosion(cord, wall);
             Map map = Map.GetInstance;
             map.AddMapObj(explosion);
+        }
+        public void CreateExplosion(Coordinates cord, Wall wall, CompositeExplosion compositeExplosion)
+        {
+            Explosion explosion = new Explosion(cord, wall);
+            Map map = Map.GetInstance;
+            map.AddMapObj(explosion);
+            compositeExplosion.AddChildren(explosion);
         }
 
         public void CreatePowerUp(Coordinates cord)
