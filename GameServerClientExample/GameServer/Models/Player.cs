@@ -8,7 +8,7 @@ using GameServer.Models.State;
 
 namespace GameServer.Models
 {
-    public class Player : MapObject, IPlayerState
+    public class Player : MapObject
     {
         public string Name { get; set; }
         public string AuthToken { get; set; }
@@ -25,6 +25,8 @@ namespace GameServer.Models
         public MoveStrategy MoveStrategy { get; set; }
         public PlantBombStrategy PlantBombStrategy { get; set; }
         public MapObserver MapObserver { get; set; }
+
+        public PlayerState playerState = new LookingDownState();
 
         //Strategy classes: kick, throw, place, imune
 
@@ -170,6 +172,11 @@ namespace GameServer.Models
                 }
                         
             }
+        }
+
+        public void SetState(PlayerState state)
+        {
+            playerState = state;
         }
     }
 }
