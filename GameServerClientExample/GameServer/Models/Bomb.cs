@@ -1,5 +1,6 @@
 
 
+using GameServer.Models.Composite;
 using GameServer.Models.Facade;
 using System;
 using System.Drawing;
@@ -31,9 +32,19 @@ namespace GameServer.Models
             {
                 player.DecreasePlacedBombCount();
                 exploded = true;
+                explosionFacade.IsFirst();
                 explosionFacade.Explode(this);
             }
 		}
+        public void Explode(CompositeExplosion compositeExplosion)
+        {
+            if (exploded == false)
+            {
+                player.DecreasePlacedBombCount();
+                exploded = true;
+                compositeExplosion.AddChildren(explosionFacade.Explode(this));
+            }
+        }
         public int GetPower()
         {
             return player.BombPower;
