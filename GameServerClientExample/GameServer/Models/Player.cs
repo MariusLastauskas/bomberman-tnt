@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using GameServer.Models.Strategy;
 using System.Threading.Tasks;
+using GameServer.Models.State;
 
 namespace GameServer.Models
 {
-    public class Player : MapObject
+    public class Player : MapObject, IPlayerState
     {
         public string Name { get; set; }
         public string AuthToken { get; set; }
