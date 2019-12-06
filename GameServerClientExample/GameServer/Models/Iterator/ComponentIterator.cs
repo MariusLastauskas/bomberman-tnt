@@ -36,7 +36,7 @@ namespace GameServer.Models.Iterator
 
         public void remove()
         {
-            component.decorations.Remove(component.decorations[index]);
+            component.decorations.RemoveAt(index);
         }
     }
 }

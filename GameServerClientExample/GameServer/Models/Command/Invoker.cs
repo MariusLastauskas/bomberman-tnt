@@ -7,7 +7,7 @@ namespace GameServer.Models.Command
 {
     public class Invoker
     {
-        List<ICommand> commands;
+        public List<ICommand> commands;
 
         public Invoker()
         {
