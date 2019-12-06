@@ -17,6 +17,43 @@
 
 
 <script type="text/jsx">
+    window.onkeypress = function(event) {
+        let action = '';
+        switch(event.keyCode) {
+          case 119:
+            action = "up";
+            break;
+          case 97:
+            action = "left";
+            break;
+          case 115:
+            action = "down";
+            break;
+          case 100:
+            action = "right";
+            break;
+          case 32:
+            action = "plant";
+            break;
+          default:
+            // code block
+        }
+
+    
+        axios.patch('https://localhost:44371/api/map', {}, 
+        {
+            headers: {
+                authToken: getCookie('authToken'),
+                action: action
+            }
+        })
+    }
+
+    function getCookie(name) {
+    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return v ? v[2] : null;
+}
+
     _tileType = {
         'wall': 'brown',
         'unbreakableWall': 'gray',
