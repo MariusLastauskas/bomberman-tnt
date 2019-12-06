@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameServer.Models.Iterator;
 
 namespace GameServer.Models.Command
 {
@@ -25,6 +26,10 @@ namespace GameServer.Models.Command
             {
                 command.Execute();
             }
+        }
+
+        public myIterator<ICommand> getIterator() {
+            return new InvokerIterator(this);
         }
     }
 }
