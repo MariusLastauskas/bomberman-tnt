@@ -1,6 +1,7 @@
 using GameServer.Models.Adapter;
 using System;
 using System.Collections.Generic;
+using GameServer.Models.Iterator;
 
 namespace GameServer.Models
 {
@@ -84,6 +85,7 @@ namespace GameServer.Models
         {
             mapContainer[obj.Coordinates.PosX, obj.Coordinates.PosY].Remove(obj);
         }
+
         public void CleanArena()
         {
             mapContainer = new MapBuilder().getMoList();
@@ -95,9 +97,19 @@ namespace GameServer.Models
             return mapContainer[x, y];
         }
 
+        public List<MapObject> getObjectIn(Coordinates c)
+        {
+            return mapContainer[c.PosX, c.PosY];
+        }
+
         public void addObject(MapObject mo, long x, long y)
         {
             mapContainer[x, y].Add(mo);
+        }
+
+        public myIterator<MapObject> getIterator()
+        {
+            return new MapIterator(this);
         }
     }
 }

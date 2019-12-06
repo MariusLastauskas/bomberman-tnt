@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameServer.Models.Iterator;
 
 namespace GameServer.Models.Command
 {
     public class Invoker
     {
-        List<ICommand> commands;
+        public List<ICommand> commands;
 
         public Invoker()
         {
@@ -25,6 +26,10 @@ namespace GameServer.Models.Command
             {
                 command.Execute();
             }
+        }
+
+        public myIterator<ICommand> getIterator() {
+            return new InvokerIterator(this);
         }
     }
 }
