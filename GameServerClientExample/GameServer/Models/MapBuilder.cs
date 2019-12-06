@@ -2,21 +2,23 @@
 using GameServer.Models.AnstractFactory;
 using System;
 using System.Collections.Generic;
+using GameServer.Models.Flyweight;
 
 namespace GameServer.Models
 {
     public class MapBuilder:Builder
     {
-        const int Width = 15;
+        const int Width = 1000;
+        bool withFlyweight = false;
 
         private List<MapObject>[,] moList;
 
         public MapBuilder()
         {
-            moList = new List<MapObject>[15,15];
-            for (int i = 0; i < 15; i++)
+            moList = new List<MapObject>[Width, Width];
+            for (int i = 0; i < Width; i++)
             {
-                for (int j = 0; j < 15; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     moList[i, j] = new List<MapObject>();
                 }
@@ -30,14 +32,25 @@ namespace GameServer.Models
 
         public override Builder BuildIndestructibleWalls()
         {
+            MapObject flyweightWall = new UnbreakableWallFlyweight();
+            Coordinates cord = new Coordinates(0, 0);
+            flyweightWall.SetCoordinates(cord);
+
             //sienu darymas 15x15
             //Pirmos eilutes sudarymas
             for (int i = 0; i < Width; i++)
             {
-                MapObject wall = new Wall();
-                Coordinates c = new Coordinates(i, 0);
-                wall.SetCoordinates(c);
-                moList[i, 0].Add(wall);
+                if (withFlyweight)
+                {
+                    moList[i, 0].Add(flyweightWall);
+                }
+                else
+                {
+                    MapObject wall = new Wall();
+                    Coordinates c = new Coordinates(i, 0);
+                    wall.SetCoordinates(c);
+                    moList[i, 0].Add(wall);
+                }
             }
             //Nuo 2 iki 14 eilutes sudarymas
 
@@ -49,17 +62,31 @@ namespace GameServer.Models
                     {
                         if (x == 0)
                         {
-                            MapObject wall = new Wall();
-                            Coordinates c = new Coordinates(x, y);
-                            wall.SetCoordinates(c);
-                            moList[x, y].Add(wall);
+                            if (withFlyweight)
+                            {
+                                moList[x, y].Add(flyweightWall);
+                            }
+                            else
+                            {
+                                MapObject wall = new Wall();
+                                Coordinates c = new Coordinates(x, y);
+                                wall.SetCoordinates(c);
+                                moList[x, y].Add(wall);
+                            }
                         }
                         else if (x == Width - 1)
                         {
-                            MapObject wall = new Wall();
-                            Coordinates c = new Coordinates(x, y);
-                            wall.SetCoordinates(c);
-                            moList[x, y].Add(wall);
+                            if (withFlyweight)
+                            {
+                                moList[x, y].Add(flyweightWall);
+                            }
+                            else
+                            {
+                                MapObject wall = new Wall();
+                                Coordinates c = new Coordinates(x, y);
+                                wall.SetCoordinates(c);
+                                moList[x, y].Add(wall);
+                            }
                         }
                         
                     }
@@ -67,10 +94,17 @@ namespace GameServer.Models
                     {
                         if (x % 2 == 0)
                         {
-                            MapObject wall = new Wall();
-                            Coordinates c = new Coordinates(x, y);
-                            wall.SetCoordinates(c);
-                            moList[x, y].Add(wall);
+                            if (withFlyweight)
+                            {
+                                moList[x, y].Add(flyweightWall);
+                            }
+                            else
+                            {
+                                MapObject wall = new Wall();
+                                Coordinates c = new Coordinates(x, y);
+                                wall.SetCoordinates(c);
+                                moList[x, y].Add(wall);
+                            }
                         }
                     }
                 }
@@ -78,10 +112,17 @@ namespace GameServer.Models
             //Paskutines eilutes sudarymas
             for(int i = 0; i < Width; i++)
             {
-                MapObject wall = new Wall();
-                Coordinates c = new Coordinates(i, Width - 1);
-                wall.SetCoordinates(c);
-                moList[i, Width - 1].Add(wall);
+                if (withFlyweight)
+                {
+                    moList[i, Width - 1].Add(flyweightWall);
+                }
+                else
+                {
+                    MapObject wall = new Wall();
+                    Coordinates c = new Coordinates(i, Width - 1);
+                    wall.SetCoordinates(c);
+                    moList[i, Width - 1].Add(wall);
+                }
             }
 
             return this;
@@ -89,6 +130,9 @@ namespace GameServer.Models
 
         public override Builder BuildDestructibleWalls()
         {
+            MapObject flyweightWall = new BreakableWallFlyweight();
+            Coordinates cord = new Coordinates(0, 0);
+            flyweightWall.SetCoordinates(cord);
             //likucio generavimas
 
             //Nuo 2 iki 14 eilutes sudarymas
@@ -102,18 +146,14 @@ namespace GameServer.Models
 
                     if (y % 2 > 0)
                     {
-                        MapObject wall = new Wall(true);
-                        Coordinates c = new Coordinates(x, y);
-                        wall.SetCoordinates(c);
-                        if (prob < 70)
+                        if (withFlyweight)
                         {
-                            moList[x, y].Add(wall);
+                            if (prob < 70)
+                            {
+                                moList[x, y].Add(flyweightWall);
+                            }
                         }
-                        
-                    }
-                    else
-                    {
-                        if (x % 2 > 0)
+                        else
                         {
                             MapObject wall = new Wall(true);
                             Coordinates c = new Coordinates(x, y);
@@ -121,6 +161,30 @@ namespace GameServer.Models
                             if (prob < 70)
                             {
                                 moList[x, y].Add(wall);
+                            }
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (x % 2 > 0)
+                        {
+                            if (withFlyweight)
+                            {
+                                if (prob < 70)
+                                {
+                                    moList[x, y].Add(flyweightWall);
+                                }
+                            }
+                            else
+                            {
+                                MapObject wall = new Wall(true);
+                                Coordinates c = new Coordinates(x, y);
+                                wall.SetCoordinates(c);
+                                if (prob < 70)
+                                {
+                                    moList[x, y].Add(wall);
+                                }
                             }
                             
                         }

@@ -13,7 +13,7 @@ namespace GameServer.Models
         public Wall()
         {
             isWalkable = false;
-            Destroyable = false;    
+            Destroyable = false;
         }
         /// <summary>
         /// Sunaikinama siena
