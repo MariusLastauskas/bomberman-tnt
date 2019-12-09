@@ -11,11 +11,7 @@ namespace GameServer.Models.State
         {
             PlayerState ps = null;
 
-            if (state == 1)
-            {
-                ps = new LookingUpState();
-            }
-            else if (state == 2)
+            if (state == 2)
             {
                 ps = new LookingRightState();
             }
