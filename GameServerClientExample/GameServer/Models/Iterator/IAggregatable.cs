@@ -5,14 +5,8 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Iterator
 {
-    public interface myIterator<T>
+    public interface IAggregatable<T>
     {
-        bool hasNext();
-
-        T next();
-
-        T first();
-
-        void remove();
+        IIteratable<T> getIterator();
     }
 }

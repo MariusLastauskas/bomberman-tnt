@@ -6,7 +6,7 @@ using GameServer.Models.Decorator;
 
 namespace GameServer.Models.Iterator
 {
-    public class ComponentIterator: myIterator<string>
+    public class ComponentIterator: IIteratable<string>
     {
         private int index;
         private Component component;

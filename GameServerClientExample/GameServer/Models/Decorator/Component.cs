@@ -6,13 +6,13 @@ using GameServer.Models.Iterator;
 
 namespace GameServer.Models.Decorator
 {
-    public abstract class Component
+    public abstract class Component: IAggregatable<string>
     {
         public List<string> decorations = new List<string>();
 
         public abstract void Operation();
 
-        public myIterator<string> getIterator()
+        public IIteratable<string> getIterator()
         {
             return new ComponentIterator(this);
         }
