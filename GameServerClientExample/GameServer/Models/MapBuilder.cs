@@ -9,7 +9,7 @@ namespace GameServer.Models
     public class MapBuilder:Builder
     {
         const int Width = 1000;
-        bool withFlyweight = false;
+        bool withFlyweight = true;
 
         private List<MapObject>[,] moList;
 
