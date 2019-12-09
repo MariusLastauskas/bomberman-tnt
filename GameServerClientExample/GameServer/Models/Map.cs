@@ -8,7 +8,7 @@ namespace GameServer.Models
     /// <summary>
     /// singletone Map
     /// </summary>
-    public sealed class Map
+    public sealed class Map: IAggregatable<MapObject>
     {
         private static readonly object InstanceLock = new object();
         private List<MapObject>[,] mapContainer;
@@ -107,7 +107,7 @@ namespace GameServer.Models
             mapContainer[x, y].Add(mo);
         }
 
-        public myIterator<MapObject> getIterator()
+        public IIteratable<MapObject> getIterator()
         {
             return new MapIterator(this);
         }

@@ -6,7 +6,7 @@ using GameServer.Models.Iterator;
 
 namespace GameServer.Models.Command
 {
-    public class Invoker
+    public class Invoker: IAggregatable<ICommand>
     {
         public List<ICommand> commands;
 
@@ -28,7 +28,7 @@ namespace GameServer.Models.Command
             }
         }
 
-        public myIterator<ICommand> getIterator() {
+        public IIteratable<ICommand> getIterator() {
             return new InvokerIterator(this);
         }
     }

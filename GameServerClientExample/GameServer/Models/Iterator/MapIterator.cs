@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GameServer.Models.Iterator
 {
-    public class MapIterator : myIterator<MapObject>
+    public class MapIterator : IIteratable<MapObject>
     {
         private Map map { get; set; }
         private Coordinates indexCoordinates;
