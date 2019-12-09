@@ -17,7 +17,7 @@ namespace GameServer.Models
         public Invoker invoker2;
         private DateTime p2ping;
         public MapStub map;
-        private MapManagerStub mapManager;
+        private MapManagerStub mapManager = new MapManagerStub() ;
         public int gameState = 0;
 
         public GameManager()
