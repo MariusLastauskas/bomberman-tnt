@@ -100,6 +100,7 @@ namespace GameServer.Controllers
                     }
                     return BadRequest();
                 case "up":
+                    p.playerState.GoNext(p, 1);
                     ICommand verticalCommand = new VerticalMoveCommand(p);
                     Invoker verticalInvoker = new Invoker();
                     verticalInvoker.addCommand(verticalCommand);
@@ -107,14 +108,17 @@ namespace GameServer.Controllers
                     return Ok();
                     break;
                 case "down":
+                    p.playerState.GoNext(p,3);
                     new VerticalMoveCommand(p).Undo();
                     return Ok();
                     break;
                 case "left":
+                    p.playerState.GoNext(p,4);
                     new HorizontalMoveCommand(p).Undo();
                     return Ok();
                     break;
                 case "right":
+                    p.playerState.GoNext(p,2);
                     ICommand horizontalCommand = new HorizontalMoveCommand(p);
                     Invoker horizontalInvoker = new Invoker();
                     horizontalInvoker.addCommand(horizontalCommand);
