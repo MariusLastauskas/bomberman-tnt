@@ -14,16 +14,21 @@ namespace GameServer.Models.State
             if (state == 2)
             {
                 ps = new LookingRightState();
+                context.SetState(ps);
+
             }
             else if (state == 3)
             {
                 ps = new LookingDownState();
+                context.SetState(ps);
+
             }
             else if (state == 4)
             {
                 ps = new LookingLeftState();
+                context.SetState(ps);
+
             }
-            context.SetState(ps);
         }
 
         public override void Handle(Player context)

@@ -90,7 +90,6 @@ namespace GameServer.Controllers
             {
                 return BadRequest();
             }
-
             switch (action)
             {
                 case "plant":
