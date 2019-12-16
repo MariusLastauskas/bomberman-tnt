@@ -1,5 +1,6 @@
 ﻿using GameServer.Models.Adapter;
 using GameServer.Models.Composite;
+using GameServer.Models.Visitor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace GameServer.Models.Facade
         private BombHitAdapter BombHitAdapter = new BombHitAdapter();
         private WallHitAdapter WallHitAdapter = new WallHitAdapter();
         private CompositeExplosion CompositeExplosion = new CompositeExplosion();
+        private Visitorr Visitor = new Visitorr();
         private bool isFirst = false;
         public BombermanFacade() { }
         public CompositeExplosion Explode(Bomb bomb)
@@ -60,19 +62,19 @@ namespace GameServer.Models.Facade
                 if (mapObject is Player)
                 {
                     Player player = mapObject as Player;
+                    Visitor.visit(player);
                     PlayerHitAdapter.Hit(player);
                 }
                 else if (mapObject is Wall)
                 {
                     Wall wall = mapObject as Wall;
-                    WallHitAdapter.Hit(wall, CompositeExplosion);
-                    
+                    Visitor.visit(wall, CompositeExplosion);
                     return false;
                 }
                 else if (mapObject is Bomb)
                 {
                     Bomb bomb = mapObject as Bomb;
-                    BombHitAdapter.Hit(bomb, CompositeExplosion);
+                    Visitor.visit(bomb, CompositeExplosion);
                     MapManagerStub.CreateExplosion(coordinates, CompositeExplosion);
                     return true;
                 }

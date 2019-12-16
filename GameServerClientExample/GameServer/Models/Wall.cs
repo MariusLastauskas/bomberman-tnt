@@ -1,11 +1,14 @@
-/**
- * @(#) Wall.cs
- */
 
+
+using GameServer.Models.Composite;
+using GameServer.Models.Visitor;
+/**
+* @(#) Wall.cs
+*/
 namespace GameServer.Models
 {
-	public class Wall : MapObject
-	{
+	public class Wall : MapObject, IVisitable
+    {
 		public bool Destroyable;
         /// <summary>
         /// Nesunaikinama siena
@@ -35,6 +38,9 @@ namespace GameServer.Models
         {
             return Destroyable;
         }
-        
+        public void accept(IVisitor visitor, CompositeExplosion composite)
+        {
+            visitor.visit(this, composite);
+        }
     }
 }
