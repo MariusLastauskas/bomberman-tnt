@@ -9,6 +9,8 @@ namespace GameServer.Models
 {
 	public class Wall : MapObject, IVisitable
     {
+        public string Title;
+
 		public bool Destroyable;
         /// <summary>
         /// Nesunaikinama siena
@@ -16,7 +18,8 @@ namespace GameServer.Models
         public Wall()
         {
             isWalkable = false;
-            Destroyable = false;    
+            Destroyable = false;
+            Title = "unbreakable";
         }
         /// <summary>
         /// Sunaikinama siena
@@ -26,6 +29,7 @@ namespace GameServer.Models
         {
             isWalkable = false;
             Destroyable = true;
+            Title = "breakable";
         }
 
         public Wall(bool destroyable, Coordinates coord) :base(coord)
