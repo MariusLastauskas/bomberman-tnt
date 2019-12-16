@@ -1,7 +1,7 @@
 ﻿using System;
 namespace GameServer.Models.Mediator
 {
-    class PlayerMediator : IMediator
+    public class PlayerMediator : IMediator
     {
         private PlayerA _playerA;
         private PlayerB _playerB;

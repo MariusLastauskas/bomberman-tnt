@@ -1,6 +1,7 @@
 ﻿using GameServer.Models;
 using GameServer.Models.AnstractFactory;
 using GameServer.Models.Memento;
+using GameServer.Models.Mediator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -36,7 +37,21 @@ namespace Testing
             timer.ResetMementoTimer();
             Assert.True(150 == timer.GetTime());
         }
+        [Fact]
+        public async void MediatorTest()
+        {
+            PlayerMediator mediator = new PlayerMediator();
+            PlayerA playerA = new PlayerA(mediator);
+            PlayerB playerB = new PlayerB(mediator);
+            mediator.playerA = playerA;
+            mediator.playerb = playerB;
+            
+            playerA.Send("aa");
+            playerB.Send("bb");
 
+            Assert.True(playerA.GetChat().Count == 2);
+            
+        }
         /// <summary>
         /// creates blue player
         /// </summary>

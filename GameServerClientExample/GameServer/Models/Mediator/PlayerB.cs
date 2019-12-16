@@ -1,7 +1,7 @@
 ﻿using System;
 namespace GameServer.Models.Mediator
 {
-    class PlayerB : PlayerChat
+    public class PlayerB : PlayerChat
     {
         public PlayerB(IMediator _mediator) : base(_mediator)
         {
@@ -9,13 +9,13 @@ namespace GameServer.Models.Mediator
 
         public void Send(string message)
         {
-            Console.WriteLine("Player B sends message: " + message);
+            ChatAdd("Player B sends message: " + message);
             mediator.SendMessage(message, this);
         }
 
         public void Notify(string message)
         {
-            Console.WriteLine("Player B gets message: " + message);
+            ChatAdd("Player B gets message: " + message);
         }
     }
 }
