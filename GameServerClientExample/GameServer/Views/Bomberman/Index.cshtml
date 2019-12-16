@@ -91,10 +91,36 @@
                                 return <Tile type="player" />
                             })}
                         </div>);
-                    //return <p key={ index }>{name}</p>;
                 }): ''}
             </div>
         );
+    }
+
+    const executeCommand = (command) => {
+        axios.post('https://localhost:44371/api/interpreter', {}, 
+        {
+            headers: {
+                command: command
+            }
+        }).then(response => {
+            if (response.data.expression.list[0].type == 'color') {
+                document.getElementsByTagName('body')[0].style.background = response.data.expression.list[0].color.asset;
+            }
+            else if (response.data.expression.list[0].type == 'size') {
+                document.getElementsByTagName('body')[0].style.fontSize = response.data.expression.list[0].size.asset;
+            }
+        });
+    }
+
+    const Terminal = () => {
+        let outbound = '';
+
+        return (
+            <div>
+                <input type="text" onChange={(e) => {outbound = e.target.value}} />
+                <button onClick={() => executeCommand(outbound)}>submit</button>
+            </div>
+        )
     }
 
     const getMap = () => {
@@ -109,7 +135,10 @@
 
 
     ReactDOM.render(
-        <TileMap />,
+        <div>
+            <Terminal />
+            <TileMap />
+        </div>,
         document.getElementById('root')
     );
 </script>

@@ -8,9 +8,21 @@ using GameServer.Models;
 using GameServer.Models.AnstractFactory;
 using GameServer.Models.Command;
 using GameServer.Models.Memento;
+using GameServer.Models.Interpreter;
 
 namespace GameServer.Controllers
 {
+    [Route("api/interpreter")]
+    [ApiController]
+    public class InterpreterController : ControllerBase
+    {
+        [HttpPost]
+        public InterpreterClient executeCommand([FromHeader] string command)
+        {
+            return new InterpreterClient(new Context(command));
+        }
+    }
+
     /// <summary>
     /// API controller for player action manipulations and map getting
     /// </summary>
