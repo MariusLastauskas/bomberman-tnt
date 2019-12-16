@@ -5,6 +5,7 @@ using System.Windows.Input;
 using GameServer.Models.Strategy;
 using System.Threading.Tasks;
 using GameServer.Models.State;
+using GameServer.Models.ChainOfResponsibility;
 
 namespace GameServer.Models
 {
@@ -147,26 +148,40 @@ namespace GameServer.Models
                     if(maps[Coordinates.PosX, Coordinates.PosY][i] is PowerUp)
                     {
                         PowerUp up = maps[Coordinates.PosX, Coordinates.PosY][i] as PowerUp;
-                        if(up.getType() == 0)
-                        {
-                            IncreaseMovementSpeed(1);
-                        }
-                        else if (up.getType() == 1)
-                        {
-                            IncreaseNumberOfBombs(1);
-                        }
-                        else if (up.getType() == 2)
-                        {
-                            IncreaseBombPower(1);
-                        }
-                        else if (up.getType() == 3)
-                        {
-                            SetCanKick();
-                        }
-                        else
-                        {
-                            SetCanThrow();
-                        }
+                        //if(up.getType() == 0)
+                        //{
+                        //    IncreaseMovementSpeed(1);
+                        //}
+                        //else if (up.getType() == 1)
+                        //{
+                        //    IncreaseNumberOfBombs(1);
+                        //}
+                        //else if (up.getType() == 2)
+                        //{
+                        //    IncreaseBombPower(1);
+                        //}
+                        //else if (up.getType() == 3)
+                        //{
+                        //    SetCanKick();
+                        //}
+                        //else
+                        //{
+                        //    SetCanThrow();
+                        //}
+
+                        PowerUpHandler speed = new SpeedH();
+                        PowerUpHandler additionalBomb = new AdditionalBombH();
+                        PowerUpHandler explosiveRange = new ExplosiveRangeH();
+                        PowerUpHandler kickBomb = new KickBombH();
+                        PowerUpHandler throwBomb = new ThrowBombH();
+
+                        speed.SetSuccessor(additionalBomb);
+                        additionalBomb.SetSuccessor(explosiveRange);
+                        explosiveRange.SetSuccessor(kickBomb);
+                        kickBomb.SetSuccessor(throwBomb);
+
+                        speed.HandleRequest(up, this);
+
                         map.removeObject(up);
                     }
                 }
