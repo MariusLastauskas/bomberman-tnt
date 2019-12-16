@@ -2,6 +2,7 @@
 
 using GameServer.Models.Composite;
 using GameServer.Models.Facade;
+using GameServer.Models.Visitor;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 */
 namespace GameServer.Models
 {
-	public class Bomb : MapObject
+	public class Bomb : MapObject, IVisitable
 	{
         private BombermanFacade explosionFacade = new BombermanFacade();
         private bool exploded = false;
@@ -150,6 +151,11 @@ namespace GameServer.Models
             }
             this.SetCoordinates(newPos);
             await Task.Delay(time);
+        }
+
+        public void accept(IVisitor visitor, CompositeExplosion composite)
+        {
+            visitor.visit(this, composite);
         }
     }
 	

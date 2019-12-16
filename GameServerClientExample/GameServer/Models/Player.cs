@@ -5,10 +5,12 @@ using System.Windows.Input;
 using GameServer.Models.Strategy;
 using System.Threading.Tasks;
 using GameServer.Models.State;
+using GameServer.Models.Visitor;
+using GameServer.Models.Composite;
 
 namespace GameServer.Models
 {
-    public class Player : MapObject
+    public class Player : MapObject, IVisitable
     {
         public string Name { get; set; }
         public string AuthToken { get; set; }
@@ -177,6 +179,11 @@ namespace GameServer.Models
         public void SetState(PlayerState state)
         {
             playerState = state;
+        }
+
+        public void accept(IVisitor visitor, CompositeExplosion composite)
+        {
+            visitor.visit(this);
         }
     }
 }
