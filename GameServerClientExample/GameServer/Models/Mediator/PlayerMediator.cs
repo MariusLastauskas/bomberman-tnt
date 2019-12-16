@@ -27,5 +27,16 @@ namespace GameServer.Models.Mediator
                 _playerA.Notify(message);
             }
         }
+        /*
+         * Kažkurioje projekto dalyje turėtų būti implementuota tai:
+         * PlayerMediator mediator = new Player mediator();
+         * PlayerA playera = new PlayerA(mediator)
+         * playerB playerb = new PlayerB(mediator)
+         * mediator.PlayerA = playerA;
+         * mediator.PlayerB = playerB;
+         *
+         * playerA.Send("kazkoks pranesimas");
+         * playerB.Send("atsako i pranesima");
+         */
     }
 }
