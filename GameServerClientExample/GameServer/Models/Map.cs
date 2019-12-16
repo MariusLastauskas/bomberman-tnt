@@ -1,4 +1,5 @@
 using GameServer.Models.Adapter;
+using GameServer.Models.Memento;
 using System;
 using System.Collections.Generic;
 using GameServer.Models.Iterator;
@@ -13,6 +14,7 @@ namespace GameServer.Models
         private static readonly object InstanceLock = new object();
         private List<MapObject>[,] mapContainer;
         private MapManagerStub MapManagerStub = new MapManagerStub();
+        private Timer timer = new Timer();
 
         private static MapPrototype mapWithDestructibleWalls = new MapWithDestructibleWalls();
         private static MapPrototype mapWithoutDestructibleWalls = new MapWithUndestructibleWalls();

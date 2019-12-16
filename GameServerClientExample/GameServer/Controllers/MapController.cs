@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using GameServer.Models;
 using GameServer.Models.AnstractFactory;
 using GameServer.Models.Command;
+using GameServer.Models.Memento;
 
 namespace GameServer.Controllers
 {
@@ -17,6 +18,7 @@ namespace GameServer.Controllers
     [ApiController]
     public class MapController : ControllerBase
     {
+        
         /// <summary>
         /// Gets game map object
         /// </summary>

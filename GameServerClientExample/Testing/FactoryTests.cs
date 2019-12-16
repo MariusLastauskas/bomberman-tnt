@@ -1,15 +1,42 @@
 ﻿using GameServer.Models;
 using GameServer.Models.AnstractFactory;
+using GameServer.Models.Memento;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Testing
 {
     public class FactoryTests
     {
+        [Fact]
+        public async void TimerClicksMementoSaves()
+        {
+            Timer timer = new Timer();
+            timer.StartTimer();
+            timer.MemetnoTimer();
+            await Task.Delay(1000);
+            int t = timer.GetTime();
+            await Task.Delay(1000);
+            timer.ResetMementoTimer();
+            Assert.True(t < timer.GetTime());
+        }
+
+        [Fact]
+        public async void MementoResets()
+        {
+            Timer timer = new Timer();
+            timer.StartTimer();
+            timer.MemetnoTimer();
+            await Task.Delay(1000);
+            await Task.Delay(1000);
+            timer.ResetMementoTimer();
+            Assert.True(150 == timer.GetTime());
+        }
+
         /// <summary>
         /// creates blue player
         /// </summary>
