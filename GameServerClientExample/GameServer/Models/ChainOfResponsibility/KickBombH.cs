@@ -11,7 +11,7 @@ namespace GameServer.Models.ChainOfResponsibility
         {
             if (powerUp.getType() == 3)
             {
-                player.SetCanKick();
+                //player.SetCanKick();
             }
             else if (successor != null)
             {

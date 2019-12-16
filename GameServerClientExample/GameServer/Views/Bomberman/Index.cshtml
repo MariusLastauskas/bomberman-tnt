@@ -57,7 +57,7 @@
     _tileType = {
         'wall': 'brown',
         'unbreakableWall': 'gray',
-        'empty': 'green',
+        'empty': 'white',
         'player': 'blue'
     }
 
@@ -67,6 +67,7 @@
                         width: 50, height: 50}}></div>
         )
     }
+
 
     TileMap = () => {
         const [tileMap, setTileMap] = React.useState(null);
@@ -85,8 +86,41 @@
                                 if (!tile[0]) {
                                     return <Tile type="empty" />;
                                 }
-                                if (tile[0].destroyable != undefined) {
-                                    return tile[0].destroyable ? <Tile type="wall" /> : <Tile type="unbreakableWall" />
+                                if (tile[0].title == "bluePlayer") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://m.gifmania.lt/Animacinius-Gif-Video-Zaidimai/Animacinis-Klasikine-Arkados-Video-Zaidimai/Gif-Animacija-Bomberman/Bomberman-73392.gif' />
+                                }
+                                if (tile[0].title == "redPlayer") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://reygif.com/media/bomberman-rosa-79756.gif' />
+                                }
+                                if (tile[0].title == "unbreakable") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='http://images.shoutwiki.com/bomberpedia/thumb/3/38/SoftBlock.png/200px-SoftBlock.png' />
+                                }
+                                if (tile[0].title == "breakable") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxBe-JozRx3oxu2_ZJKdetHMksPhdMWxbtUFgvaXZbdCRa7obT&s' />
+                                }
+                                if (tile[0].title == "blueBomb") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://media.tenor.com/images/7d34b6014bee654f0bfd22b59ffb183f/tenor.gif' />
+                                }
+                                if (tile[0].title == "redBomb") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://media.tenor.com/images/7d34b6014bee654f0bfd22b59ffb183f/tenor.gif' />
+                                }
+                                if (tile[0].title == "explosion") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://upload.wikimedia.org/wikipedia/commons/2/22/Animated_fire_by_nevit.gif' />
+                                }
+                                if (tile[0].title == "extraBomb") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://www.exploders.com/assets/images/features-bouncing-bomb.png' />
+                                }
+                                if (tile[0].title == "extraSpeed") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://d3lcw15dvjhkjt.cloudfront.net/extensions/labs/sites/bbhmm/images/powerup-2.png' />
+                                }
+                                if (tile[0].title == "extraRange") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://pbs.twimg.com/profile_images/766775557774270466/fLLhqlZ7_400x400.jpg' />
+                                }
+                                if (tile[0].title == "throwBomb") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://vignette.wikia.nocookie.net/bomberman/images/b/bb/Power_Ups_BDS.png/revision/latest/top-crop/width/220/height/220?cb=20110718071133' />
+                                }
+                                if (tile[0].title == "kickBomb") {
+                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://vignette1.wikia.nocookie.net/bomberman/images/0/03/Bomb_Kick_Ability.png/revision/latest?cb=20110620225330' />
                                 }
                                 return <Tile type="player" />
                             })}
