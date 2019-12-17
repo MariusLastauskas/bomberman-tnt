@@ -18,161 +18,161 @@
 
 <script type="text/jsx">
     window.onkeypress = function(event) {
-        let action = '';
-        switch(event.keyCode) {
-          case 119:
-            action = "up";
-            break;
-          case 97:
-            action = "left";
-            break;
-          case 115:
-            action = "down";
-            break;
-          case 100:
-            action = "right";
-            break;
-          case 32:
-            action = "plant";
-            break;
-          default:
-            // code block
-        }
+    let action = '';
+    switch(event.keyCode) {
+    case 119:
+    action = "up";
+    break;
+    case 97:
+    action = "left";
+    break;
+    case 115:
+    action = "down";
+    break;
+    case 100:
+    action = "right";
+    break;
+    case 32:
+    action = "plant";
+    break;
+    default:
+    // code block
+    }
 
-    
-        axios.patch('https://localhost:44371/api/map', {}, 
-        {
-            headers: {
-                authToken: getCookie('authToken'),
-                action: action
-            }
-        })
+
+    axios.patch('https://bomberbantnt.azurewebsites.net/api/map', {},
+    {
+    headers: {
+    authToken: getCookie('authToken'),
+    action: action
+    }
+    })
     }
 
     function getCookie(name) {
     var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
     return v ? v[2] : null;
-}
+    }
 
     _tileType = {
-        'wall': 'brown',
-        'unbreakableWall': 'gray',
-        'empty': 'white',
-        'player': 'blue'
+    'wall': 'brown',
+    'unbreakableWall': 'gray',
+    'empty': 'transparent',
+    'player': 'blue'
     }
 
     Tile = (props) => {
-        return (
-            <div style={{backgroundColor: _tileType[props.type],
+    return (
+    <div style={{backgroundColor: _tileType[props.type],
                         width: 50, height: 50}}></div>
-        )
+    )
     }
 
 
     TileMap = () => {
-        const [tileMap, setTileMap] = React.useState(null);
+    const [tileMap, setTileMap] = React.useState(null);
 
-        getMap().then(response => {
-            setTileMap(response.data);
-        });
+    getMap().then(response => {
+    setTileMap(response.data);
+    });
 
-        console.log(tileMap)
+    console.log(tileMap)
+    return (
+    <div>
+        {tileMap? tileMap.map((row, index) => {
         return (
-            <div>
-                {tileMap? tileMap.map((row, index) => {
-                    return (
-                        <div style={{display: 'flex'}}>
-                            {row.map((tile, index) => {
-                                if (!tile[0]) {
-                                    return <Tile type="empty" />;
-                                }
-                                if (tile[0].title == "bluePlayer") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://m.gifmania.lt/Animacinius-Gif-Video-Zaidimai/Animacinis-Klasikine-Arkados-Video-Zaidimai/Gif-Animacija-Bomberman/Bomberman-73392.gif' />
-                                }
-                                if (tile[0].title == "redPlayer") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://reygif.com/media/bomberman-rosa-79756.gif' />
-                                }
-                                if (tile[0].title == "unbreakable") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='http://images.shoutwiki.com/bomberpedia/thumb/3/38/SoftBlock.png/200px-SoftBlock.png' />
-                                }
-                                if (tile[0].title == "breakable") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxBe-JozRx3oxu2_ZJKdetHMksPhdMWxbtUFgvaXZbdCRa7obT&s' />
-                                }
-                                if (tile[0].title == "blueBomb") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://media.tenor.com/images/7d34b6014bee654f0bfd22b59ffb183f/tenor.gif' />
-                                }
-                                if (tile[0].title == "redBomb") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://media.tenor.com/images/7d34b6014bee654f0bfd22b59ffb183f/tenor.gif' />
-                                }
-                                if (tile[0].title == "explosion") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://upload.wikimedia.org/wikipedia/commons/2/22/Animated_fire_by_nevit.gif' />
-                                }
-                                if (tile[0].title == "extraBomb") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://www.exploders.com/assets/images/features-bouncing-bomb.png' />
-                                }
-                                if (tile[0].title == "extraSpeed") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://d3lcw15dvjhkjt.cloudfront.net/extensions/labs/sites/bbhmm/images/powerup-2.png' />
-                                }
-                                if (tile[0].title == "extraRange") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://pbs.twimg.com/profile_images/766775557774270466/fLLhqlZ7_400x400.jpg' />
-                                }
-                                if (tile[0].title == "throwBomb") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://vignette.wikia.nocookie.net/bomberman/images/b/bb/Power_Ups_BDS.png/revision/latest/top-crop/width/220/height/220?cb=20110718071133' />
-                                }
-                                if (tile[0].title == "kickBomb") {
-                                    return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://vignette1.wikia.nocookie.net/bomberman/images/0/03/Bomb_Kick_Ability.png/revision/latest?cb=20110620225330' />
-                                }
-                                return <Tile type="player" />
-                            })}
-                        </div>);
-                }): ''}
-            </div>
-        );
+        <div style={{display: 'flex'}}>
+            {row.map((tile, index) => {
+            if (!tile[0]) {
+            return <Tile type="empty" />;
+            }
+            if (tile[0].title == "bluePlayer") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://m.gifmania.lt/Animacinius-Gif-Video-Zaidimai/Animacinis-Klasikine-Arkados-Video-Zaidimai/Gif-Animacija-Bomberman/Bomberman-73392.gif' />
+            }
+            if (tile[0].title == "redPlayer") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://reygif.com/media/bomberman-rosa-79756.gif' />
+            }
+            if (tile[0].title == "unbreakable") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='http://images.shoutwiki.com/bomberpedia/thumb/3/38/SoftBlock.png/200px-SoftBlock.png' />
+            }
+            if (tile[0].title == "breakable") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxBe-JozRx3oxu2_ZJKdetHMksPhdMWxbtUFgvaXZbdCRa7obT&s' />
+            }
+            if (tile[0].title == "blueBomb") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://media.tenor.com/images/7d34b6014bee654f0bfd22b59ffb183f/tenor.gif' />
+            }
+            if (tile[0].title == "redBomb") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://media.tenor.com/images/7d34b6014bee654f0bfd22b59ffb183f/tenor.gif' />
+            }
+            if (tile[0].title == "explosion") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://upload.wikimedia.org/wikipedia/commons/2/22/Animated_fire_by_nevit.gif' />
+            }
+            if (tile[0].title == "extraBomb") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://www.exploders.com/assets/images/features-bouncing-bomb.png' />
+            }
+            if (tile[0].title == "extraSpeed") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://d3lcw15dvjhkjt.cloudfront.net/extensions/labs/sites/bbhmm/images/powerup-2.png' />
+            }
+            if (tile[0].title == "extraRange") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://pbs.twimg.com/profile_images/766775557774270466/fLLhqlZ7_400x400.jpg' />
+            }
+            if (tile[0].title == "throwBomb") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://vignette.wikia.nocookie.net/bomberman/images/b/bb/Power_Ups_BDS.png/revision/latest/top-crop/width/220/height/220?cb=20110718071133' />
+            }
+            if (tile[0].title == "kickBomb") {
+            return <img style={{width: '50px', height: '50px', objectFit: 'contain'}} src='https://vignette1.wikia.nocookie.net/bomberman/images/0/03/Bomb_Kick_Ability.png/revision/latest?cb=20110620225330' />
+            }
+            return <Tile type="player" />
+            })}
+        </div>);
+        }): ''}
+    </div>
+    );
     }
 
     const executeCommand = (command) => {
-        axios.post('https://localhost:44371/api/interpreter', {}, 
-        {
-            headers: {
-                command: command
-            }
-        }).then(response => {
-            if (response.data.expression.list[0].type == 'color') {
-                document.getElementsByTagName('body')[0].style.background = response.data.expression.list[0].color.asset;
-            }
-            else if (response.data.expression.list[0].type == 'size') {
-                document.getElementsByTagName('body')[0].style.fontSize = response.data.expression.list[0].size.asset;
-            }
-        });
+    axios.post('https://bomberbantnt.azurewebsites.net/api/interpreter', {},
+    {
+    headers: {
+    command: command
+    }
+    }).then(response => {
+    if (response.data.expression.list[0].type == 'color') {
+    document.getElementsByTagName('body')[0].style.background = response.data.expression.list[0].color.asset;
+    }
+    else if (response.data.expression.list[0].type == 'size') {
+    document.getElementsByTagName('body')[0].style.fontSize = response.data.expression.list[0].size.asset;
+    }
+    });
     }
 
     const Terminal = () => {
-        let outbound = '';
+    let outbound = '';
 
-        return (
-            <div>
-                <input type="text" onChange={(e) => {outbound = e.target.value}} />
-                <button onClick={() => executeCommand(outbound)}>submit</button>
-            </div>
-        )
+    return (
+    <div>
+        <input type="text" onChange={(e) => {outbound = e.target.value}} />
+        <button onClick={() => executeCommand(outbound)}>submit</button>
+    </div>
+    )
     }
 
     const getMap = () => {
-        return axios.get('https://localhost:44371/api/map')
-            //.then(response => {
-             //   console.log(response.data);
-             //   return response.data;
-           // });
+    return axios.get('https://bomberbantnt.azurewebsites.net/api/map')
+    //.then(response => {
+    //   console.log(response.data);
+    //   return response.data;
+    // });
     }
 
     const map = getMap();
 
 
     ReactDOM.render(
-        <div>
-            <Terminal />
-            <TileMap />
-        </div>,
-        document.getElementById('root')
+    <div>
+        <Terminal />
+        <TileMap />
+    </div>,
+    document.getElementById('root')
     );
 </script>
