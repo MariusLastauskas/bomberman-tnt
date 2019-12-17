@@ -10,7 +10,7 @@ namespace GameServer.Models
         public MapWithUndestructibleWalls()
         {
             MapBuilder newMap = new MapBuilder();
-            newMap.BuildIndestructibleWalls().AddPlayers();
+            newMap.BuildIndestructibleWalls();
             moList = newMap.getMoList();
         }
 
